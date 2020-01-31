@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         // Derives from context class
         this.getSystemService(Context.CAMERA_SERVICE) as CameraManager
 
+
+        // Get camera permission and get camera object
     }
 
 
