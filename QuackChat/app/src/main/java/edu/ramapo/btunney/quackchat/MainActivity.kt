@@ -2,18 +2,15 @@ package edu.ramapo.btunney.quackchat
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
-import android.hardware.camera2.CameraAccessException
-import android.hardware.camera2.CameraCharacteristics
-import android.hardware.camera2.CameraDevice
-import android.hardware.camera2.CameraManager
+import android.hardware.camera2.*
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
+import android.view.Surface
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -86,8 +83,7 @@ class MainActivity : AppCompatActivity() {
                      * @param camera the camera device that has become opened
                      */
                     override fun onOpened(camera: CameraDevice) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                        
+                        takePicture()
                     }
 
                     /**
@@ -125,6 +121,7 @@ class MainActivity : AppCompatActivity() {
                      */
                     override fun onDisconnected(camera: CameraDevice) {
                         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        camera.close()
                     }
 
                     /**
@@ -163,14 +160,23 @@ class MainActivity : AppCompatActivity() {
                      * @see .ERROR_CAMERA_SERVICE
                      */
                     override fun onError(camera: CameraDevice, error: Int) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        die()
+
                     }
 
 
-                }, null)
+                }, null) // TODO("Change null to a handler which uses a new thread")
             }
         }
 
+    }
+
+    private fun die() {
+        Log.d("oh", "oh")
+    }
+
+    private fun takePicture() {
+        Log.d("oh", "oh")
     }
 
 }
