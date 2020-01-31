@@ -22,6 +22,11 @@ class MainActivity : AppCompatActivity() {
         }.javaClass.enclosingMethod?.name, "oh")
 
         val cameraManager = this.getSystemService(Context.CAMERA_SERVICE)
-        
+
+        // Derives from context class
+        this.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+
     }
+
+
 }
