@@ -22,12 +22,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
-import java.util.Arrays.asList
+
 
 
 class MainActivity : AppCompatActivity() {
 
+    /**
+     * TODO
+     *
+     * @param savedInstanceState
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -50,28 +54,52 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    /** Helper to ask camera permission.  */
+    /**
+     * Helper to ask camera permission.
+     */
     object CameraPermissionHelper {
         private const val CAMERA_PERMISSION_CODE = 0
         private const val CAMERA_PERMISSION = Manifest.permission.CAMERA
 
-        /** Check to see we have the necessary permissions for this app.  */
+
+        /**
+         * Check to see we have the necessary permissions for this app.
+         *
+         * @param activity
+         * @return
+         */
         fun hasCameraPermission(activity: Activity): Boolean {
             return ContextCompat.checkSelfPermission(activity, CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED
         }
 
-        /** Check to see we have the necessary permissions for this app, and ask for them if we don't.  */
+
+        /**
+         * Check to see we have the necessary permissions for this app, and ask for them if we don't.
+         *
+         * @param activity
+         */
         fun requestCameraPermission(activity: Activity) {
             ActivityCompat.requestPermissions(
                 activity, arrayOf(CAMERA_PERMISSION), CAMERA_PERMISSION_CODE)
         }
 
-        /** Check to see if we need to show the rationale for this permission.  */
+
+        /**
+         * Check to see if we need to show the rationale for this permission.
+         *
+         * @param activity
+         * @return
+         */
         fun shouldShowRequestPermissionRationale(activity: Activity): Boolean {
             return ActivityCompat.shouldShowRequestPermissionRationale(activity, CAMERA_PERMISSION)
         }
 
-        /** Launch Application Setting to grant permission.  */
+
+        /**
+         * Launch Application Setting to grant permission.
+         *
+         * @param activity
+         */
         fun launchPermissionSettings(activity: Activity) {
             val intent = Intent()
             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
@@ -80,6 +108,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * TODO
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (!CameraPermissionHelper.hasCameraPermission(this)) {
             Toast.makeText(this, "Camera permission is needed to run this application", Toast.LENGTH_LONG)
@@ -94,6 +129,11 @@ class MainActivity : AppCompatActivity() {
         recreate()
     }
 
+
+    /**
+     * TODO
+     *
+     */
     @SuppressLint("MissingPermission")
     private fun startCameraSession() {
         val cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
@@ -107,9 +147,26 @@ class MainActivity : AppCompatActivity() {
 
 
         cameraManager.openCamera(firstCamera, object : CameraDevice.StateCallback() {
+            /**
+             * TODO
+             *
+             * @param p0
+             */
             override fun onDisconnected(p0: CameraDevice) {}
+
+            /**
+             * TODO
+             *
+             * @param p0
+             * @param p1
+             */
             override fun onError(p0: CameraDevice, p1: Int) {}
 
+            /**
+             * TODO
+             *
+             * @param cameraDevice
+             */
             override fun onOpened(cameraDevice: CameraDevice) {
                 // use the camera
                 val cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraDevice.id)
@@ -162,6 +219,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * TODO
+     *
+     * @param displayRotation
+     * @param cameraCharacteristics
+     * @return
+     */
     private fun areDimensionsSwapped(displayRotation: Int, cameraCharacteristics: CameraCharacteristics): Boolean {
         var swappedDimensions = false
         when (displayRotation) {
