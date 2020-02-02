@@ -2,15 +2,29 @@ package edu.ramapo.btunney.quackchat
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.ImageFormat
 import android.hardware.camera2.*
+import android.media.ImageReader
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.provider.Settings
 import android.util.Log
+import android.util.Size
 import android.view.Surface
+import android.view.SurfaceHolder
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import java.util.Arrays.asList
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,154 +32,154 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        getCameraPermission()
-        testCamera()
+        if (!CameraPermissionHelper.hasCameraPermission(this)) {
+            CameraPermissionHelper.requestCameraPermission(this)
+            return
+        }
+
+        val surfaceReadyCallback = object: SurfaceHolder.Callback {
+            override fun surfaceChanged(p0: SurfaceHolder?, p1: Int, p2: Int, p3: Int) { }
+            override fun surfaceDestroyed(p0: SurfaceHolder?) { }
+
+            override fun surfaceCreated(p0: SurfaceHolder?) {
+                startCameraSession()
+            }
+        }
+
+        surfaceView.holder.addCallback(surfaceReadyCallback)
+
     }
 
+    /** Helper to ask camera permission.  */
+    object CameraPermissionHelper {
+        private const val CAMERA_PERMISSION_CODE = 0
+        private const val CAMERA_PERMISSION = Manifest.permission.CAMERA
 
-    private fun getCameraPermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 1)
-
+        /** Check to see we have the necessary permissions for this app.  */
+        fun hasCameraPermission(activity: Activity): Boolean {
+            return ContextCompat.checkSelfPermission(activity, CAMERA_PERMISSION) == PackageManager.PERMISSION_GRANTED
         }
+
+        /** Check to see we have the necessary permissions for this app, and ask for them if we don't.  */
+        fun requestCameraPermission(activity: Activity) {
+            ActivityCompat.requestPermissions(
+                activity, arrayOf(CAMERA_PERMISSION), CAMERA_PERMISSION_CODE)
+        }
+
+        /** Check to see if we need to show the rationale for this permission.  */
+        fun shouldShowRequestPermissionRationale(activity: Activity): Boolean {
+            return ActivityCompat.shouldShowRequestPermissionRationale(activity, CAMERA_PERMISSION)
+        }
+
+        /** Launch Application Setting to grant permission.  */
+        fun launchPermissionSettings(activity: Activity) {
+            val intent = Intent()
+            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            intent.data = Uri.fromParts("package", activity.packageName, null)
+            activity.startActivity(intent)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (!CameraPermissionHelper.hasCameraPermission(this)) {
+            Toast.makeText(this, "Camera permission is needed to run this application", Toast.LENGTH_LONG)
+                .show()
+            if (!CameraPermissionHelper.shouldShowRequestPermissionRationale(this)) {
+                // Permission denied with checking "Do not ask again".
+                CameraPermissionHelper.launchPermissionSettings(this)
+            }
+            finish()
+        }
+
+        recreate()
     }
 
     @SuppressLint("MissingPermission")
-    fun testCamera() : Unit {
-        Log.d(object : Any() {
+    private fun startCameraSession() {
+        val cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
 
-        }.javaClass.enclosingMethod?.name, "oh")
+        if (cameraManager.cameraIdList.isEmpty()) {
+            // no cameras
+            return
+        }
+
+        val firstCamera = cameraManager.cameraIdList[0]
 
 
-        // Create pointer to camera daemon
-        val manager = getSystemService(CAMERA_SERVICE) as CameraManager
-        try {
-            for (cameraId in manager.cameraIdList) {
-                val chars: CameraCharacteristics = manager.getCameraCharacteristics(cameraId!!)
-                // Do something with the characteristics
+        cameraManager.openCamera(firstCamera, object : CameraDevice.StateCallback() {
+            override fun onDisconnected(p0: CameraDevice) {}
+            override fun onError(p0: CameraDevice, p1: Int) {}
 
-                // Does the camera have a forwards facing lens?
-                val facing = chars[CameraCharacteristics.LENS_FACING]
-                Log.d("is facing", facing.toString())
+            override fun onOpened(cameraDevice: CameraDevice) {
+                // use the camera
+                val cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraDevice.id)
+
+                cameraCharacteristics[CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP]?.let { streamConfigurationMap ->
+                    streamConfigurationMap.getOutputSizes(ImageFormat.YUV_420_888)
+                        ?.let { yuvSizes ->
+                            val previewSize = yuvSizes.last()
+                            val displayRotation = windowManager.defaultDisplay.rotation
+                            val swappedDimensions = areDimensionsSwapped(displayRotation, cameraCharacteristics)// swap width and height if needed
+                            val rotatedPreviewWidth = if (swappedDimensions) previewSize.height else previewSize.width
+                            val rotatedPreviewHeight = if (swappedDimensions) previewSize.width else previewSize.height
+
+                            surfaceView.holder.setFixedSize(rotatedPreviewWidth, rotatedPreviewHeight)
+
+                        }
+
+                }
+
+                val previewSurface = surfaceView.holder.surface
+
+                val captureCallback = object : CameraCaptureSession.StateCallback()
+                {
+                    override fun onConfigureFailed(session: CameraCaptureSession) {}
+
+                    override fun onConfigured(session: CameraCaptureSession) {
+                        // session configured
+                        val previewRequestBuilder =
+                            cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+                                .apply {
+                                    addTarget(previewSurface)
+                                }
+                        session.setRepeatingRequest(
+                            previewRequestBuilder.build(),
+                            object : CameraCaptureSession.CaptureCallback() {},
+                            Handler { true }
+                        )
+                    }
+                }
+
+
+                cameraDevice.createCaptureSession(mutableListOf(previewSurface), captureCallback, Handler { true })
+
+
+
             }
+        }, Handler { true })
 
-        } catch (e: CameraAccessException) {
-            e.printStackTrace()
+
+
+    }
+
+    private fun areDimensionsSwapped(displayRotation: Int, cameraCharacteristics: CameraCharacteristics): Boolean {
+        var swappedDimensions = false
+        when (displayRotation) {
+            Surface.ROTATION_0, Surface.ROTATION_180 -> {
+                if (cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION) == 90 || cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION) == 270) {
+                    swappedDimensions = true
+                }
+            }
+            Surface.ROTATION_90, Surface.ROTATION_270 -> {
+                if (cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION) == 0 || cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION) == 180) {
+                    swappedDimensions = true
+                }
+            }
+            else -> {
+                // invalid display rotation
+            }
         }
-
-        val cameraIds = manager.getCameraIdList()
-
-
-        for (cameraId in cameraIds) {
-            Log.d("id", cameraId.toString())
-            manager.openCamera(cameraId, object : CameraDevice.StateCallback() {
-                /**
-                 * The method called when a camera device has finished opening.
-                 *
-                 *
-                 * At this point, the camera device is ready to use, and
-                 * [CameraDevice.createCaptureSession] can be called to set up the first capture
-                 * session.
-                 *
-                 * @param camera the camera device that has become opened
-                 */
-                override fun onOpened(camera: CameraDevice) {
-                    takePicture()
-                }
-
-                /**
-                 * The method called when a camera device is no longer available for
-                 * use.
-                 *
-                 *
-                 * This callback may be called instead of [.onOpened]
-                 * if opening the camera fails.
-                 *
-                 *
-                 * Any attempt to call methods on this CameraDevice will throw a
-                 * [CameraAccessException]. The disconnection could be due to a
-                 * change in security policy or permissions; the physical disconnection
-                 * of a removable camera device; or the camera being needed for a
-                 * higher-priority camera API client.
-                 *
-                 *
-                 * There may still be capture callbacks that are invoked
-                 * after this method is called, or new image buffers that are delivered
-                 * to active outputs.
-                 *
-                 *
-                 * The default implementation logs a notice to the system log
-                 * about the disconnection.
-                 *
-                 *
-                 * You should clean up the camera with [CameraDevice.close] after
-                 * this happens, as it is not recoverable until the camera can be opened
-                 * again. For most use cases, this will be when the camera again becomes
-                 * [available][CameraManager.AvailabilityCallback.onCameraAvailable].
-                 *
-                 *
-                 * @param camera the device that has been disconnected
-                 */
-                override fun onDisconnected(camera: CameraDevice) {
-                    //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    camera.close()
-                }
-
-                /**
-                 * The method called when a camera device has encountered a serious error.
-                 *
-                 *
-                 * This callback may be called instead of [.onOpened]
-                 * if opening the camera fails.
-                 *
-                 *
-                 * This indicates a failure of the camera device or camera service in
-                 * some way. Any attempt to call methods on this CameraDevice in the
-                 * future will throw a [CameraAccessException] with the
-                 * [CAMERA_ERROR][CameraAccessException.CAMERA_ERROR] reason.
-                 *
-                 *
-                 *
-                 * There may still be capture completion or camera stream callbacks
-                 * that will be called after this error is received.
-                 *
-                 *
-                 * You should clean up the camera with [CameraDevice.close] after
-                 * this happens. Further attempts at recovery are error-code specific.
-                 *
-                 * @param camera The device reporting the error
-                 * @param error The error code.
-                 *
-                 * @see .ERROR_CAMERA_IN_USE
-                 *
-                 * @see .ERROR_MAX_CAMERAS_IN_USE
-                 *
-                 * @see .ERROR_CAMERA_DISABLED
-                 *
-                 * @see .ERROR_CAMERA_DEVICE
-                 *
-                 * @see .ERROR_CAMERA_SERVICE
-                 */
-                override fun onError(camera: CameraDevice, error: Int) {
-                    die()
-
-                }
-
-
-            }, null) // TODO("Change null to a handler which uses a new thread")
-        }
-
+        return swappedDimensions
     }
-
-    private fun die() {
-        Log.d("oh", "oh")
-    }
-
-    private fun takePicture() {
-        Log.d("oh", "oh")
-    }
-
 }
+
