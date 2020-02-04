@@ -182,19 +182,11 @@ class MainActivity : AppCompatActivity() {
 
                             surfaceView.holder.setFixedSize(rotatedPreviewWidth, rotatedPreviewHeight)
 
-                            // Configure Image Reader
-                            val imageReader = ImageReader.newInstance(rotatedPreviewWidth, rotatedPreviewHeight,
-                                ImageFormat.YUV_420_888, 2)
-                            imageReader.setOnImageAvailableListener({
-                                // do something
-                            }, Handler { true })
-
                         }
 
                 }
 
                 val previewSurface = surfaceView.holder.surface
-
 
                 val captureCallback = object : CameraCaptureSession.StateCallback()
                 {
