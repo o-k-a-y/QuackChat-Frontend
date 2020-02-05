@@ -1,74 +1,81 @@
+/*
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package edu.ramapo.btunney.quackchat
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.util.Size
-import android.graphics.Matrix
+import android.content.Context
 import android.os.Bundle
-import android.view.TextureView
-import android.widget.Toast
+import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
+import java.io.File
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import android.content.Intent
+import android.widget.FrameLayout
+import edu.ramapo.btunney.quackchat.R
+import edu.ramapo.btunney.quackchat.utils.FLAGS_FULLSCREEN
 
-// This is an arbitrary number we are using to keep track of the permission
-// request. Where an app has multiple context for requesting permission,
-// this can help differentiate the different contexts.
-private const val REQUEST_CODE_PERMISSIONS = 10
+const val KEY_EVENT_ACTION = "key_event_action"
+const val KEY_EVENT_EXTRA = "key_event_extra"
+private const val IMMERSIVE_FLAG_TIMEOUT = 500L
 
-// This is an array of all the permission specified in the manifest.
-private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
-
-class MainActivity : AppCompatActivity(), LifecycleOwner {
-
-    private val executor = Executors.newSingleThreadExecutor()
-    private lateinit var viewFinder: TextureView
-
-    private fun startCamera() {
-        // TODO: Implement CameraX operations
-    }
-
-    private fun updateTransform() {
-        // TODO: Implement camera viewfinder transformations
-    }
-
+/**
+ * Main entry point into our app. This app follows the single-activity pattern, and all
+ * functionality is implemented in the form of fragments.
+ */
+class MainActivity : AppCompatActivity() {
+    private lateinit var container: FrameLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setContentView(R.layout.activity_main)
+        container = findViewById(R.id.fragment_container)
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Before setting full screen flags, we must wait a bit to let UI settle; otherwise, we may
+        // be trying to set app to immersive mode before it's ready and the flags do not stick
+        container.postDelayed({
+            container.systemUiVisibility =
+                FLAGS_FULLSCREEN
+        }, IMMERSIVE_FLAG_TIMEOUT)
+    }
 
-    /**
-     * Process result from permission request dialog box, has the request
-     * been granted? If yes, start Camera. Otherwise display a toast
-     */
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>, grantResults: IntArray
-    ) {
-        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-            if (allPermissionsGranted()) {
-                viewFinder.post { startCamera() }
-            } else {
-                Toast.makeText(
-                    this,
-                    "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT
-                ).show()
-                finish()
+    /** When key down event is triggered, relay it via local broadcast so fragments can handle it */
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        return when (keyCode) {
+            KeyEvent.KEYCODE_VOLUME_DOWN -> {
+                val intent = Intent(KEY_EVENT_ACTION).apply { putExtra(
+                    KEY_EVENT_EXTRA, keyCode) }
+                LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+                true
             }
+            else -> super.onKeyDown(keyCode, event)
         }
     }
 
-    /**
-     * Check if all permission specified in the manifest have been granted
-     */
-    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(
-            baseContext, it
-        ) == PackageManager.PERMISSION_GRANTED
+    companion object {
+
+        /** Use external media if it is available, our app's file directory otherwise */
+        fun getOutputDirectory(context: Context): File {
+            val appContext = context.applicationContext
+            val mediaDir = context.externalMediaDirs.firstOrNull()?.let {
+                File(it, appContext.resources.getString(R.string.app_name)).apply { mkdirs() } }
+            return if (mediaDir != null && mediaDir.exists())
+                mediaDir else appContext.filesDir
+        }
     }
 }
