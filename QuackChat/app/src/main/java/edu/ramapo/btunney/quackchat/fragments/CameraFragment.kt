@@ -190,7 +190,15 @@ class CameraFragment : Fragment() {
             Log.e(TAG, "Photo capture failed: $message", cause)
         }
 
+        /**
+         * TODO This is where I will set the picture taken to be the size of the screen with new button options to send to friend
+         *
+         * @param photoFile
+         */
         override fun onImageSaved(photoFile: File) {
+
+            Log.d("newfile", photoFile.absolutePath)
+
             Log.d(TAG, "Photo capture succeeded: ${photoFile.absolutePath}")
 
             // We can only change the foreground Drawable using API level 23+ API
