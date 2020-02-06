@@ -1,4 +1,6 @@
 # Senior-Project
 Senior Project Project
 
-QuackChat
+Project QuackChat
+
+Send messages, pictures and videos to friends
