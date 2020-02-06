@@ -65,8 +65,13 @@ class MainActivity : AppCompatActivity() {
             }
             else -> super.onKeyDown(keyCode, event)
         }
+
     }
 
+
+
+    // static inner class (like a friend class but not really)
+    // ? if it's not null continue, if it's null stop
     companion object {
 
         /** Use external media if it is available, our app's file directory otherwise */

@@ -27,6 +27,7 @@ import java.io.File
 import android.content.Intent
 import android.media.MediaScannerConnection
 import android.os.Build
+import android.view.WindowManager
 import android.webkit.MimeTypeMap
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -37,8 +38,9 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import edu.ramapo.btunney.quackchat.BuildConfig
-import edu.ramapo.btunney.quackchat.utils.showImmersive
+//import edu.ramapo.btunney.quackchat.utils.showImmersive
 import edu.ramapo.btunney.quackchat.R
+import edu.ramapo.btunney.quackchat.utils.FLAGS_FULLSCREEN
 import java.util.Locale
 
 val EXTENSION_WHITELIST = arrayOf("JPG")
@@ -157,5 +159,23 @@ class GalleryFragment internal constructor() : Fragment() {
                     .setNegativeButton(android.R.string.no, null)
                     .create().showImmersive()
         }
+    }
+
+    /** Same as [AlertDialog.show] but setting immersive mode in the dialog's window */
+    private fun AlertDialog.showImmersive() {
+        // Set the dialog to not focusable
+        window?.setFlags(
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+
+        // Make sure that the dialog's window is in full screen
+        window?.decorView?.systemUiVisibility =
+            FLAGS_FULLSCREEN
+
+        // Show the dialog while still in immersive mode
+        show()
+
+        // Set the dialog to focusable again
+        window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
     }
 }
