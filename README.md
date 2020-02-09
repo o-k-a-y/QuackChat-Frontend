@@ -12,4 +12,4 @@ Create account
 Login
 Logout
 Add friends
-
+Settings to change email/username/password
