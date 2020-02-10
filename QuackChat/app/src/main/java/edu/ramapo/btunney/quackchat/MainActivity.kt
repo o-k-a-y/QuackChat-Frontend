@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         container = findViewById(R.id.fragment_container)
     }
 
+
     override fun onResume() {
         super.onResume()
         // Before setting full screen flags, we must wait a bit to let UI settle; otherwise, we may
