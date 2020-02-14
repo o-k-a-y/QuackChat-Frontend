@@ -14,3 +14,4 @@ Take picture with camera
 Take video with camera
 Send media to friends
 Settings to change email/username/password
+User stories
