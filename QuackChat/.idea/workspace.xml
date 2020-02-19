@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AnalysisUIOptions">
-    <option name="SCOPE_TYPE" value="4" />
-  </component>
   <component name="AndroidLayouts">
     <shared>
       <config />
@@ -10,88 +7,10 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0295d22a-17ca-4e0c-9c07-c91b1310b2d1" name="Default Changelist" comment="Testing camera functionality">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/ic_launcher-web.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/CameraXBasic.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MessagesActivity.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/fragments/CameraFragment.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/fragments/GalleryFragment.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/fragments/PermissionsFragment.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/fragments/PhotoFragment.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/utils/ViewExtensions.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/color/selector_button_text.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/color/selector_ic.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/button_round_corners.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_back.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_delete.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_outer_circle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_photo.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_share.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_shutter.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_shutter_focused.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_shutter_normal.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_shutter_pressed.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_switch.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout-land/camera_ui_container.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_messages.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/camera_ui_container.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_camera.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_gallery.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/nav_graph.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-v28/styles.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/ic_launcher_background.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/xml/file_paths.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/test/java/edu/ramapo/btunney/quackchat/MainInstrumentedTest.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
-    </list>
-    <ignored path="$PROJECT_DIR$/build/" />
-    <ignored path="$PROJECT_DIR$/out/" />
-    <ignored path="$PROJECT_DIR$/app/.gradle/" />
-    <ignored path="$PROJECT_DIR$/app/build/" />
-    <ignored path="$PROJECT_DIR$/app/out/" />
+    <list default="true" id="30c3059f-0f24-4c47-b65d-ca529698579f" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,6 +20,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="FA6C60302549" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -114,139 +34,216 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <leaf />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="layoutResourceFile_vertical" />
-        <option value="Kotlin File" />
-        <option value="resourceFile" />
-        <option value="Singleton" />
-      </list>
-    </option>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginSignUpActivity.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="35" column="5" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginActivity.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="23" column="7" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/SignUpActivity.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="51" column="38" selection-start-line="51" selection-start-column="38" selection-end-line="51" selection-end-column="38" />
+              <folding>
+                <element signature="e#38#448#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/network_security_config.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="3" column="53" selection-start-line="3" selection-start-column="53" selection-end-line="3" selection-end-column="53" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/4.2.2/2a4ef4d3351ea95eb113458f796c356a37325cac/okhttp-4.2.2-sources.jar!/okhttp3/Request.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="142" column="65" selection-start-line="142" selection-start-column="65" selection-end-line="142" selection-end-column="65" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build.gradle">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="465">
+              <caret line="40" selection-start-line="40" selection-end-line="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" column="42" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
+            </state>
+          </provider>
+          <provider editor-type-id="android-manifest" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="28" column="6" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
+              <folding>
+                <element signature="e#38#140#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_signup.xml">
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
+            </state>
+          </provider>
+          <provider selected="true" editor-type-id="android-designer2" />
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ca</find>
-      <find>edu.ramapo.btunney.quackchat.CameraXBasic</find>
-      <find>CameraXBasic</find>
-      <find>CameraX</find>
-      <find>quackchat</find>
-      <find>quackchat:</find>
-      <find>-&gt;</find>
-      <find>camerax</find>
-      <find>camera_capture_button</find>
-      <find>photo_extension</find>
-      <find>onimagesaved</find>
-      <find>takepicture</find>
-      <find>camera</find>
-      <find>tag</find>
-      <find>requireacti</find>
-      <find>viewfinder</find>
-      <find>fac</find>
-      <find>GalleryFragment</find>
-      <find>showimm</find>
-      <find>manager</find>
-      <find>fragment</find>
-      <find>position_none</find>
-      <find>com</find>
-      <find>gradle</find>
-      <find>jvm</find>
-      <find>log</find>
-      <find>MainActivity</find>
-      <find>main</find>
-      <find>service</find>
-      <find>mainact</find>
+      <find>sun</find>
+      <find>request</find>
+      <find>get</find>
+      <find>client</find>
     </findStrings>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_camera.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/cameraBasic/fragments/CameraFragment.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/cameraBasic/fragments/ImageViewerFragment.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/cameraBasic/CameraActivity.kt" />
-        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.kts" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Main2Activity.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/res/xml/file_paths.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/android/example/cameraxbasic/MainActivity.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/android/example/cameraxbasic/fragments/GalleryFragment.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/example/cameraxbasic/fragments/GalleryFragment.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/cameraxbasic/fragments/GalleryFragment.kt" />
-        <option value="$PROJECT_DIR$/app/build/generated/source/buildConfig/debug/edu/ramapo/btunney/quackchat/BuildConfig.java" />
-        <option value="$PROJECT_DIR$/app/src/test/java/edu/ramapo/btunney/quackchat/MainInstrumentedTest.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/fragments/PermissionsFragment.kt" />
-        <option value="$PROJECT_DIR$/app/build/generated/source/navigation-args/debug/edu/ramapo/btunney/quackchat/fragments/PermissionsFragmentDirections.java" />
-        <option value="$PROJECT_DIR$/app/build/generated/source/buildConfig/debug/com/android/example/cameraxbasic/BuildConfig.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/fragments/PhotoFragment.kt" />
-        <option value="$PROJECT_DIR$/app/build/generated/source/navigation-args/debug/edu/ramapo/btunney/quackchat/fragments/CameraFragmentDirections.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/CameraXBasic.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/fragments/CameraFragment.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/utils/ViewExtensions.kt" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/fragments/GalleryFragment.kt" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt" />
-        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/CameraActivity.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginSignupActivity.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginActivity.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login_signup.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginSignUpActivity.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_signup.xml" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/xml/network_security_config.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/SignUpActivity.kt" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="305" />
-    <option name="y" value="27" />
-    <option name="width" value="1391" />
-    <option name="height" value="791" />
+    <option name="x" value="67" />
+    <option name="y" value="25" />
+    <option name="width" value="927" />
+    <option name="height" value="1055" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <showMembers AndroidView="false" />
-      <showExcludedFiles Scope="true" ProjectPane="true" />
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="AndroidView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="QuackChat" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="QuackChat" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="QuackChat" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="edu" type="cbb59c9e:AndroidPsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="QuackChat" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="edu" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="ramapo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="QuackChat" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="edu" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="ramapo" type="462c0819:PsiDirectoryNode" />
+              <item name="btunney" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="QuackChat" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="edu" type="cbb59c9e:AndroidPsiDirectoryNode" />
+              <item name="ramapo" type="462c0819:PsiDirectoryNode" />
+              <item name="btunney" type="462c0819:PsiDirectoryNode" />
+              <item name="quackchat" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="QuackChat" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+            </path>
+            <path>
+              <item name="QuackChat" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="xml" type="ddeffd01:AndroidResFolderTypeNode" />
+            </path>
+            <path>
+              <item name="QuackChat" type="1abcf292:AndroidViewProjectNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JAVA" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="not.eligible.for.single.variant.sync" value="true" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.17" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
-      <recent name="edu.ramapo.btunney.quackchat.fragments.cameraBasic" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/fragments" />
-    </key>
     <key name="android.template.packageName">
       <recent name="edu.ramapo.btunney.quackchat" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="edu.ramapo.btunney.quackchat" />
-      <recent name="edu.ramapo.btunney.quackchat.fragments" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat" />
-    </key>
-    <key name="android.template.parentActivityClass">
-      <recent name="" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -261,116 +258,10 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Android App.Senior-Project-QuackChat-app">
+  <component name="RunManager">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="QuackChat-app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
-      <module name="QuackChat-app" />
-      <option name="DEPLOY" value="true" />
-      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
-      <option name="DEPLOY_AS_INSTANT" value="false" />
-      <option name="ARTIFACT_NAME" value="" />
-      <option name="PM_INSTALL_OPTIONS" value="" />
-      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
-      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <option name="DEBUGGER_TYPE" value="Auto" />
-      <Auto>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Auto>
-      <Hybrid>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Hybrid>
-      <Java />
-      <Native>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Native>
-      <Profilers>
-        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
-        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
-        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
-      </Profilers>
-      <option name="DEEP_LINK" value="" />
-      <option name="ACTIVITY_CLASS" value="" />
-      <method v="2">
-        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Senior-Project-QuackChat-app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
-      <module name="Senior-Project-QuackChat-app" />
-      <option name="DEPLOY" value="true" />
-      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
-      <option name="DEPLOY_AS_INSTANT" value="false" />
-      <option name="ARTIFACT_NAME" value="" />
-      <option name="PM_INSTALL_OPTIONS" value="" />
-      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
-      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
-      <option name="MODE" value="default_activity" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
-      <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <option name="DEBUGGER_TYPE" value="Auto" />
-      <Auto>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Auto>
-      <Hybrid>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Hybrid>
-      <Java />
-      <Native>
-        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
-        <option name="SHOW_STATIC_VARS" value="true" />
-        <option name="WORKING_DIR" value="" />
-        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
-        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
-      </Native>
-      <Profilers>
-        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
-        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
-        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
-      </Profilers>
-      <option name="DEEP_LINK" value="" />
-      <option name="ACTIVITY_CLASS" value="" />
       <method v="2">
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
@@ -434,231 +325,160 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="0295d22a-17ca-4e0c-9c07-c91b1310b2d1" name="Default Changelist" comment="" />
-      <created>1580343432942</created>
+      <changelist id="30c3059f-0f24-4c47-b65d-ca529698579f" name="Default Changelist" comment="" />
+      <created>1581896783996</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1580343432942</updated>
+      <updated>1581896783996</updated>
     </task>
-    <task id="LOCAL-00001" summary="Testing camera functionality">
-      <created>1580441279328</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1580441279328</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Testing camera functionality">
-      <created>1580442552883</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1580442552883</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Testing camera functionality">
-      <created>1580442685147</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1580442685147</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
     <servers />
-  </component>
-  <component name="TodoView" selected-index="4">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Captures" order="0" sideWeight="0.5264" side_tool="true" weight="0.3752075" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.4736" visible="true" weight="0.25628415" />
+      <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.19811843" />
       <window_info id="Structure" order="2" side_tool="true" />
-      <window_info id="Build Variants" order="3" side_tool="true" />
-      <window_info id="Image Layers" order="4" />
-      <window_info id="Designer" order="5" />
-      <window_info id="Resources Explorer" order="6" sideWeight="0.49839744" weight="0.32982844" />
-      <window_info id="Capture Tool" order="7" />
-      <window_info id="Favorites" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Inspection Results" order="0" weight="0.3174946" />
-      <window_info anchor="bottom" id="Run" order="1" sideWeight="0.4997233" weight="0.32937366" />
-      <window_info anchor="bottom" id="Logcat" order="2" sideWeight="0.4997233" weight="0.32289416" />
-      <window_info anchor="bottom" id="TODO" order="3" weight="0.32829374" />
-      <window_info anchor="bottom" id="Android Profiler" order="4" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Debug" order="5" weight="0.32792208" />
-      <window_info anchor="bottom" id="Terminal" order="6" weight="0.32900432" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5019369" side_tool="true" visible="true" weight="0.43736503" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32900432" />
-      <window_info anchor="bottom" id="Build" order="9" sideWeight="0.4980631" visible="true" weight="0.43736503" />
-      <window_info anchor="bottom" id="Find" order="10" weight="0.32937366" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.37473002" />
-      <window_info anchor="bottom" id="GraphQL" order="12" show_stripe_button="false" sideWeight="0.4997233" weight="0.32937366" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info id="Build Variants" order="4" side_tool="true" />
+      <window_info id="Image Layers" order="5" />
+      <window_info id="Designer" order="6" />
+      <window_info id="Resources Explorer" order="7" />
+      <window_info id="Capture Tool" order="8" />
+      <window_info anchor="bottom" id="Run" order="0" weight="0.3297414" />
+      <window_info anchor="bottom" id="Logcat" order="1" visible="true" weight="0.3297414" />
+      <window_info anchor="bottom" id="TODO" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3297414" />
+      <window_info anchor="bottom" id="GraphQL" order="4" />
+      <window_info anchor="bottom" id="Terminal" order="5" />
+      <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Build" order="8" weight="0.3297414" />
+      <window_info anchor="bottom" id="Android Profiler" order="9" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
       <window_info anchor="right" id="Gradle" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Assistant" order="5" weight="0.3386829" />
-      <window_info anchor="right" id="Preview" order="6" weight="0.10403985" />
+      <window_info anchor="right" id="Preview" order="4" weight="0.27006087" />
+      <window_info anchor="right" id="Palette&#9;" order="5" />
     </layout>
-    <layout-to-restore>
-      <window_info id="Captures" order="0" sideWeight="0.5264" side_tool="true" visible="true" weight="0.3752075" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.4736" visible="true" weight="0.3752075" />
-      <window_info id="Structure" order="2" side_tool="true" />
-      <window_info id="Build Variants" order="3" side_tool="true" />
-      <window_info id="Image Layers" order="4" />
-      <window_info id="Designer" order="5" />
-      <window_info id="Resources Explorer" order="6" sideWeight="0.49839744" weight="0.32982844" />
-      <window_info id="Capture Tool" order="7" />
-      <window_info id="Favorites" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Inspection Results" order="0" weight="0.3174946" />
-      <window_info anchor="bottom" id="Run" order="1" />
-      <window_info anchor="bottom" id="Logcat" order="2" weight="0.32435346" />
-      <window_info anchor="bottom" id="TODO" order="3" weight="0.32829374" />
-      <window_info anchor="bottom" id="Android Profiler" order="4" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Debug" order="5" weight="0.32792208" />
-      <window_info anchor="bottom" id="Terminal" order="6" weight="0.32900432" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32937366" />
-      <window_info anchor="bottom" id="Build" order="9" visible="true" weight="0.325054" />
-      <window_info anchor="bottom" id="Find" order="10" weight="0.32937366" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.37473002" />
-      <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
-      <window_info anchor="right" id="Capture Analysis" order="1" />
-      <window_info anchor="right" id="Gradle" order="2" />
-      <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Assistant" order="5" weight="0.3386829" />
-      <window_info anchor="right" id="Preview" order="6" weight="0.10403985" />
-    </layout-to-restore>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="First commit" />
-    <MESSAGE value="Testing camera functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="Testing camera functionality" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-    <entry file="file://$PROJECT_DIR$/app/build/generated/source/navigation-args/debug/edu/ramapo/btunney/quackchat/fragments/PermissionsFragmentDirections.java" />
-    <entry file="file://$PROJECT_DIR$/app/build/generated/source/navigation-args/debug/edu/ramapo/btunney/quackchat/fragments/CameraFragmentDirections.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/test/java/edu/ramapo/btunney/quackchat/MainInstrumentedTest.kt" />
-    <entry file="file://$PROJECT_DIR$/README.md" />
-    <entry file="file://$USER_HOME$/Android/Sdk/sources/android-29/android/hardware/Camera.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1440">
-          <caret line="151" column="19" selection-start-line="151" selection-start-column="13" selection-end-line="151" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Android/Sdk/sources/android-29/android/content/ContextWrapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4635">
-          <caret line="446" column="16" selection-start-line="446" selection-start-column="16" selection-end-line="446" selection-end-column="16" />
-          <folding>
-            <element signature="e#11497#11498#0" expanded="true" />
-            <element signature="e#11540#11541#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.camera/camera-core/1.0.0-alpha08/cf08e13516f359082adb91519810c9c25b22de1c/camera-core-1.0.0-alpha08-sources.jar!/androidx/camera/core/ImageCapture.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="21" column="44" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Android/Sdk/sources/android-29/android/view/View.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352470">
-          <caret line="24012" column="36" selection-start-line="24012" selection-start-column="36" selection-end-line="24012" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/ic_launcher-web.png" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/BestSingleton.java" />
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.appcompat/appcompat/1.1.0/9865019bbd2d95e41dede3d8ebf964aa93f97766/appcompat-1.1.0-sources.jar!/androidx/appcompat/app/AppCompatActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="75" column="11" selection-start-line="75" selection-start-column="11" selection-end-line="75" selection-end-column="11" />
-          <folding>
-            <element signature="e#2924#2925#0" expanded="true" />
-            <element signature="e#2947#2948#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/vcs.xml" />
-    <entry file="file://$PROJECT_DIR$/.idea/modules.xml" />
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.appcompat/appcompat/1.1.0/9865019bbd2d95e41dede3d8ebf964aa93f97766/appcompat-1.1.0-sources.jar!/androidx/appcompat/app/AlertDialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="72" column="13" selection-start-line="72" selection-start-column="13" selection-end-line="72" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Android/Sdk/sources/android-29/android/os/Bundle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="190" column="16" selection-start-line="190" selection-start-column="16" selection-end-line="190" selection-end-column="16" />
+        <state relative-caret-position="165">
+          <caret line="37" column="19" selection-start-line="37" selection-start-column="19" selection-end-line="37" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_camera.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/CameraActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login_signup.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="42" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginSignUpActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="35" column="5" selection-start-line="35" selection-start-column="5" selection-end-line="35" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="23" column="7" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_signup.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="40" selection-start-line="40" selection-end-line="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="9" lean-forward="true" selection-start-line="2" selection-start-column="8" selection-end-line="15" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/4.2.2/2a4ef4d3351ea95eb113458f796c356a37325cac/okhttp-4.2.2-sources.jar!/okhttp3/Request.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="142" column="65" selection-start-line="142" selection-start-column="65" selection-end-line="142" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="42" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/network_security_config.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="53" selection-start-line="3" selection-start-column="53" selection-end-line="3" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="28" column="6" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
           <folding>
-            <element signature="e#5519#5520#0" expanded="true" />
-            <element signature="e#5563#5564#0" expanded="true" />
+            <element signature="e#38#140#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/generated/source/navigation-args/debug/edu/ramapo/btunney/quackchat/fragments/GalleryFragmentArgs.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/navigation/nav_graph.xml" />
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.viewpager/viewpager/1.0.0/db045f92188b9d247d5f556866f8861ab68528f0/viewpager-1.0.0-sources.jar!/androidx/viewpager/widget/PagerAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/SignUpActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="960">
-          <caret line="85" column="33" selection-start-line="85" selection-start-column="33" selection-end-line="85" selection-end-column="33" />
+        <state relative-caret-position="180">
+          <caret line="51" column="38" selection-start-line="51" selection-start-column="38" selection-end-line="51" selection-end-column="38" />
+          <folding>
+            <element signature="e#38#448#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gradlew.bat" />
-    <entry file="file://$PROJECT_DIR$/local.properties" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_camera.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_gallery.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout-land/camera_ui_container.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/ui/login/LoginFormState.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/ui/login/LoginResult.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/ui/login/LoginViewModel.kt" />
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.lifecycle/lifecycle-viewmodel/2.2.0/4f90404dd52d3162217bf329db5afb32d373ec63/lifecycle-viewmodel-2.2.0-sources.jar!/androidx/lifecycle/ViewModelProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/ui/login/LoginViewModelFactory.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/ui/login/LoggedInUserView.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/data/LoginRepository.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/data/Result.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/data/LoginDataSource.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/data/model/LoggedInUser.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/ui/login/LoginActivity.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/camera_ui_container.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_messages.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/utils/ViewExtensions.kt" />
-    <entry file="file://$PROJECT_DIR$/app/build.gradle" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/fragments/CameraFragment.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/fragments/GalleryFragment.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/fragments/PermissionsFragment.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/fragments/PhotoFragment.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MessagesActivity.kt" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/CameraXBasic.kt" />
-    <entry file="file://$PROJECT_DIR$/build.gradle" />
-    <entry file="file://$PROJECT_DIR$/gradlew" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
   </component>
 </project>
