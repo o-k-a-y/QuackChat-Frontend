@@ -21,3 +21,10 @@ Use the pictures and videos taken to directly send to friends.
 Change your email, username, or password (maybe).
 ### User stories
 Post a picture or video on your story so friends can see for a limited time.
+
+
+APIs used:
+okhttp
+camera2/cameraX
+nodejs
+mongodb
