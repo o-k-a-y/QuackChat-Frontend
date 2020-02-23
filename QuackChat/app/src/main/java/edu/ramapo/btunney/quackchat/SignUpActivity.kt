@@ -2,17 +2,12 @@ package edu.ramapo.btunney.quackchat
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_login.usernameEditText
 import kotlinx.android.synthetic.main.activity_signup.*
-import okhttp3.*
 import org.json.JSONObject
-import java.io.IOException
 
 
 class SignUpActivity : AppCompatActivity() {

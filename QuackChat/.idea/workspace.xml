@@ -11,7 +11,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30c3059f-0f24-4c47-b65d-ca529698579f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/NetworkRequester.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/NetworkRequester.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/SignUpActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/SignUpActivity.kt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,11 +40,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/SignUpActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-121">
-              <caret line="47" column="22" lean-forward="true" selection-start-line="47" selection-start-column="22" selection-end-line="47" selection-end-column="22" />
-              <folding>
-                <element signature="e#38#414#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="85">
+              <caret line="6" selection-start-line="6" selection-end-line="6" />
             </state>
           </provider>
         </entry>
@@ -101,8 +98,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/NetworkRequester.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="50" lean-forward="true" selection-start-line="50" selection-end-line="50" />
+            <state relative-caret-position="-311">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
               <folding>
                 <element signature="e#38#206#0" expanded="true" />
               </folding>
@@ -181,16 +178,16 @@
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/xml/network_security_config.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/NetworkRequest.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/SignUpActivity.kt" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_1.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/NetworkRequester.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/SignUpActivity.kt" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="67" />
+    <option name="x" value="915" />
     <option name="y" value="25" />
-    <option name="width" value="1853" />
+    <option name="width" value="1005" />
     <option name="height" value="1055" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -397,7 +394,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.24792473" />
@@ -409,7 +405,7 @@
       <window_info id="Resources Explorer" order="7" />
       <window_info id="Capture Tool" order="8" />
       <window_info anchor="bottom" id="Run" order="0" weight="0.3297414" />
-      <window_info anchor="bottom" id="Logcat" order="1" visible="true" weight="0.32937366" />
+      <window_info anchor="bottom" id="Logcat" order="1" weight="0.32937366" />
       <window_info anchor="bottom" id="TODO" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.32937366" />
       <window_info anchor="bottom" id="GraphQL" order="4" />
@@ -431,7 +427,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/SignUpActivity.kt</url>
-          <line>39</line>
+          <line>34</line>
           <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
@@ -655,18 +651,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/SignUpActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-121">
-          <caret line="47" column="22" lean-forward="true" selection-start-line="47" selection-start-column="22" selection-end-line="47" selection-end-column="22" />
-          <folding>
-            <element signature="e#38#414#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="85">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/NetworkRequester.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="50" lean-forward="true" selection-start-line="50" selection-end-line="50" />
+        <state relative-caret-position="-311">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
           <folding>
             <element signature="e#38#206#0" expanded="true" />
           </folding>
