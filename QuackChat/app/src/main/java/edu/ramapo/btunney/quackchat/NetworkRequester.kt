@@ -46,7 +46,7 @@ object NetworkRequester {
 
         val request = Request.Builder()
             .url(url)
-            .post(body)
+            .put(body)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
