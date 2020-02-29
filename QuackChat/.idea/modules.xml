@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/QuackChat.iml" filepath="$PROJECT_DIR$/QuackChat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/QuackChat-app.iml" filepath="$PROJECT_DIR$/app/QuackChat-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Senior-Project-QuackChat.iml" filepath="$PROJECT_DIR$/Senior-Project-QuackChat.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
