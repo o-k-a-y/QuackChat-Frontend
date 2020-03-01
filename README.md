@@ -29,3 +29,4 @@ camera2/cameraX
 nodejs
 mongodb
 express
+aws
