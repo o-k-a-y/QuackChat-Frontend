@@ -1,6 +1,5 @@
 package edu.ramapo.btunney.quackchat
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -21,6 +20,7 @@ class SignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
     }
+
 
 
     /**
@@ -66,15 +66,11 @@ class SignUpActivity : AppCompatActivity() {
         val username: String = usernameEditText.text.toString()
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
-        val confirmPassword = confirmPasswordEditText.text.toString()
 
-        // TODO: Error if both passwords are not the same
-        val user: Map<String, String> = mapOf(
+        return mapOf(
             "username" to username,
             "email" to email,
             "password" to password)
-
-        return user
     }
 
 }
