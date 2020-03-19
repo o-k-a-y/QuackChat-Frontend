@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import edu.ramapo.btunney.quackchat.Networking.NetworkRequester
 import kotlinx.android.synthetic.main.activity_login.usernameEditText
 import kotlinx.android.synthetic.main.activity_signup.*
 import org.json.JSONObject
