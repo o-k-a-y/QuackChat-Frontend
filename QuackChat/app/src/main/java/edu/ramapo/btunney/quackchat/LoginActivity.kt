@@ -1,10 +1,13 @@
 package edu.ramapo.btunney.quackchat
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import edu.ramapo.btunney.quackchat.Networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.Networking.NetworkRequester
+import edu.ramapo.btunney.quackchat.Networking.ServerRoutes
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONObject
 
@@ -22,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     /**
-     * TODO
+     * Verify login information and log in if correct
      *
      * @param view
      */
@@ -34,15 +37,35 @@ class LoginActivity : AppCompatActivity() {
         val userJSON = JSONObject(userPass)
 
 
+        // To change to camera activity
+        val foo = this
 
-        NetworkRequester.login("http://52.55.108.86:3000/users", userJSON, "/login", object:
+        // Attempt to login with credentials
+        NetworkRequester.login(ServerRoutes.LOGIN, userJSON, object:
             NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 println(failureCode)
+
+                // Make sure changing the text is done on the LoginActivity
+                runOnUiThread {
+                    Runnable {
+                        loginErrText.text = "Incorrect login"
+                    }.run()
+
+                }
             }
 
             override fun onSuccess() {
                 println("fdsjfoidsjfoisjf")
+
+                runOnUiThread {
+                    Runnable {
+                        val intent = Intent(foo, CameraActivity::class.java)
+                        setResult(Activity.RESULT_OK, intent)
+                        finish()
+
+                    }.run()
+                }
             }
         })
     }

@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import edu.ramapo.btunney.quackchat.Networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.Networking.NetworkRequester
+import edu.ramapo.btunney.quackchat.Networking.ServerRoutes
 import kotlinx.android.synthetic.main.activity_login.usernameEditText
 import kotlinx.android.synthetic.main.activity_signup.*
 import org.json.JSONObject
@@ -41,20 +43,16 @@ class SignUpActivity : AppCompatActivity() {
 
         // TODO: Make HTTP request to backend / improve method
         createUser(userJSON)
-//        createUser()
-
     }
 
 
     /**
      * TODO
      *
-     * @param user
+     * @param userJSON
      */
     private fun createUser(userJSON: JSONObject) {
-        // TODO don't hardcode this you idiot
-//        NetworkRequester.getUser("http://52.55.108.86:3000/users")
-        NetworkRequester.postUser("http://52.55.108.86:3000/users", userJSON)
+        NetworkRequester.postUser(ServerRoutes.SIGNUP, userJSON)
     }
 
 

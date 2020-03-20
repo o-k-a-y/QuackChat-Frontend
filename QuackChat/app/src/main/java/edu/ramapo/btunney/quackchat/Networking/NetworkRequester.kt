@@ -14,8 +14,8 @@ object NetworkRequester {
     private val JSON = "application/json; charset=utf-8".toMediaType()
 
     // TODO: actually make use of this
-    private val host = "http://52.55.108.86" //The protocol and host
-    private val port = "3000" //The port the server is using
+    private val host = "http://52.55.108.86:3000" // The protocol and host and port
+    private val port = "3000" // The port the server is using
 
 
     // TODO: Make a generic method to post a json to whatever route
@@ -49,12 +49,12 @@ object NetworkRequester {
     }
 
 
-    fun postUser(url: String, userJSON: JSONObject) {
+    fun postUser(route: ServerRoutes, userJSON: JSONObject) {
         val body = userJSON.toString()
             .toRequestBody(JSON)
 
         val request = Request.Builder()
-            .url(url)
+            .url(host + route.route)
             .put(body)
             .build()
 
@@ -78,12 +78,12 @@ object NetworkRequester {
 
     }
 
-    fun login(url: String, userJSON: JSONObject, route: String, foo: NetworkCallback) {
+    fun login(route: ServerRoutes, userJSON: JSONObject, foo: NetworkCallback) {
         val body = userJSON.toString()
             .toRequestBody(JSON)
 
         val request = Request.Builder()
-            .url(url+route)
+            .url(host + route.route)
             .post(body)
             .build()
 

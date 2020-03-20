@@ -15,6 +15,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Ask server if user is authenticated
+
+        // TODO ask server if user is authenticated and change this
         val authenticated = false
 
         if (!authenticated) {
