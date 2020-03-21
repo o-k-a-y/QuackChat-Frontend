@@ -78,7 +78,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/signUpErrorText"
         android:layout_width="239dp"
         android:layout_height="100dp"
         android:text="TextView"

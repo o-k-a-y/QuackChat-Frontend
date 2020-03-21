@@ -33,7 +33,7 @@ class SignUpActivity : AppCompatActivity() {
      */
     fun signUpOnClick(view: View) {
         if (confirmPasswordEditText.text.toString() != this.passwordEditText.text.toString()) {
-            textView.text = "Passwords don't match!"
+            signUpErrorText.text = "Passwords don't match!"
             Log.d(confirmPasswordEditText.text.toString(), passwordEditText.text.toString())
             return
         }
@@ -52,7 +52,34 @@ class SignUpActivity : AppCompatActivity() {
      * @param userJSON
      */
     private fun createUser(userJSON: JSONObject) {
-        NetworkRequester.postUser(ServerRoutes.SIGNUP, userJSON)
+        NetworkRequester.postUser(ServerRoutes.SIGNUP, userJSON, object: NetworkCallback {
+            override fun onFailure(failureCode: NetworkCallback.FailureCode) {
+                println(failureCode)
+
+                // Make sure changing the text is done on the SignUpActivity
+                runOnUiThread {
+                    Runnable {
+                        // TODO: this ONLY handles duplicate users so make sure to catch anything else
+                        when (failureCode) {
+                            NetworkCallback.FailureCode.DUPLICATE_USER -> {
+                                signUpErrorText.text = "User already exists"
+                            }
+                        }
+                    }.run()
+
+                }
+            }
+
+            override fun onSuccess() {
+                runOnUiThread {
+                    Runnable {
+
+
+                    }.run()
+                }
+            }
+
+        })
     }
 
 

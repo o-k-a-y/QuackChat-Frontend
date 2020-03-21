@@ -8,6 +8,7 @@ interface NetworkCallback {
     enum class FailureCode {
         DEFAULT,
         INVALID_LOGIN,
+        DUPLICATE_USER,
 
     }
 

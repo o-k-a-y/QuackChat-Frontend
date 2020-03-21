@@ -11,14 +11,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30c3059f-0f24-4c47-b65d-ca529698579f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginSignUpActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginSignUpActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkCallback.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkCallback.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkRequester.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkRequester.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/SignUpActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/SignUpActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_signup.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_signup.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -57,8 +53,18 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/SignUpActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="54" column="64" lean-forward="true" selection-start-line="54" selection-start-column="64" selection-end-line="54" selection-end-column="64" />
+            <state relative-caret-position="282">
+              <caret line="65" selection-start-line="65" selection-end-line="66" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_signup.xml">
+          <provider selected="true" editor-type-id="android-designer2" />
+          <provider editor-type-id="text-editor">
+            <state relative-caret-position="565">
+              <caret line="71" column="8" selection-start-line="71" selection-start-column="8" selection-end-line="71" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -75,8 +81,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkRequester.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="849">
-              <caret line="85" column="16" selection-start-line="85" selection-start-column="16" selection-end-line="85" selection-end-column="16" />
+            <state relative-caret-position="402">
+              <caret line="82" lean-forward="true" selection-start-line="82" selection-end-line="82" />
               <folding>
                 <element signature="e#49#249#0" expanded="true" />
               </folding>
@@ -106,15 +112,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="25" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/ServerRoutes.kt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
@@ -126,8 +123,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="571">
-              <caret line="58" column="43" lean-forward="true" selection-start-line="58" selection-start-column="43" selection-end-line="58" selection-end-column="43" />
+            <state relative-caret-position="421">
+              <caret line="51" column="36" selection-start-line="51" selection-start-column="24" selection-end-line="51" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -144,8 +141,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkCallback.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" selection-start-line="14" selection-end-line="14" />
+            <state relative-caret-position="150">
+              <caret line="10" column="22" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -190,7 +187,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginSignupActivity.kt" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login_signup.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_signup.xml" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
@@ -202,11 +198,12 @@
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/ServerRoutes.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkCallbackInterface.kt" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkCallback.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginSignUpActivity.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginActivity.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkCallback.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkRequester.kt" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_signup.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/SignUpActivity.kt" />
       </list>
     </option>
@@ -247,6 +244,17 @@
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="quackchat" type="cbb59c9e:AndroidPsiDirectoryNode" />
               <item name="Networking" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="QuackChat" type="1abcf292:AndroidViewProjectNode" />
+              <item name="QuackChat-app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+            </path>
+            <path>
+              <item name="QuackChat" type="1abcf292:AndroidViewProjectNode" />
+              <item name="QuackChat-app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
             <path>
               <item name="QuackChat" type="1abcf292:AndroidViewProjectNode" />
@@ -602,14 +610,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_signup.xml">
-      <provider editor-type-id="android-designer2" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1065">
-          <caret line="71" column="8" selection-start-line="71" selection-start-column="8" selection-end-line="71" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/4.2.2/2a4ef4d3351ea95eb113458f796c356a37325cac/okhttp-4.2.2-sources.jar!/okhttp3/internal/connection/RealConnection.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -700,27 +700,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/CameraActivity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" column="25" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="46" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
-          <folding>
-            <element signature="e#38#140#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -738,24 +721,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkCallback.kt">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        <state relative-caret-position="255">
+          <caret line="17" column="46" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
+          <folding>
+            <element signature="e#38#140#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginActivity.kt">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/CameraActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="571">
-          <caret line="58" column="43" lean-forward="true" selection-start-line="58" selection-start-column="43" selection-end-line="58" selection-end-column="43" />
+        <state relative-caret-position="60">
+          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginSignUpActivity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="38" selection-start-line="38" selection-end-line="38" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_signup.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="565">
+          <caret line="71" column="8" selection-start-line="71" selection-start-column="8" selection-end-line="71" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -766,10 +753,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkCallback.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="22" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="421">
+          <caret line="51" column="36" selection-start-line="51" selection-start-column="24" selection-end-line="51" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginSignUpActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkRequester.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="849">
-          <caret line="85" column="16" selection-start-line="85" selection-start-column="16" selection-end-line="85" selection-end-column="16" />
+        <state relative-caret-position="402">
+          <caret line="82" lean-forward="true" selection-start-line="82" selection-end-line="82" />
           <folding>
             <element signature="e#49#249#0" expanded="true" />
           </folding>
@@ -778,8 +786,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/SignUpActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="54" column="64" lean-forward="true" selection-start-line="54" selection-start-column="64" selection-end-line="54" selection-end-column="64" />
+        <state relative-caret-position="282">
+          <caret line="65" selection-start-line="65" selection-end-line="66" />
         </state>
       </provider>
     </entry>

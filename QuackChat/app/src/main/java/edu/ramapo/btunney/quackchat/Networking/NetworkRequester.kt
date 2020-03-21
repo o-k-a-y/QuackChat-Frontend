@@ -49,7 +49,7 @@ object NetworkRequester {
     }
 
 
-    fun postUser(route: ServerRoutes, userJSON: JSONObject) {
+    fun postUser(route: ServerRoutes, userJSON: JSONObject, callback: NetworkCallback) {
         val body = userJSON.toString()
             .toRequestBody(JSON)
 
@@ -65,12 +65,24 @@ object NetworkRequester {
 
             override fun onResponse(call: Call, response: Response) {
                 response.use {
-                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
+
+                    // Return failure when signup fails
+                    // Failure can occur for example when user already exists
+                    if (!response.isSuccessful) {
+                        when (response.code) {
+                            409 -> {
+                                callback.onFailure(NetworkCallback.FailureCode.DUPLICATE_USER)
+                                return
+                            }
+                        }
+                    }
 
                     for ((name, value) in response.headers) {
                         println("$name: $value")
                     }
 
+                    // Signup succeeded
+                    callback.onSuccess()
                     println(response.body!!.string())
                 }
             }
@@ -78,7 +90,7 @@ object NetworkRequester {
 
     }
 
-    fun login(route: ServerRoutes, userJSON: JSONObject, foo: NetworkCallback) {
+    fun login(route: ServerRoutes, userJSON: JSONObject, callback: NetworkCallback) {
         val body = userJSON.toString()
             .toRequestBody(JSON)
 
@@ -91,7 +103,7 @@ object NetworkRequester {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
                 // TODO change to some other err
-                foo.onFailure(NetworkCallback.FailureCode.DEFAULT)
+                callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -101,11 +113,11 @@ object NetworkRequester {
                         // Return failure code when login fails
                         when (response.code) {
                             404, 401 -> {
-                                foo.onFailure(NetworkCallback.FailureCode.INVALID_LOGIN)
+                                callback.onFailure(NetworkCallback.FailureCode.INVALID_LOGIN)
                                 return
                             }
                         }
-                        foo.onFailure(NetworkCallback.FailureCode.DEFAULT)
+                        callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
                         return
                     }
 
@@ -116,7 +128,7 @@ object NetworkRequester {
                     }
 
                     println(response.body!!.string())
-                    foo.onSuccess()
+                    callback.onSuccess()
 //                    println(response.code)
                 }
             }
