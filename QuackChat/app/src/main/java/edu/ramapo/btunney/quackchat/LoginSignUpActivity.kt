@@ -1,10 +1,13 @@
 package edu.ramapo.btunney.quackchat
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import edu.ramapo.btunney.quackchat.Networking.NetworkCallback
+import edu.ramapo.btunney.quackchat.Networking.NetworkRequester
 
 class LoginSignUpActivity : AppCompatActivity() {
 
@@ -19,7 +22,7 @@ class LoginSignUpActivity : AppCompatActivity() {
     }
 
     /**
-     * TODO
+     * Handle cases when login and signup dies
      *
      * @param requestCode the code login() or signup()
      * @param resultCode
@@ -28,15 +31,60 @@ class LoginSignUpActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        // Make sure request code is correct
-        if (requestCode != 7) {
-            Log.e("result code from login", "Received code $requestCode")
-            return
+        when (requestCode) {
+            5, 7 -> {
+                val ref = this
+
+                // Ask server if user is authenticated
+                NetworkRequester.authenticate(object: NetworkCallback {
+                    /**
+                     * User is not authenticated
+                     *
+                     * @param failureCode
+                     */
+                    override fun onFailure(failureCode: NetworkCallback.FailureCode) {
+                        // go to loginsignup page
+                        Log.d("fail code", failureCode.toString())
+                        runOnUiThread {
+                            Runnable {
+                                val intent = Intent(ref, LoginSignUpActivity::class.java)
+                                setResult(Activity.RESULT_OK, intent)
+                                finish()
+                            }.run()
+                        }
+                    }
+
+                    /**
+                     * User is authenticated
+                     *
+                     */
+                    override fun onSuccess() {
+                        // go to camera activity
+                        println()
+
+                        runOnUiThread {
+                            Runnable {
+                                val intent = Intent(ref, CameraActivity::class.java)
+                                setResult(Activity.RESULT_OK, intent)
+                                finish()
+                            }.run()
+                        }
+                    }
+
+                })
+            }
+            else -> {
+                Log.e(javaClass.simpleName, "Received code $requestCode")
+                return
+            }
         }
 
         // Make sure result code is ok
         if (resultCode != RESULT_OK) {
-            throw TODO()
+            // TODO how message if makes sense
+            Log.e(javaClass.simpleName, "Something went terribly wrong")
+            return
+
         }
 
         // Start camera activity

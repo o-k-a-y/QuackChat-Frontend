@@ -9,6 +9,7 @@ interface NetworkCallback {
         DEFAULT,
         INVALID_LOGIN,
         DUPLICATE_USER,
+        NOT_AUTHENTICATED,
 
     }
 
