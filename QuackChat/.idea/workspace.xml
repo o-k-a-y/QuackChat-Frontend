@@ -11,9 +11,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30c3059f-0f24-4c47-b65d-ca529698579f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkRequester.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkRequester.kt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -62,8 +59,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkRequester.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="224" column="97" selection-start-line="224" selection-start-column="97" selection-end-line="224" selection-end-column="97" />
+            <state relative-caret-position="165">
+              <caret line="236" column="40" selection-start-line="236" selection-start-column="40" selection-end-line="236" selection-end-column="40" />
               <folding>
                 <element signature="e#49#350#0" expanded="true" />
               </folding>
@@ -92,7 +89,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/4.2.2/2a4ef4d3351ea95eb113458f796c356a37325cac/okhttp-4.2.2-sources.jar!/okhttp3/OkHttpClient.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8610">
+            <state relative-caret-position="198">
               <caret line="615" column="34" selection-start-line="615" selection-start-column="34" selection-end-line="615" selection-end-column="34" />
             </state>
           </provider>
@@ -101,7 +98,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/4.2.2/2a4ef4d3351ea95eb113458f796c356a37325cac/okhttp-4.2.2-sources.jar!/okhttp3/CookieJar.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
+            <state relative-caret-position="153">
               <caret line="31" column="10" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
             </state>
           </provider>
@@ -727,31 +724,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/4.2.2/2a4ef4d3351ea95eb113458f796c356a37325cac/okhttp-4.2.2-sources.jar!/okhttp3/OkHttpClient.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8610">
-          <caret line="615" column="34" selection-start-line="615" selection-start-column="34" selection-end-line="615" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/4.2.2/2a4ef4d3351ea95eb113458f796c356a37325cac/okhttp-4.2.2-sources.jar!/okhttp3/CookieJar.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="31" column="10" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" column="25" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginSignUpActivity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="116" column="7" lean-forward="true" selection-start-line="116" selection-start-column="7" selection-end-line="116" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -786,6 +762,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginSignUpActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="116" column="7" lean-forward="true" selection-start-line="116" selection-start-column="7" selection-end-line="116" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$USER_HOME$/AndroidStudio/DeviceExplorer/google-pixel-FA6C60302549/data/data/edu.ramapo.btunney.quackchat/shared_prefs/AuthLogin.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -793,10 +776,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/4.2.2/2a4ef4d3351ea95eb113458f796c356a37325cac/okhttp-4.2.2-sources.jar!/okhttp3/CookieJar.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="31" column="10" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/4.2.2/2a4ef4d3351ea95eb113458f796c356a37325cac/okhttp-4.2.2-sources.jar!/okhttp3/OkHttpClient.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="615" column="34" selection-start-line="615" selection-start-column="34" selection-end-line="615" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkRequester.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="224" column="97" selection-start-line="224" selection-start-column="97" selection-end-line="224" selection-end-column="97" />
+        <state relative-caret-position="165">
+          <caret line="236" column="40" selection-start-line="236" selection-start-column="40" selection-end-line="236" selection-end-column="40" />
           <folding>
             <element signature="e#49#350#0" expanded="true" />
           </folding>

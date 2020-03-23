@@ -233,8 +233,10 @@ object NetworkRequester {
             val editor = sharedPreferences.edit()
             editor.putString("AuthToken", cookies[0].toString())
             editor.commit()
+            // TODO: check that the cookie exists on app load
+            // TODO: add this cookie to .cookieJar(MemoryCookieJar()) on app load ya dummy
 
-//            sharedPreferences.putStringSet("AuthToken", coooky.toString())
+
 
 
             cache.removeAll(cookiesToAdd)
