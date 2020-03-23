@@ -1,5 +1,6 @@
 package edu.ramapo.btunney.quackchat
 
+import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,6 +18,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Set NetworkRequester's context to use application's context (very bad)
+        NetworkRequester.setContext(applicationContext)
 
         val mainRef = this
 

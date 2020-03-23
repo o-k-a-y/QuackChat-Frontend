@@ -56,8 +56,6 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onSuccess() {
-                println("fdsjfoidsjfoisjf")
-
                 runOnUiThread {
                     Runnable {
                         val intent = Intent(foo, CameraActivity::class.java)

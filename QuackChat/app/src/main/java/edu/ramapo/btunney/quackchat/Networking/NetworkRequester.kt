@@ -1,5 +1,10 @@
 package edu.ramapo.btunney.quackchat.Networking
 
+import android.app.Application
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.Context.MODE_WORLD_WRITEABLE
+import android.content.SharedPreferences
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -12,6 +17,7 @@ import java.net.CookieHandler
  */
 object NetworkRequester {
 
+    private var applicationContext: Context? = null // very bad design to do this
 
     private val client = OkHttpClient()
         .newBuilder()
@@ -180,6 +186,15 @@ object NetworkRequester {
         })
     }
 
+    /**
+     * Set application context to be able to save cookies to disk
+     *
+     * @param context the application's context
+     */
+    fun setContext(context: Context) {
+        this.applicationContext = context
+    }
+
 
     class MemoryCookieJar : CookieJar {
         private val cache = mutableSetOf<WrappedCookie>()
@@ -205,6 +220,22 @@ object NetworkRequester {
         @Synchronized
         override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
             val cookiesToAdd = cookies.map { WrappedCookie.wrap(it) }
+
+            // check what key cookies have
+            // TODO: ONLY SAVE THE RIGHT COOKIE (I.E. CHECK THE COOKIE THAT HAS connect.sid NAME)
+            cookies.forEach { cookie ->
+                println("cookie: $cookie")
+            }
+            // Save cookie to SharedPreferences
+            // TODO: ONLY SAVE THE RIGHT COOKIE (I.E. CHECK THE COOKIE THAT HAS connect.sid NAME)
+            // Only allow this application to see token
+            val sharedPreferences: SharedPreferences = applicationContext!!.getSharedPreferences("AuthLogin", MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.putString("AuthToken", cookies[0].toString())
+            editor.commit()
+
+//            sharedPreferences.putStringSet("AuthToken", coooky.toString())
+
 
             cache.removeAll(cookiesToAdd)
             cache.addAll(cookiesToAdd)
