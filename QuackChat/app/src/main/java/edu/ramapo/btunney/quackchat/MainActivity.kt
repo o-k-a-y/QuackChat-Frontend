@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        
+
     }
 
     /**
@@ -138,10 +138,13 @@ class MainActivity : AppCompatActivity() {
      *
      */
     private fun startCameraActivity() {
-        val intent = Intent(this, CameraActivity::class.java)
-
-        startActivity(intent)
-
+//        val intent = Intent(this, CameraActivity::class.java)
+//
+//        startActivity(intent)
+//
+//        finish()
+        // Kotlin style
+        Intent(this, CameraActivity::class.java).also{startActivity(it)}
         finish()
     }
 
