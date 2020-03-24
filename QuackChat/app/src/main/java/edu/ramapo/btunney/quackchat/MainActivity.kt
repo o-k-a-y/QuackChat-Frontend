@@ -99,11 +99,12 @@ class MainActivity : AppCompatActivity() {
                 Log.d("fail code", failureCode.toString())
                 runOnUiThread {
                     Runnable {
-                        val intent = Intent(mainRef, LoginSignUpActivity::class.java)
-
-                        startActivity(intent)
-
-                        finish()
+//                        val intent = Intent(mainRef, LoginSignUpActivity::class.java)
+//
+//                        startActivityForResult(intent, 10)
+//
+//                        finish()
+                        startLoginSignUpActivity()
                     }.run()
                 }
             }
@@ -114,30 +115,22 @@ class MainActivity : AppCompatActivity() {
              */
             override fun onSuccess() {
                 // go to camera activity
-                println("??????????")
 
                 runOnUiThread {
                     Runnable {
-                        val intent = Intent(mainRef, CameraActivity::class.java)
-
-                        startActivity(intent)
-
-                        finish()
+//                        val intent = Intent(mainRef, CameraActivity::class.java)
+//
+//                        startActivityForResult(intent, 11)
+//
+//                        finish()
+                        startCameraActivity()
                     }.run()
                 }
             }
 
         })
 
-
-        // TODO ask server if user is authenticated and change this
-//        val authenticated = false
-//
-//        if (!authenticated) {
-//            startLoginSignupActivity()
-//        } else {
-//            startCameraActivity()
-//        }
+        
     }
 
     /**
@@ -156,7 +149,7 @@ class MainActivity : AppCompatActivity() {
      * TODO
      *
      */
-    private fun startLoginSignupActivity() {
+    private fun startLoginSignUpActivity() {
         val intent = Intent(this, LoginSignUpActivity::class.java)
 
         startActivity(intent)

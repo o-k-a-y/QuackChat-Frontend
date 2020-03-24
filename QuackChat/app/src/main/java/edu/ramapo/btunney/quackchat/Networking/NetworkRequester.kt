@@ -90,13 +90,14 @@ object NetworkRequester {
                             }
                         }
 
-                        Log.d("Successfuly auth", "test")
+                        Log.d("Successfully auth", "test")
 
-                        callback.onSuccess()
-                        return
+
                     }
 
-                    println(response.body!!.string())
+                    callback.onSuccess()
+//                    println(response.body!!.string())
+                    return
 
                 }
             }

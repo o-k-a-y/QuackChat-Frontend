@@ -11,7 +11,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30c3059f-0f24-4c47-b65d-ca529698579f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkRequester.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkRequester.kt" afterDir="false" />
     </list>
@@ -52,8 +51,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginSignUpActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="116" column="7" selection-start-line="116" selection-start-column="7" selection-end-line="116" selection-end-column="7" />
+            <state relative-caret-position="250">
+              <caret line="122" lean-forward="true" selection-start-line="122" selection-end-line="122" />
             </state>
           </provider>
         </entry>
@@ -70,8 +69,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkRequester.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1277">
-              <caret line="144" column="48" selection-start-line="144" selection-end-line="145" />
+            <state relative-caret-position="131">
+              <caret line="279" lean-forward="true" selection-start-line="279" selection-end-line="279" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/4.2.2/2a4ef4d3351ea95eb113458f796c356a37325cac/okhttp-4.2.2-sources.jar!/okhttp3/Callback.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="27" column="5" lean-forward="true" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -79,8 +87,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="487">
-              <caret line="124" column="32" lean-forward="true" selection-start-line="124" selection-start-column="32" selection-end-line="124" selection-end-column="32" />
+            <state relative-caret-position="56">
+              <caret line="132" column="8" selection-start-line="132" selection-start-column="8" selection-end-line="132" selection-end-column="8" />
               <folding>
                 <element signature="e#38#584#0" expanded="true" />
               </folding>
@@ -128,7 +136,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>request</find>
       <find>get</find>
       <find>client</find>
       <find>onfailure</find>
@@ -158,6 +165,7 @@
       <find>log.d(</find>
       <find>connect</find>
       <find>???</find>
+      <find>startactivityfor</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -409,7 +417,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.20917822" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.20917822" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Build Variants" order="4" side_tool="true" />
@@ -420,10 +428,10 @@
       <window_info anchor="bottom" id="Run" order="0" weight="0.32948583" />
       <window_info anchor="bottom" id="Logcat" order="1" sideWeight="0.77267873" weight="0.32528856" />
       <window_info anchor="bottom" id="TODO" order="2" sideWeight="0.49839914" weight="0.32948583" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49199572" weight="0.33683106" />
-      <window_info anchor="bottom" id="GraphQL" order="4" />
+      <window_info anchor="bottom" id="GraphQL" order="3" />
+      <window_info anchor="bottom" id="Debug" order="4" sideWeight="0.4914621" weight="0.33683106" />
       <window_info anchor="bottom" id="Terminal" order="5" sideWeight="0.49839914" weight="0.32738718" />
-      <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.50800425" side_tool="true" visible="true" weight="0.32528856" />
+      <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.5085379" side_tool="true" visible="true" weight="0.33683106" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Build" order="8" sideWeight="0.49893278" weight="0.28961176" />
       <window_info anchor="bottom" id="Android Profiler" order="9" />
@@ -526,13 +534,6 @@
             <element signature="e#35797#35798#0" expanded="true" />
             <element signature="e#35835#35836#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/4.2.2/2a4ef4d3351ea95eb113458f796c356a37325cac/okhttp-4.2.2-sources.jar!/okhttp3/Callback.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="19" column="10" selection-start-line="19" selection-start-column="10" selection-end-line="19" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -756,24 +757,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginSignUpActivity.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="116" column="7" selection-start-line="116" selection-start-column="7" selection-end-line="116" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkCallback.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="28" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/ServerRoutes.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="33" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -805,17 +792,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/ServerRoutes.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="33" selection-start-line="5" selection-start-column="28" selection-end-line="5" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/4.2.2/2a4ef4d3351ea95eb113458f796c356a37325cac/okhttp-4.2.2-sources.jar!/okhttp3/Callback.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="27" column="5" lean-forward="true" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/Networking/NetworkRequester.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1277">
-          <caret line="144" column="48" selection-start-line="144" selection-end-line="145" />
+        <state relative-caret-position="131">
+          <caret line="279" lean-forward="true" selection-start-line="279" selection-end-line="279" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/LoginSignUpActivity.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="122" lean-forward="true" selection-start-line="122" selection-end-line="122" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/edu/ramapo/btunney/quackchat/MainActivity.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="487">
-          <caret line="124" column="32" lean-forward="true" selection-start-line="124" selection-start-column="32" selection-end-line="124" selection-end-column="32" />
+        <state relative-caret-position="56">
+          <caret line="132" column="8" selection-start-line="132" selection-start-column="8" selection-end-line="132" selection-end-column="8" />
           <folding>
             <element signature="e#38#584#0" expanded="true" />
           </folding>
