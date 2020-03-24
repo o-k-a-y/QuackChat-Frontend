@@ -1,12 +1,23 @@
 package edu.ramapo.btunney.quackchat
 
+import okhttp3.internal.UTC
+import java.text.DateFormat
+import java.text.ParsePosition
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
 import android.app.Application
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import edu.ramapo.btunney.quackchat.Networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.Networking.NetworkRequester
+import okhttp3.Cookie
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +29,58 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Check that cookie exists in SharedPreferences
+        val sharedPreferences: SharedPreferences = getSharedPreferences("AuthLogin", Context.MODE_PRIVATE)
+        val cookieString: String? = sharedPreferences.getString("AuthToken", null)
+
+        // Get properties of cookie
+        val keys:List<String> = cookieString!!.split(";")
+        var name = keys[0]
+
+        val nameAndValue = name.split("=")
+        name = nameAndValue[0]
+        val value = nameAndValue[1]
+
+
+        var expiresAt = keys[1] // need to format date probably
+
+        val expire = expiresAt.split("=")
+        expiresAt = expire[1]
+
+        var path = keys[2] //
+        val pathh = path.split("=")
+        path = pathh[1]
+
+        val httpOnly = keys[3] // if value = "httponly" it should be a boolean set to true
+
+        var httponly = false
+
+        if (httpOnly == "httponly") {
+                httponly = true
+        }
+
+        var date = Date(expiresAt)
+        var time = date.time
+
+        // Make string into cookie
+        // Probably should move this to a NetworkRequester method
+        val sharedPrefCookie = Cookie.Builder()
+            .domain("52.55.108.86")
+            .name(name)
+            .value(value)
+            .expiresAt(time) // long
+            .path(path)
+            .httpOnly()
+            .build()
+
+        // Wrap cookie
+        // Add wrapped cookie to MemoryCookieJar cache
+        NetworkRequester.addStoredCookie(sharedPrefCookie)
+
+
+
+        Log.d("Cookie in shared prefs:", cookieString)
 
         // Set NetworkRequester's context to use application's context (very bad)
         NetworkRequester.setContext(applicationContext)
@@ -36,7 +99,11 @@ class MainActivity : AppCompatActivity() {
                 Log.d("fail code", failureCode.toString())
                 runOnUiThread {
                     Runnable {
-                        startLoginSignupActivity()
+                        val intent = Intent(mainRef, LoginSignUpActivity::class.java)
+
+                        startActivity(intent)
+
+                        finish()
                     }.run()
                 }
             }
@@ -47,11 +114,15 @@ class MainActivity : AppCompatActivity() {
              */
             override fun onSuccess() {
                 // go to camera activity
-                println()
+                println("??????????")
 
                 runOnUiThread {
                     Runnable {
-                        startCameraActivity()
+                        val intent = Intent(mainRef, CameraActivity::class.java)
+
+                        startActivity(intent)
+
+                        finish()
                     }.run()
                 }
             }

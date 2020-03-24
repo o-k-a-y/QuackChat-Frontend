@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Context.MODE_WORLD_WRITEABLE
 import android.content.SharedPreferences
+import android.util.Log
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -19,6 +20,8 @@ object NetworkRequester {
 
     private var applicationContext: Context? = null // very bad design to do this
 
+    private val cache = mutableSetOf<WrappedCookie>() // moved from MemoryCookieJar class, probably bad
+
     private val client = OkHttpClient()
         .newBuilder()
         .cookieJar(MemoryCookieJar())
@@ -26,7 +29,7 @@ object NetworkRequester {
     private val JSON = "application/json; charset=utf-8".toMediaType()
 
     // TODO: actually make use of this
-    private val host = "http://52.55.108.86:3000" // The protocol and host and port
+    private const val host = "http://52.55.108.86:3000" // The protocol and host and port
     private val port = "3000" // The port the server is using
 
 
@@ -87,7 +90,10 @@ object NetworkRequester {
                             }
                         }
 
+                        Log.d("Successfuly auth", "test")
+
                         callback.onSuccess()
+                        return
                     }
 
                     println(response.body!!.string())
@@ -111,6 +117,8 @@ object NetworkRequester {
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 e.printStackTrace()
+                // TODO change to some other err
+                callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -195,9 +203,16 @@ object NetworkRequester {
         this.applicationContext = context
     }
 
+    fun addStoredCookie(cookie: Cookie) {
+        val wrappedCookie = WrappedCookie.wrap(cookie)
+
+        // Add wrapped cookie to MemoryCookieJar cache
+        cache.add(wrappedCookie)
+    }
+
 
     class MemoryCookieJar : CookieJar {
-        private val cache = mutableSetOf<WrappedCookie>()
+//        private val cache = mutableSetOf<WrappedCookie>() made private member of singleton?
 
         @Synchronized
         override fun loadForRequest(url: HttpUrl): List<Cookie> {
@@ -247,6 +262,9 @@ object NetworkRequester {
         fun clear() {
             cache.clear()
         }
+
+
+
     }
 
     class WrappedCookie private constructor(val cookie: Cookie) {
