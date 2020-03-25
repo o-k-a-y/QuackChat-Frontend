@@ -5,9 +5,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import edu.ramapo.btunney.quackchat.Networking.NetworkCallback
-import edu.ramapo.btunney.quackchat.Networking.NetworkRequester
-import edu.ramapo.btunney.quackchat.Networking.ServerRoutes
+import edu.ramapo.btunney.quackchat.networking.NetworkCallback
+import edu.ramapo.btunney.quackchat.networking.NetworkRequester
+import edu.ramapo.btunney.quackchat.networking.ServerRoutes
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONObject
 

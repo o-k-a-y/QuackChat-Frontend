@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import edu.ramapo.btunney.quackchat.Networking.NetworkCallback
-import edu.ramapo.btunney.quackchat.Networking.NetworkRequester
-import edu.ramapo.btunney.quackchat.Networking.ServerRoutes
+import edu.ramapo.btunney.quackchat.networking.NetworkCallback
+import edu.ramapo.btunney.quackchat.networking.NetworkRequester
+import edu.ramapo.btunney.quackchat.networking.ServerRoutes
 import kotlinx.android.synthetic.main.activity_login.usernameEditText
 import kotlinx.android.synthetic.main.activity_signup.*
 import org.json.JSONObject

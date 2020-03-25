@@ -1,4 +1,4 @@
-package edu.ramapo.btunney.quackchat.Networking
+package edu.ramapo.btunney.quackchat.networking
 
 /**
  * Enum class for server routes

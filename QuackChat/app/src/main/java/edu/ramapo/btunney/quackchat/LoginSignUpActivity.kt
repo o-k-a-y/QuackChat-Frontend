@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import edu.ramapo.btunney.quackchat.Networking.NetworkCallback
-import edu.ramapo.btunney.quackchat.Networking.NetworkRequester
+import edu.ramapo.btunney.quackchat.networking.NetworkCallback
+import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 
 class LoginSignUpActivity : AppCompatActivity() {
 
@@ -30,6 +30,18 @@ class LoginSignUpActivity : AppCompatActivity() {
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        Log.d("Result code: ", resultCode.toString())
+
+        // What caused us to get to this screen
+        when (resultCode) {
+            Activity.RESULT_CANCELED -> {
+                val intent = Intent(this, LoginSignUpActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
 
         when (requestCode) {
             5, 7 -> {

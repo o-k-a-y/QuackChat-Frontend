@@ -1,21 +1,15 @@
 package edu.ramapo.btunney.quackchat
 
-import okhttp3.internal.UTC
-import java.text.DateFormat
-import java.text.ParsePosition
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import edu.ramapo.btunney.quackchat.Networking.NetworkCallback
-import edu.ramapo.btunney.quackchat.Networking.NetworkRequester
+import edu.ramapo.btunney.quackchat.networking.NetworkCallback
+import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import okhttp3.Cookie
 
 

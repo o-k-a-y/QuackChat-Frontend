@@ -1,18 +1,14 @@
-package edu.ramapo.btunney.quackchat.Networking
+package edu.ramapo.btunney.quackchat.networking
 
-import android.app.Application
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.content.Context.MODE_WORLD_WRITEABLE
 import android.content.SharedPreferences
 import android.util.Log
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
-import okio.BufferedSink
 import org.json.JSONObject
 import java.io.IOException
-import java.net.CookieHandler
 
 /**
  * Singleton class to allow HTTP requests

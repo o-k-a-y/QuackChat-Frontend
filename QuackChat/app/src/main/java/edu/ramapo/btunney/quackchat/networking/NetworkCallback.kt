@@ -1,4 +1,4 @@
-package edu.ramapo.btunney.quackchat.Networking
+package edu.ramapo.btunney.quackchat.networking
 
 /**
  * Handle success and failures for HTTP call
