@@ -9,6 +9,7 @@ import android.util.Log
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
+import okio.BufferedSink
 import org.json.JSONObject
 import java.io.IOException
 import java.net.CookieHandler
@@ -150,6 +151,13 @@ object NetworkRequester {
 
     }
 
+    /**
+     * Login and authenticate user to server
+     *
+     * @param route the route on the server
+     * @param userJSON the data to send (user JSON object)
+     * @param callback handles success and failure of call
+     */
     fun login(route: ServerRoutes, userJSON: JSONObject, callback: NetworkCallback) {
         val body = userJSON.toString()
             .toRequestBody(JSON)
@@ -192,6 +200,41 @@ object NetworkRequester {
 //                    println(response.code)
                 }
             }
+        })
+    }
+
+    /**
+     * Logout and de-authenticate user from server
+     *
+     * @param route the route on the server
+     * @param callback handles success and failure of call
+     */
+    fun logOut(route: ServerRoutes, callback: NetworkCallback) {
+        val request = Request.Builder()
+            .url(host + route.route)
+            .post("".toRequestBody())
+            .build()
+
+        client.newCall(request).enqueue(object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                // TODO change to some other err
+                callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                // TODO: Check for what errors can occur from logging out
+                //      are there any and how can we handle them
+                //      how to handle crap internet?
+                if (!response.isSuccessful) {
+                    callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+                    return
+                }
+
+
+                callback.onSuccess()
+            }
+
         })
     }
 

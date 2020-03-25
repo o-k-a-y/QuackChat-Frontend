@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
 //
 //        finish()
         // Kotlin style
-        Intent(this, CameraActivity::class.java).also{startActivity(it)}
+        Intent(this, CameraActivity::class.java).also { startActivity(it) }
         finish()
     }
 
