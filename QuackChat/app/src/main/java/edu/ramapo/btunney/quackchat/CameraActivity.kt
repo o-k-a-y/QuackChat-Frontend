@@ -3,7 +3,11 @@ package edu.ramapo.btunney.quackchat
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import edu.ramapo.btunney.quackchat.networking.NetworkCallback
+import edu.ramapo.btunney.quackchat.networking.NetworkRequester
+import edu.ramapo.btunney.quackchat.networking.ServerRoutes
 
 class CameraActivity : AppCompatActivity() {
 
@@ -12,6 +16,7 @@ class CameraActivity : AppCompatActivity() {
         setContentView(R.layout.activity_camera)
 
         // Check if auth'd
+
     }
 
 

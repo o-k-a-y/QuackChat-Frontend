@@ -4,15 +4,35 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
+import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+
+//        // Really bad code to display username
+//        NetworkRequester.getUsername(ServerRoutes.ME, object: NetworkCallback {
+//            override fun onFailure(failureCode: NetworkCallback.FailureCode) {
+//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//            }
+//
+//            override fun onSuccess() {
+//                runOnUiThread {
+//                    Runnable {
+//                        currentUserIdText.text = "???"
+//                    }.run()
+//                }
+//            }
+//
+//        })
     }
 
 

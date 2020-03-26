@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
+import edu.ramapo.btunney.quackchat.networking.ServerRoutes
 
 class LoginSignUpActivity : AppCompatActivity() {
 
@@ -39,7 +40,9 @@ class LoginSignUpActivity : AppCompatActivity() {
                 val intent = Intent(this, LoginSignUpActivity::class.java)
                 startActivity(intent)
                 finish()
+                return
             }
+
         }
 
 
@@ -48,7 +51,7 @@ class LoginSignUpActivity : AppCompatActivity() {
                 val ref = this
 
                 // Ask server if user is authenticated
-                NetworkRequester.authenticate(object: NetworkCallback {
+                NetworkRequester.authenticate(ServerRoutes.AUTH, object: NetworkCallback {
                     /**
                      * User is not authenticated
                      *

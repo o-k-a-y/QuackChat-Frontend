@@ -9,6 +9,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.IOException
+import java.util.*
 
 /**
  * Singleton class to allow HTTP requests
@@ -34,36 +35,100 @@ object NetworkRequester {
 
     // TODO enum classes for each distinct route type
 
+//
+//    fun getUsername(route: ServerRoutes, callback: NetworkCallback) {
+//        val request = Request.Builder()
+//            .url(host + route.route)
+//            .get()
+//            .build()
+//
+//        client.newCall(request).enqueue(object : Callback {
+//            override fun onFailure(call: Call, e: IOException) {
+//                e.printStackTrace()
+//
+//            }
+//
+//            override fun onResponse(call: Call, response: Response) {
+//                response.use {
+//                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
+//
+//                    for ((name, value) in response.headers) {
+//                        println("$name: $value")
+//                    }
+//
+//                    println(response.body!!.string())
+//                    callback.onSuccess()
+//                    return
+//                }
+//            }
+//        })
+//    }
 
-    fun getUser(url: String) {
-        val request = Request.Builder()
-            .url(url)
-            .get()
+    /**
+     * Extends Cookie to parse auth token (the cookie)
+     *
+     * @param sharedPreferences
+     */
+    private fun Cookie.Companion.parseCookie(sharedPreferences: SharedPreferences): Cookie? {
+        val cookieString: String = sharedPreferences.getString("AuthToken", null) ?: return null
+
+        // Get properties of cookie
+        val keys:List<String> = cookieString.split(";")
+        var name = keys[0]
+
+        val nameAndValue = name.split("=")
+        name = nameAndValue[0]
+        val value = nameAndValue[1]
+
+
+        var expiresAt = keys[1] // need to format date probably
+
+        val expire = expiresAt.split("=")
+        expiresAt = expire[1]
+
+        var path = keys[2] //
+        val pathh = path.split("=")
+        path = pathh[1]
+
+        val httpOnly = keys[3] // if value = "httponly" it should be a boolean set to true
+
+        var httponly = false
+
+        if (httpOnly == "httponly") {
+            httponly = true
+        }
+
+        var date = Date(expiresAt)
+        var time = date.time
+
+        // Make strings into cookie
+        return Cookie.Builder()
+            .domain("52.55.108.86")
+            .name(name)
+            .value(value)
+            .expiresAt(time) // long
+            .path(path)
+            .httpOnly()
             .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                response.use {
-                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
-
-                    for ((name, value) in response.headers) {
-                        println("$name: $value")
-                    }
-
-                    println(response.body!!.string())
-                }
-            }
-        })
     }
 
-    fun authenticate(callback: NetworkCallback) {
+    /**
+     * Add the authentication cookie if it exists on disk
+     *
+     */
+    fun addAuthToken() {
+        // Check that cookie exists in SharedPreferences
+        val sharedPreferences: SharedPreferences = applicationContext!!.getSharedPreferences("AuthLogin", MODE_PRIVATE)
+
+        val sharedPrefCookie = Cookie.parseCookie(sharedPreferences) ?: return
+
+        // Wrap cookie and add to MemoryCookieJar cache
+        addStoredCookie(sharedPrefCookie)
+    }
+
+    fun authenticate(route: ServerRoutes, callback: NetworkCallback) {
         val request = Request.Builder()
-            .url("$host/auth")
+            .url(host + route.route)
             .get()
             .build()
 
