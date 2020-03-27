@@ -308,7 +308,7 @@ object NetworkRequester {
         this.applicationContext = context
     }
 
-    fun addStoredCookie(cookie: Cookie) {
+    private fun addStoredCookie(cookie: Cookie) {
         val wrappedCookie = WrappedCookie.wrap(cookie)
 
         // Add wrapped cookie to MemoryCookieJar cache
@@ -348,16 +348,16 @@ object NetworkRequester {
             }
             // Save cookie to SharedPreferences
             // TODO: ONLY SAVE THE RIGHT COOKIE (I.E. CHECK THE COOKIE THAT HAS connect.sid NAME)
+
+
+            // TODO: ALSO make it save in a format like a hash map in string from that can be converted back to a map
+            //          or save as a JSON form https://stackoverflow.com/questions/7944601/how-to-save-hashmap-to-shared-preferences
+            //                  check the Gson().toJson(map) one
             // Only allow this application to see token
             val sharedPreferences: SharedPreferences = applicationContext!!.getSharedPreferences("AuthLogin", MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             editor.putString("AuthToken", cookies[0].toString())
-            editor.commit()
-            // TODO: check that the cookie exists on app load
-            // TODO: add this cookie to .cookieJar(MemoryCookieJar()) on app load ya dummy
-
-
-
+            editor.apply() // if something breaks, change to commit even though it doesn't activate in bg
 
             cache.removeAll(cookiesToAdd)
             cache.addAll(cookiesToAdd)

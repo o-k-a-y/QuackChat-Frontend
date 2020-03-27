@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.room.*
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
@@ -24,58 +25,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-//        // Check that cookie exists in SharedPreferences
-//        val sharedPreferences: SharedPreferences = getSharedPreferences("AuthLogin", Context.MODE_PRIVATE)
-//        val cookieString: String? = sharedPreferences.getString("AuthToken", null)
-//
-//        // Get properties of cookie
-//        val keys:List<String> = cookieString!!.split(";")
-//        var name = keys[0]
-//
-//        val nameAndValue = name.split("=")
-//        name = nameAndValue[0]
-//        val value = nameAndValue[1]
-//
-//
-//        var expiresAt = keys[1] // need to format date probably
-//
-//        val expire = expiresAt.split("=")
-//        expiresAt = expire[1]
-//
-//        var path = keys[2] //
-//        val pathh = path.split("=")
-//        path = pathh[1]
-//
-//        val httpOnly = keys[3] // if value = "httponly" it should be a boolean set to true
-//
-//        var httponly = false
-//
-//        if (httpOnly == "httponly") {
-//                httponly = true
-//        }
-//
-//        var date = Date(expiresAt)
-//        var time = date.time
-//
-//        // Make string into cookie
-//        // Probably should move this to a NetworkRequester method
-//        val sharedPrefCookie = Cookie.Builder()
-//            .domain("52.55.108.86")
-//            .name(name)
-//            .value(value)
-//            .expiresAt(time) // long
-//            .path(path)
-//            .httpOnly()
-//            .build()
-//
-//        // Wrap cookie
-//        // Add wrapped cookie to MemoryCookieJar cache
-//        NetworkRequester.addStoredCookie(sharedPrefCookie)
-//
-//
-//
-//        Log.d("Cookie in shared prefs:", cookieString)
 
         // Set NetworkRequester's context to use application's context (very bad)
         NetworkRequester.setContext(applicationContext)
