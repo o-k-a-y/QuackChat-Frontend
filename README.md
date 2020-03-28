@@ -26,7 +26,8 @@ Post a picture or video on your story so friends can see for a limited time.
 APIs used:
 okhttp
 camera2/cameraX
-nodejs
-mongodb
-express
-aws
+Nodejs
+MongoDB
+Express
+AWS
+Room (SQLite abstraction)
