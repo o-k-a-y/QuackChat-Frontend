@@ -19,7 +19,7 @@ Use the front and back facing camera to take videos.
 Use the pictures and videos taken to directly send to friends.
 ### Settings to change email/username/password
 Change your email, username, or password (maybe).
-### User stories
+### User stories (stretch goal)
 Post a picture or video on your story so friends can see for a limited time.
 
 

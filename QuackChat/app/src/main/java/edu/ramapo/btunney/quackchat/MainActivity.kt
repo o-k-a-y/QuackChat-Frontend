@@ -28,11 +28,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Test Room DB
-        val db = Room.databaseBuilder(
-                applicationContext,
-                AppDatabase::class.java, "database-name"
-        ).build()
-        
+//        val db = Room.databaseBuilder(
+//                applicationContext,
+//                AppDatabase::class.java, "database-name"
+//        ).build()
+//
+//
+//        val users = db.userDao().getAll()
+
+
 
         // Set NetworkRequester's context to use application's context (very bad)
         NetworkRequester.setContext(applicationContext)
