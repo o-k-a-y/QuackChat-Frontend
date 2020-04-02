@@ -10,7 +10,6 @@ interface NetworkCallback {
         INVALID_LOGIN,
         DUPLICATE_USER,
         NOT_AUTHENTICATED,
-
     }
 
     fun onFailure(failureCode: FailureCode)

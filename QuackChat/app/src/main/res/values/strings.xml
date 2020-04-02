@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">QuackChat</string>
+    <string name="sign_out">Sign out</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="user_exists">User already exists</string>
 </resources>

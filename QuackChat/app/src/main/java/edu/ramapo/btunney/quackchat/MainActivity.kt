@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 //                AppDatabase::class.java, "database-name"
 //        ).build()
 //
-//
+        // (broken)
 //        val users = db.userDao().getAll()
 
 

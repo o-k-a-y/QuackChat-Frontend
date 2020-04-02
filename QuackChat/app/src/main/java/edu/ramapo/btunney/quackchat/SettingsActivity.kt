@@ -36,6 +36,11 @@ class SettingsActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * Signs user out of application, and de-authenticates them
+     *
+     * @param view
+     */
     fun signOutOnClick(view: View) {
         val cameraRef = this
 
@@ -60,5 +65,14 @@ class SettingsActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    /**
+     * Sends a friend request to the user if they exist
+     *
+     * @param view
+     */
+    fun addFriendOnClick(view: View) {
+
     }
 }

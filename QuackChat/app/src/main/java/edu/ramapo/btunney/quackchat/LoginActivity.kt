@@ -38,7 +38,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         // To change to camera activity
-        val foo = this
+        val activityRef = this
 
         // Attempt to login with credentials
         NetworkRequester.login(ServerRoutes.LOGIN, userJSON, object:
@@ -58,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
             override fun onSuccess() {
                 runOnUiThread {
                     Runnable {
-                        val intent = Intent(foo, CameraActivity::class.java)
+                        val intent = Intent(activityRef, CameraActivity::class.java)
                         setResult(Activity.RESULT_OK, intent)
                         finish()
 
