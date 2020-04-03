@@ -288,7 +288,13 @@ object NetworkRequester {
                 //      are there any and how can we handle them
                 //      how to handle crap internet?
                 if (!response.isSuccessful) {
-                    callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+                    // Return failure code when login fails
+                    when (response.code) {
+                        else -> {
+                            callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+                        }
+                    }
+
                     return
                 }
 
@@ -299,8 +305,43 @@ object NetworkRequester {
         })
     }
 
+    fun addFriend(route: ServerRoutes, username: String, callback: NetworkCallback) {
+        val request = Request.Builder()
+                .url(host + route.route + "/" + username)
+                .post(username.toRequestBody())
+                .build()
+
+        client.newCall(request).enqueue(object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                // TODO change to some other err
+                callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                // Return failure code when adding a friend fails
+                if (!response.isSuccessful) {
+                    when (response.code) {
+                        404 -> {
+                            callback.onFailure(NetworkCallback.FailureCode.DOES_NOT_EXIST)
+                        }
+                        else -> {
+                            callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+                        }
+                    }
+                    return
+                }
+
+
+                callback.onSuccess()
+            }
+
+        })
+    }
+
+
     /**
-     * Set application context to be able to save cookies to disk
+     * Set application context to be able to save cookies and other SharedPreferences objects to disk
      *
      * @param context the application's context
      */
@@ -367,7 +408,6 @@ object NetworkRequester {
         fun clear() {
             cache.clear()
         }
-
 
 
     }

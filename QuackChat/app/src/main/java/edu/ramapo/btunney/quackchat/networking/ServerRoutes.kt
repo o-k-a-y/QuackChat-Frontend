@@ -8,5 +8,6 @@ enum class ServerRoutes(val route: String) {
     LOGOUT("/logout"),
     SIGNUP("/users"),
     ME("/users/me"),
-    AUTH("/auth")
+    AUTH("/auth"),
+    ADD_FRIEND("/users/friends/add"),
 }

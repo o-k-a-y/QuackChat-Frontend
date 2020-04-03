@@ -71,6 +71,9 @@ class SignUpActivity : AppCompatActivity() {
                             NetworkCallback.FailureCode.DUPLICATE_USER -> {
                                 signUpErrorText.text = getString(R.string.user_exists)
                             }
+                            NetworkCallback.FailureCode.DEFAULT -> {
+                                signUpErrorText.text = "Login failed due to network issues"
+                            }
                         }
                     }.run()
 
