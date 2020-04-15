@@ -22,15 +22,11 @@ class CameraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
 
-
         val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
 
-
-
         // TODO: ALL OF THIS SHOULD BE MOVED TO THE FRIENDS ACTIVITY WITH A CUSTOM VIEW FOR EACH FRIEND ?
-        val activityRef = this
-        // Load friends
-//        var friends: JSONArray? = null
+
+        // Fetch friends from backend
         NetworkRequester.fetchFriends(ServerRoutes.GET_FRIENDS, object: NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 TODO("Not yet implemented")
@@ -56,14 +52,9 @@ class CameraActivity : AppCompatActivity() {
                     }.start()
                 }
                 // Print all friends
-                for (helo in db.userDao().getAll()) {
-                    Log.i("@RoomDB user: ", helo.toString())
+                for (fren in db.userDao().getAll()) {
+                    Log.i("@RoomDB user: ", fren.toString())
                 }
-
-//                        val newView: TextView = TextView(activityRef)
-//                        // TODO: no
-//                        newView.text = "hello"
-//                        activityRef.friendListScrollView.addView(newView)
             }
 
         })
