@@ -305,6 +305,13 @@ object NetworkRequester {
         })
     }
 
+    /**
+     * Send a friend request to another user
+     *
+     * @param route the route on the server
+     * @param username the user to add
+     * @param callback handles success and failure of call
+     */
     fun addFriend(route: ServerRoutes, username: String, callback: NetworkCallback) {
         val request = Request.Builder()
                 .url(host + route.route + "/" + username)
@@ -324,6 +331,9 @@ object NetworkRequester {
                     when (response.code) {
                         404 -> {
                             callback.onFailure(NetworkCallback.FailureCode.DOES_NOT_EXIST)
+                        }
+                        409 -> {
+                            callback.onFailure(NetworkCallback.FailureCode.ALREADY_ADDED)
                         }
                         else -> {
                             callback.onFailure(NetworkCallback.FailureCode.DEFAULT)

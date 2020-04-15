@@ -11,6 +11,7 @@ interface NetworkCallback {
         DUPLICATE_USER,
         NOT_AUTHENTICATED,
         DOES_NOT_EXIST,
+        ALREADY_ADDED,
     }
 
     fun onFailure(failureCode: FailureCode)

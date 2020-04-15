@@ -60,7 +60,9 @@ class SettingsActivity : AppCompatActivity() {
                     Runnable {
                         val intent = Intent(activityRef, LoginSignUpActivity::class.java)
                         startActivity(intent)
-                        finish()
+
+                        // Kill Settings and Camera Activity (Camera is still active on the stack)
+                        finishAffinity()
                     }.run()
                 }
             }
@@ -84,6 +86,9 @@ class SettingsActivity : AppCompatActivity() {
                 toastText = when (failureCode) {
                     NetworkCallback.FailureCode.DOES_NOT_EXIST -> {
                         "User $friend does not exist"
+                    }
+                    NetworkCallback.FailureCode.ALREADY_ADDED -> {
+                        "You've already sent a friend request to $friend"
                     }
                     NetworkCallback.FailureCode.DEFAULT -> {
                         "Network error"
