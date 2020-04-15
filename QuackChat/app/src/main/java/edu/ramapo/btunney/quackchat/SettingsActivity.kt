@@ -50,7 +50,7 @@ class SettingsActivity : AppCompatActivity() {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
-            override fun onSuccess() {
+            override fun onSuccess(data: Any?) {
                 println("logged out attempt")
 
                 // TODO: Delete cookie from storage
@@ -105,7 +105,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onSuccess() {
+            override fun onSuccess(data: Any?) {
                 runOnUiThread {
                     Runnable {
                         Toast.makeText(activityRef.applicationContext, "Sent a friend request to $friend", Toast.LENGTH_SHORT).show()

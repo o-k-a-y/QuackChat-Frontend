@@ -15,6 +15,23 @@ class CameraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
 
+        // Load friends
+        NetworkRequester.fetchFriends(ServerRoutes.GET_FRIENDS, object: NetworkCallback {
+            override fun onFailure(failureCode: NetworkCallback.FailureCode) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSuccess(data: Any?) {
+//                TODO("Not yet implemented")
+                Log.d("friend call", "success")
+
+                // TODO: handle data
+                // TODO
+            }
+
+        })
+
+
         // Check if auth'd
 
     }

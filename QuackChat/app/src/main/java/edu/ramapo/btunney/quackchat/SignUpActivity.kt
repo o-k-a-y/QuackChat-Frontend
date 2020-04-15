@@ -81,7 +81,7 @@ class SignUpActivity : AppCompatActivity() {
             }
 
             // TODO: When sign up is successful, bring to Camera Activity
-            override fun onSuccess() {
+            override fun onSuccess(data: Any?) {
 
                 // User object
                 val username: String = usernameEditText.text.toString()
@@ -106,7 +106,7 @@ class SignUpActivity : AppCompatActivity() {
                                 }
                             }
 
-                            override fun onSuccess() {
+                            override fun onSuccess(data: Any?) {
                                 runOnUiThread {
                                     Runnable {
                                         val intent = Intent(activityRef, CameraActivity::class.java)

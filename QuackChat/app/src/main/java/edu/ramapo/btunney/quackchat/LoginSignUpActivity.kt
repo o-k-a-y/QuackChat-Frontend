@@ -73,7 +73,7 @@ class LoginSignUpActivity : AppCompatActivity() {
                      * User is authenticated
                      *
                      */
-                    override fun onSuccess() {
+                    override fun onSuccess(data: Any?) {
                         // go to camera activity
                         println()
 

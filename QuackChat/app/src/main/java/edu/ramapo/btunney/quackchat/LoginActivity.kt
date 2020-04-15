@@ -55,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onSuccess() {
+            override fun onSuccess(data: Any?) {
                 runOnUiThread {
                     Runnable {
                         val intent = Intent(activityRef, CameraActivity::class.java)

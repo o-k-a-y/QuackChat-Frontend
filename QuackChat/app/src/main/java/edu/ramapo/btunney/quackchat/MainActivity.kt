@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
              * User is authenticated
              *
              */
-            override fun onSuccess() {
+            override fun onSuccess(data: Any?) {
                 // go to camera activity
 
                 runOnUiThread {

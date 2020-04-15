@@ -7,6 +7,7 @@ import android.util.Log
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
@@ -157,7 +158,7 @@ object NetworkRequester {
 
                     }
 
-                    callback.onSuccess()
+                    callback.onSuccess(null)
 //                    println(response.body!!.string())
                     return
 
@@ -168,6 +169,13 @@ object NetworkRequester {
     }
 
 
+    /**
+     * Create a new user account
+     *
+     * @param route the route on the server
+     * @param userJSON the user object
+     * @param callback handles success and failure of call
+     */
     fun postUser(route: ServerRoutes, userJSON: JSONObject, callback: NetworkCallback) {
         val body = userJSON.toString()
             .toRequestBody(JSON)
@@ -203,7 +211,7 @@ object NetworkRequester {
                     }
 
                     // Signup succeeded
-                    callback.onSuccess()
+                    callback.onSuccess(null)
                     return
                     println(response.body!!.string())
                 }
@@ -216,7 +224,7 @@ object NetworkRequester {
      * Login and authenticate user to server
      *
      * @param route the route on the server
-     * @param userJSON the data to send (user JSON object)
+     * @param userJSON user credentials to login
      * @param callback handles success and failure of call
      */
     fun login(route: ServerRoutes, userJSON: JSONObject, callback: NetworkCallback) {
@@ -257,8 +265,7 @@ object NetworkRequester {
                     }
 
                     println(response.body!!.string())
-                    callback.onSuccess()
-//                    println(response.code)
+                    callback.onSuccess(null)
                 }
             }
         })
@@ -298,8 +305,8 @@ object NetworkRequester {
                     return
                 }
 
-
-                callback.onSuccess()
+//                println(response.body!!.string())
+                callback.onSuccess(null)
             }
 
         })
@@ -343,10 +350,49 @@ object NetworkRequester {
                 }
 
 
-                callback.onSuccess()
+                callback.onSuccess(null)
             }
 
         })
+    }
+
+    /**
+     * Return the list of friends the logged in user has
+     *
+     * @param route the route on the server
+     * @param callback handles success and failure of call
+     */
+    fun fetchFriends(route: ServerRoutes, callback: NetworkCallback)  {
+        val request = Request.Builder()
+                .url(host + route.route)
+                .build()
+
+        var friendJSONArray: JSONArray? = null
+
+        client.newCall(request).enqueue(object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                // TODO change to some other err
+                callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                // Return failure code when friends can not be returned
+                if (!response.isSuccessful) {
+                    when (response.code) {
+                        else -> {
+                            callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+                        }
+                    }
+                }
+
+                // Convert response to JSON object
+                friendJSONArray = JSONArray(response.body?.string())
+                callback.onSuccess(friendJSONArray)
+            }
+
+        })
+
     }
 
 

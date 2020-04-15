@@ -1,7 +1,8 @@
 package edu.ramapo.btunney.quackchat.networking
 
 /**
- * Handle success and failures for HTTP call
+ * Handle success and failures for HTTP calls
+ *
  */
 interface NetworkCallback {
     // TODO add all the other failure codes for whatever actions
@@ -14,7 +15,17 @@ interface NetworkCallback {
         ALREADY_ADDED,
     }
 
+    /**
+     * Set failure code if call is not successful
+     *
+     * @param failureCode
+     */
     fun onFailure(failureCode: FailureCode)
 
-    fun onSuccess()
+    /**
+     * Return data or null if there is none
+     *
+     * @param data
+     */
+    fun onSuccess(data: Any?)
 }
