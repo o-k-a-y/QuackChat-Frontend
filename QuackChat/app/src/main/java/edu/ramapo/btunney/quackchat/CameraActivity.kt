@@ -6,14 +6,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.TextView
-import edu.ramapo.btunney.quackchat.dao.AppDatabase
-import edu.ramapo.btunney.quackchat.dao.UserDao
-import edu.ramapo.btunney.quackchat.dao.database
+import androidx.room.Room
+import edu.ramapo.btunney.quackchat.room.AppDatabase
+import edu.ramapo.btunney.quackchat.room.User
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
 import kotlinx.android.synthetic.main.activity_camera.*
-import org.json.JSONArray
 
 class CameraActivity : AppCompatActivity() {
 
@@ -22,11 +21,19 @@ class CameraActivity : AppCompatActivity() {
         setContentView(R.layout.activity_camera)
 
 
-//        val test: database = database()
-//        val dao = test.userDao()
+        val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
 
+        // Make new thread to handle access to database so it doesn't run on main UI thread
+        Thread {
+            val user = User(3, "Joe", "Jo")
+            db.userDao().insertOne(user)
 
-        // TODO: ALL OF THIS SHOULD BE MOVED TO THE FRIENDS ACTIVITY WITH A CUSTOM VIEW FOR EACH FRIEND
+            for (helo in db.userDao().getAll()) {
+                Log.i("@RoomDB user: ", helo.toString())
+            }
+        }.start()
+
+        // TODO: ALL OF THIS SHOULD BE MOVED TO THE FRIENDS ACTIVITY WITH A CUSTOM VIEW FOR EACH FRIEND ?
         val activityRef = this
         // Load friends
 //        var friends: JSONArray? = null
@@ -44,7 +51,7 @@ class CameraActivity : AppCompatActivity() {
                     Runnable {
 //                        var friends = JSONArray(data)
                         var newView: TextView = TextView(activityRef)
-                        // TOOD: no
+                        // TODO: no
                         newView.text = "hello"
                         activityRef.friendListScrollView.addView(newView)
                         println(data)

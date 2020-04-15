@@ -1,19 +1,12 @@
 package edu.ramapo.btunney.quackchat
 
-import java.util.Date
-
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.room.*
-import edu.ramapo.btunney.quackchat.dao.AppDatabase
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
-import okhttp3.Cookie
 
 
 class MainActivity : AppCompatActivity() {

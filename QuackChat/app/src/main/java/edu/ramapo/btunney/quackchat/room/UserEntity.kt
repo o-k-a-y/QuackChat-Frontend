@@ -1,4 +1,4 @@
-package edu.ramapo.btunney.quackchat.dao
+package edu.ramapo.btunney.quackchat.room
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
