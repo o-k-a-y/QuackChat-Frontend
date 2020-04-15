@@ -13,6 +13,8 @@ import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
 import kotlinx.android.synthetic.main.activity_camera.*
+import org.json.JSONArray
+import org.json.JSONObject
 
 class CameraActivity : AppCompatActivity() {
 
@@ -23,15 +25,7 @@ class CameraActivity : AppCompatActivity() {
 
         val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
 
-        // Make new thread to handle access to database so it doesn't run on main UI thread
-        Thread {
-            val user = User(3, "Joe", "Jo")
-            db.userDao().insertOne(user)
 
-            for (helo in db.userDao().getAll()) {
-                Log.i("@RoomDB user: ", helo.toString())
-            }
-        }.start()
 
         // TODO: ALL OF THIS SHOULD BE MOVED TO THE FRIENDS ACTIVITY WITH A CUSTOM VIEW FOR EACH FRIEND ?
         val activityRef = this
@@ -43,22 +37,33 @@ class CameraActivity : AppCompatActivity() {
             }
 
             override fun onSuccess(data: Any?) {
-//                TODO("Not yet implemented")
-                Log.d("friend call", "success")
-//                println(data)
+                val stringData: String = data.toString()
+                val friends: JSONArray = JSONArray(stringData)
 
-                runOnUiThread {
-                    Runnable {
-//                        var friends = JSONArray(data)
-                        var newView: TextView = TextView(activityRef)
-                        // TODO: no
-                        newView.text = "hello"
-                        activityRef.friendListScrollView.addView(newView)
-                        println(data)
-                    }.run()
+                for (i in 0 until friends.length()) {
+                    val friend = friends.getJSONObject(i)
+
+                    // Make new thread to handle access to database so it doesn't run on main UI thread
+                    Thread {
+                        // Convert JSON to map to index
+                        val username: String = friend.getString("username")
+                        val imageLarge: String = friend.getString("imageLarge")
+                        val imageSmall: String = friend.getString("imageSmall")
+
+                        // Insert into DB
+                        val user = User(username, imageLarge, imageSmall)
+                        db.userDao().insertOne(user)
+                    }.start()
+                }
+                // Print all friends
+                for (helo in db.userDao().getAll()) {
+                    Log.i("@RoomDB user: ", helo.toString())
                 }
 
-
+//                        val newView: TextView = TextView(activityRef)
+//                        // TODO: no
+//                        newView.text = "hello"
+//                        activityRef.friendListScrollView.addView(newView)
             }
 
         })
