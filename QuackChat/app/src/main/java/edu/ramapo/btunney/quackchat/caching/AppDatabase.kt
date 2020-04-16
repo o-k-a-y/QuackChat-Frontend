@@ -1,4 +1,4 @@
-package edu.ramapo.btunney.quackchat.room
+package edu.ramapo.btunney.quackchat.caching
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

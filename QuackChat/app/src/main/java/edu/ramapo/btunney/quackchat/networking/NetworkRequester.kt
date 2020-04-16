@@ -395,6 +395,17 @@ object NetworkRequester {
 
     }
 
+    /**
+     * Send a message to a friend
+     *
+     * @param route
+     * @param friend
+     * @param callback
+     */
+    fun sendMessage(route: ServerRoutes, friend: String, callback: NetworkCallback) {
+
+    }
+
 
     /**
      * Set application context to be able to save cookies and other SharedPreferences objects to disk

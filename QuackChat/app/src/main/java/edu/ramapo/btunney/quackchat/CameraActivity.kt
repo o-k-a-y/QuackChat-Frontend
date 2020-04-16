@@ -5,16 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import androidx.room.Room
-import edu.ramapo.btunney.quackchat.room.AppDatabase
-import edu.ramapo.btunney.quackchat.room.User
+import edu.ramapo.btunney.quackchat.caching.AppDatabase
+import edu.ramapo.btunney.quackchat.caching.User
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
-import kotlinx.android.synthetic.main.activity_camera.*
 import org.json.JSONArray
-import org.json.JSONObject
 
 class CameraActivity : AppCompatActivity() {
 
@@ -33,6 +30,7 @@ class CameraActivity : AppCompatActivity() {
             }
 
             override fun onSuccess(data: Any?) {
+                println("friends  server:$data")
                 val stringData: String = data.toString()
                 val friends: JSONArray = JSONArray(stringData)
 
@@ -46,7 +44,7 @@ class CameraActivity : AppCompatActivity() {
                         val imageLarge: String = friend.getString("imageLarge")
                         val imageSmall: String = friend.getString("imageSmall")
 
-                        // Insert into DB
+                        // Insert into local DB
                         val user = User(username, imageLarge, imageSmall)
                         db.userDao().insertOne(user)
                     }.start()
