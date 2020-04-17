@@ -367,7 +367,7 @@ object NetworkRequester {
                 .url(host + route.route)
                 .build()
 
-        var friendJSONArray: JSONArray? = null
+        var friendJSON: JSONObject? = null
 
         client.newCall(request).enqueue(object: Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -387,8 +387,8 @@ object NetworkRequester {
                 }
 
                 // Convert response to JSON object
-                friendJSONArray = JSONArray(response.body?.string())
-                callback.onSuccess(friendJSONArray)
+                friendJSON = JSONObject(response.body?.string())
+                callback.onSuccess(friendJSON)
             }
 
         })
