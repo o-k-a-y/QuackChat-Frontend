@@ -12,6 +12,6 @@ enum class ServerRoutes(val route: String) {
     ADD_FRIEND("/users/friends/add"),
     GET_FRIENDS("/users/friends/get"),
     SEND_MESSAGE("/users/message"),
-    CHECK_HASH("/users/hash/check")
+    CHECK_HASH("/users/hash/check/friendList")
 
 }

@@ -10,6 +10,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
+import java.nio.charset.Charset
 import java.util.*
 
 /**
@@ -413,11 +414,34 @@ object NetworkRequester {
      * @param hash
      * @param callback
      */
-    fun validateHash(route: ServerRoutes, hash: String, callback: NetworkCallback) {
+    fun validateHash(route: ServerRoutes, hash: JSONObject, callback: NetworkCallback) {
+        println(hash.toString())
+        val body = hash.toString()
+                .toRequestBody(JSON)
+
         val request = Request.Builder()
                 .url(host + route.route)
-                .post(hash.toRequestBody())
+                .post(body)
                 .build()
+
+        client.newCall(request).enqueue(object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                // TODO change to some other err
+                callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+            }
+
+            // Pass new hash to the onSuccess
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val newHash = response.body?.string()
+                    val hashJSON = JSONObject(newHash)
+
+                    callback.onSuccess(hashJSON)
+                }
+            }
+
+        })
 
     }
 
