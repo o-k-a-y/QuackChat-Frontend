@@ -406,6 +406,17 @@ object NetworkRequester {
 
     }
 
+    /**
+     * Validate if the hash in local DB matches hash in remote DB
+     *
+     * @param route
+     * @param hash
+     * @param callback
+     */
+    fun validateHash(route: ServerRoutes, hash: String, callback: NetworkCallback) {
+
+    }
+
 
     /**
      * Set application context to be able to save cookies and other SharedPreferences objects to disk
