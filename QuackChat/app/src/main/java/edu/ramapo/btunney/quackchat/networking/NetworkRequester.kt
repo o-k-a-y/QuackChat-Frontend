@@ -504,7 +504,7 @@ object NetworkRequester {
             val sharedPreferences: SharedPreferences = applicationContext!!.getSharedPreferences("AuthLogin", MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             editor.putString("AuthToken", cookies[0].toString())
-            editor.apply() // if something breaks, change to commit even though it doesn't activate in bg
+            editor.apply() // if something breaks, change to commit() even though it doesn't activate in bg
 
             cache.removeAll(cookiesToAdd)
             cache.addAll(cookiesToAdd)

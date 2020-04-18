@@ -2,9 +2,12 @@ package edu.ramapo.btunney.quackchat
 
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.room.Room
+import edu.ramapo.btunney.quackchat.caching.AppDatabase
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
@@ -21,6 +24,17 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        // Nuke Room DB data
+        clearRoomDB()
+    }
+
+    private fun clearRoomDB() {
+        Thread {
+            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+            db.clearAllTables()
+            db.close()
+        }.start()
     }
 
 
@@ -58,6 +72,9 @@ class LoginActivity : AppCompatActivity() {
             override fun onSuccess(data: Any?) {
                 runOnUiThread {
                     Runnable {
+                        // Store username in SharedPreferences
+                        saveUsername(username)
+
                         val intent = Intent(activityRef, CameraActivity::class.java)
                         setResult(Activity.RESULT_OK, intent)
                         finish()
@@ -66,6 +83,18 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    /**
+     * Store username in shared preferences
+     *
+     * @param username
+     */
+    private fun saveUsername(username: String) {
+        val sharedPreferences: SharedPreferences = applicationContext.getSharedPreferences("Username", MODE_PRIVATE) ?: return
+        val editor = sharedPreferences.edit()
+        editor.putString("Username", username)
+        editor.apply() // if something breaks, change to commit() even though it doesn't activate in bg
     }
 
 

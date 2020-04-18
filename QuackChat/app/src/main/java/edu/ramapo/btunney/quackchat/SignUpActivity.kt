@@ -2,6 +2,7 @@ package edu.ramapo.btunney.quackchat
 
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -109,6 +110,10 @@ class SignUpActivity : AppCompatActivity() {
                             override fun onSuccess(data: Any?) {
                                 runOnUiThread {
                                     Runnable {
+
+                                        // Store username in SharedPreferences
+                                        saveUsername(username)
+
                                         val intent = Intent(activityRef, CameraActivity::class.java)
                                         setResult(Activity.RESULT_OK, intent)
                                         finish()
@@ -138,6 +143,18 @@ class SignUpActivity : AppCompatActivity() {
             "username" to username,
             "email" to email,
             "password" to password)
+    }
+
+    /**
+     * Store username in shared preferences
+     *
+     * @param username
+     */
+    private fun saveUsername(username: String) {
+        val sharedPreferences: SharedPreferences = applicationContext.getSharedPreferences("Username", MODE_PRIVATE) ?: return
+        val editor = sharedPreferences.edit()
+        editor.putString("Username", username)
+        editor.apply()
     }
 
 }

@@ -22,7 +22,8 @@ class FriendActivity : AppCompatActivity() {
         setContentView(R.layout.activity_friend)
 
         validateHash()
-        loadFriends()
+//        validateHash(//insert callback into getNewFriends() that calls loadFriends())))
+//        loadFriends()
 
     }
 
@@ -38,7 +39,7 @@ class FriendActivity : AppCompatActivity() {
 
             NetworkRequester.validateHash(ServerRoutes.CHECK_HASH, hashJSON, object: NetworkCallback {
                 override fun onFailure(failureCode: NetworkCallback.FailureCode) {
-                    // Get the new list of friends
+                    TODO()
                 }
 
                 // Check if hashes match
@@ -47,9 +48,15 @@ class FriendActivity : AppCompatActivity() {
                     // Hashes match, load cached friends
                     if (data.toString() != hashJSON.toString()) {
                         // Fetch new list of friends as well as new hash
-                        getNewFriends()
-                    }
+                        getNewFriends(object: Callback<Any> {
+                            override fun perform(data: Any?, error: Throwable?) {
+                                loadFriends()
+                            }
 
+                        })
+                    } else {
+                        loadFriends()
+                    }
                 }
             })
         }.start()
@@ -59,7 +66,8 @@ class FriendActivity : AppCompatActivity() {
      * Fetch new list of friends from server
      *
      */
-    fun getNewFriends() { NetworkRequester.fetchFriends(ServerRoutes.GET_FRIENDS, object: NetworkCallback {
+    fun getNewFriends(callback: Callback<Any>) {
+        NetworkRequester.fetchFriends(ServerRoutes.GET_FRIENDS, object: NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 TODO("Not yet implemented")
             }
@@ -107,6 +115,8 @@ class FriendActivity : AppCompatActivity() {
                     if(db.isOpen) {
                         db.openHelper.close()
                     }
+
+                    callback.perform(null, null)
                 }.start()
             }
         })
@@ -114,8 +124,6 @@ class FriendActivity : AppCompatActivity() {
 
     fun loadFriends() {
         Log.d("Load friends", "loading friends")
-
-
 
         Thread {
             var friends = ArrayList<TextView>()
@@ -140,9 +148,9 @@ class FriendActivity : AppCompatActivity() {
 
         }.start()
 
+    }
 
-
-
+    fun test() {
 
     }
 

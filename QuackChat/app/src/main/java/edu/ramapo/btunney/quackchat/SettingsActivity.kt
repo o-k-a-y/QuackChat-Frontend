@@ -1,12 +1,16 @@
 package edu.ramapo.btunney.quackchat
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.room.Room
+import edu.ramapo.btunney.quackchat.caching.AppDatabase
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
@@ -18,24 +22,21 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-
-//        // Really bad code to display username
-//        NetworkRequester.getUsername(ServerRoutes.ME, object: NetworkCallback {
-//            override fun onFailure(failureCode: NetworkCallback.FailureCode) {
-//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//            }
-//
-//            override fun onSuccess() {
-//                runOnUiThread {
-//                    Runnable {
-//                        currentUserIdText.text = "???"
-//                    }.run()
-//                }
-//            }
-//
-//        })
+        // Show username from SharedPreferences
+        displayUsername()
     }
 
+    /**
+     * Display the logged in user's username from SharedPreferences
+     *
+     */
+    private fun displayUsername() {
+        val sharedPreferences: SharedPreferences = applicationContext.getSharedPreferences("Username", MODE_PRIVATE)
+        val username = sharedPreferences.getString("Username", "null")
+
+        Log.d("@SHARED_PREF", username)
+        currentUserIdText.text = getString(R.string.logged_in_as, username)
+    }
 
     /**
      * Signs user out of application, and de-authenticates them
@@ -54,6 +55,7 @@ class SettingsActivity : AppCompatActivity() {
                 println("logged out attempt")
 
                 // TODO: Delete cookie from storage
+                clearRoomDB()
 
 
                 runOnUiThread {
@@ -114,5 +116,13 @@ class SettingsActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    private fun clearRoomDB() {
+        Thread {
+            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+            db.clearAllTables()
+            db.close()
+        }.start()
     }
 }
