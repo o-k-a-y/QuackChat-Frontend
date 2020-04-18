@@ -87,7 +87,7 @@ class FriendActivity : AppCompatActivity() {
                     for (i in 0 until friendList.length()) {
                         val friendData = friendList.getJSONObject(i)
 
-                        // Convert JSON to map to index
+                        // Get fields from JSON
                         val username: String = friendData.getString("username")
                         val imageLarge: String = friendData.getString("imageLarge")
                         val imageSmall: String = friendData.getString("imageSmall")
@@ -100,15 +100,6 @@ class FriendActivity : AppCompatActivity() {
                     // Insert hash of friend list into Cache table
                     val cache = Cache("friendList", newHash)
                     db.cacheDao().insertOne(cache)
-
-                    // Print all friends
-                    for (fren in db.friendDao().getAll()) {
-                        Log.i("@RoomDB friend: ", fren.toString())
-                    }
-
-                    // Check friend list hash
-                    val he = db.cacheDao().getHash("friendList")
-                    Log.d("@RoomDB friends Hash: ", he)
 
                     if(db.isOpen) {
                         db.openHelper.close()

@@ -24,6 +24,12 @@ class CameraActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * Detect when user swipes left and right
+     *
+     * @param event
+     * @return
+     */
     override fun onTouchEvent(event: MotionEvent): Boolean {
         // Send to Friend activity
         if (mDetector.onTouchEvent(event)) {
