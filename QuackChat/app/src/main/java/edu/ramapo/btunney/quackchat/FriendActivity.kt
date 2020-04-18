@@ -3,6 +3,7 @@ package edu.ramapo.btunney.quackchat
 //import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import edu.ramapo.btunney.quackchat.caching.AppDatabase
@@ -11,6 +12,7 @@ import edu.ramapo.btunney.quackchat.caching.entities.Friend
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
+import kotlinx.android.synthetic.main.activity_friend.*
 import org.json.JSONObject
 
 class FriendActivity : AppCompatActivity() {
@@ -19,11 +21,12 @@ class FriendActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friend)
 
-        // Load all of user's friend
+        validateHash()
+        loadFriends()
 
-        // 1. Check if hash in local DB is correct
-        // Get hash from Room DB
+    }
 
+    private fun validateHash() {
         Thread {
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
             val hash = db.cacheDao().getHash("friendList")
@@ -47,27 +50,16 @@ class FriendActivity : AppCompatActivity() {
                         getNewFriends()
                     }
 
-                    // Load friend from Room DB
-                    loadFriends()
                 }
             })
         }.start()
-
-
-
-        // 2. Update friend list of not updated
-        // 3. Once friend list is up to date:
-        //      create a new view to add to horizontal scroll view containing:
-        //          a. name of friend (start with just this one)
-        //          b. image of friend?
     }
 
     /**
      * Fetch new list of friends from server
      *
      */
-    fun getNewFriends() {
-        NetworkRequester.fetchFriends(ServerRoutes.GET_FRIENDS, object: NetworkCallback {
+    fun getNewFriends() { NetworkRequester.fetchFriends(ServerRoutes.GET_FRIENDS, object: NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 TODO("Not yet implemented")
             }
@@ -101,6 +93,17 @@ class FriendActivity : AppCompatActivity() {
                     val cache = Cache("friendList", newHash)
                     db.cacheDao().insertOne(cache)
 
+
+                    // Print all friends
+                    for (fren in db.friendDao().getAll()) {
+                        Log.i("@RoomDB friend: ", fren.toString())
+                    }
+
+                    // Check friend list hash
+                    val he = db.cacheDao().getHash("friendList")
+                    Log.d("@RoomDB friends Hash: ", he)
+
+
                     if(db.isOpen) {
                         db.openHelper.close()
                     }
@@ -111,6 +114,36 @@ class FriendActivity : AppCompatActivity() {
 
     fun loadFriends() {
         Log.d("Load friends", "loading friends")
+
+
+
+        Thread {
+            var friends = ArrayList<TextView>()
+
+            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+            for (friend in db.friendDao().getAll()) {
+                val view = TextView(this)
+                view.text = friend.username
+                friends.add(view)
+            }
+            if(db.isOpen) {
+                db.openHelper.close()
+            }
+
+            runOnUiThread {
+                Runnable {
+                    for (friend in friends) {
+                        friendListLinearLayout.addView(friend)
+                    }
+                }.run()
+            }
+
+        }.start()
+
+
+
+
+
     }
 
 }
