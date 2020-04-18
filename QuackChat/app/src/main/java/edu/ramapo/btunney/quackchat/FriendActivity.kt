@@ -73,11 +73,9 @@ class FriendActivity : AppCompatActivity() {
             }
 
             override fun onSuccess(data: Any?) {
-//                println("friends from server:$data")
                 val stringData: String = data.toString()
                 val friendJSON: JSONObject = JSONObject(stringData)
 
-//                println("hash:" + friendJSON.getString("friendListHash"))
                 val newHash = friendJSON.getString("friendListHash")
                 val friendList = friendJSON.getJSONArray("friendList")
 
@@ -116,8 +114,6 @@ class FriendActivity : AppCompatActivity() {
                         db.openHelper.close()
                     }
                 }.start()
-
-
             }
         })
     }
