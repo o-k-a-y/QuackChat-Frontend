@@ -414,6 +414,10 @@ object NetworkRequester {
      * @param callback
      */
     fun validateHash(route: ServerRoutes, hash: String, callback: NetworkCallback) {
+        val request = Request.Builder()
+                .url(host + route.route)
+                .post(hash.toRequestBody())
+                .build()
 
     }
 
