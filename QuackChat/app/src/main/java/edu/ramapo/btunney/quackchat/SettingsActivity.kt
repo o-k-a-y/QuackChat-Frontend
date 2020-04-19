@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -24,6 +25,20 @@ class SettingsActivity : AppCompatActivity() {
 
         // Show username from SharedPreferences
         displayUsername()
+
+
+        addFriendEditText.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View, keyCode: Int, event: KeyEvent?): Boolean {
+                // If the event is a key-down event on the "enter" button
+                if ((event?.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+                    addFriendOnClick(v)
+                    return true;
+                }
+                return false;
+            }
+        })
+
     }
 
     /**

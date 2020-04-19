@@ -21,13 +21,11 @@ class FriendActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friend)
 
-        validateHash()
-//        validateHash(//insert callback into getNewFriends() that calls loadFriends())))
-//        loadFriends()
-
+        // TODO: add a swipe gesture to refresh data and then call updateFriends() method :P
+        fetchFriends()
     }
 
-    private fun validateHash() {
+    private fun fetchFriends() {
         Thread {
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
             val hash = db.cacheDao().getHash("friendList")
@@ -48,7 +46,7 @@ class FriendActivity : AppCompatActivity() {
                     // Hashes match, load cached friends
                     if (data.toString() != hashJSON.toString()) {
                         // Fetch new list of friends as well as new hash
-                        getNewFriends(object: Callback<Any> {
+                        retrieveNewFriends(object: Callback<Any> {
                             override fun perform(data: Any?, error: Throwable?) {
                                 loadFriends()
                             }
@@ -66,7 +64,7 @@ class FriendActivity : AppCompatActivity() {
      * Fetch new list of friends from server
      *
      */
-    fun getNewFriends(callback: Callback<Any>) {
+    fun retrieveNewFriends(callback: Callback<Any>) {
         NetworkRequester.fetchFriends(ServerRoutes.GET_FRIENDS, object: NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 TODO("Not yet implemented")
@@ -116,6 +114,7 @@ class FriendActivity : AppCompatActivity() {
                         db.openHelper.close()
                     }
 
+                    // TODO: pass some actual data instead of null so we know what changed
                     callback.perform(null, null)
                 }.start()
             }
@@ -147,10 +146,6 @@ class FriendActivity : AppCompatActivity() {
             }
 
         }.start()
-
-    }
-
-    fun test() {
 
     }
 
