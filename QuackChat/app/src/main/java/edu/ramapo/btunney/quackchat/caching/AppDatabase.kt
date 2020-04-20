@@ -2,7 +2,7 @@ package edu.ramapo.btunney.quackchat.caching
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import edu.ramapo.btunney.quackchat.caching.dao.CacheDao
+import edu.ramapo.btunney.quackchat.caching.dao.CacheHashDao
 import edu.ramapo.btunney.quackchat.caching.dao.FriendDao
 import edu.ramapo.btunney.quackchat.caching.entities.Cache
 import edu.ramapo.btunney.quackchat.caching.entities.Friend
@@ -11,5 +11,5 @@ import edu.ramapo.btunney.quackchat.caching.entities.Friend
 abstract class AppDatabase : RoomDatabase() {
     abstract fun friendDao(): FriendDao
 
-    abstract fun cacheDao(): CacheDao
+    abstract fun cacheHashDao(): CacheHashDao
 }

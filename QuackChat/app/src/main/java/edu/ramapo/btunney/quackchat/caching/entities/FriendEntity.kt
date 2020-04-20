@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class Friend (
     @PrimaryKey val username: String,
-    @ColumnInfo(name = "image_large") val imageLarge: String?,
-    @ColumnInfo(name = "image_small") val imageSmall: String?
+    @ColumnInfo(name = "image_large") val imageLarge: String,
+    @ColumnInfo(name = "image_small") val imageSmall: String
 )

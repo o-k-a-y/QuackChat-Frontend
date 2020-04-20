@@ -4,7 +4,7 @@ import androidx.room.*
 import edu.ramapo.btunney.quackchat.caching.entities.Cache
 
 @Dao
-interface CacheDao {
+interface CacheHashDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOne(cache: Cache)
 

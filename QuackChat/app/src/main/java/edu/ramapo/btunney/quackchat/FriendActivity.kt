@@ -1,8 +1,12 @@
 package edu.ramapo.btunney.quackchat
 
 //import android.support.v7.app.AppCompatActivity
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
@@ -12,6 +16,8 @@ import edu.ramapo.btunney.quackchat.caching.entities.Friend
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
+import edu.ramapo.btunney.quackchat.views.FriendViewFactory
+import edu.ramapo.btunney.quackchat.views.FriendViewType
 import kotlinx.android.synthetic.main.activity_friend.*
 import org.json.JSONObject
 
@@ -28,7 +34,7 @@ class FriendActivity : AppCompatActivity() {
     private fun fetchFriends() {
         Thread {
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
-            val hash = db.cacheDao().getHash("friendList")
+            val hash = db.cacheHashDao().getHash("friendList")
             val json = "{\"hash\":\"$hash\"}"
             val hashJSON = JSONObject(json)
             if(db.isOpen) {
@@ -97,7 +103,7 @@ class FriendActivity : AppCompatActivity() {
 
                     // Insert hash of friend list into Cache table
                     val cache = Cache("friendList", newHash)
-                    db.cacheDao().insertOne(cache)
+                    db.cacheHashDao().insertOne(cache)
 
 
                     // Print all friends
@@ -106,7 +112,7 @@ class FriendActivity : AppCompatActivity() {
                     }
 
                     // Check friend list hash
-                    val he = db.cacheDao().getHash("friendList")
+                    val he = db.cacheHashDao().getHash("friendList")
                     Log.d("@RoomDB friends Hash: ", he)
 
 
@@ -125,26 +131,24 @@ class FriendActivity : AppCompatActivity() {
         Log.d("Load friends", "loading friends")
 
         Thread {
-            var friends = ArrayList<TextView>()
+            var factoryTest = LinearLayout(this)
 
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+
+            // Every friend
             for (friend in db.friendDao().getAll()) {
-                val view = TextView(this)
-                view.text = friend.username
-                friends.add(view)
+                // Testing bad factory
+                runOnUiThread {
+                    Runnable {
+                        factoryTest = FriendViewFactory.createFriendView(this, FriendViewType.LIST, friend)
+                        friendListLinearLayout.addView(factoryTest)
+                    }.run()
+                }
+
             }
             if(db.isOpen) {
                 db.openHelper.close()
             }
-
-            runOnUiThread {
-                Runnable {
-                    for (friend in friends) {
-                        friendListLinearLayout.addView(friend)
-                    }
-                }.run()
-            }
-
         }.start()
 
     }
