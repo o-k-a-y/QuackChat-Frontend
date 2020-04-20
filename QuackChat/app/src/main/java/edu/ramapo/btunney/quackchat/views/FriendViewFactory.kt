@@ -1,7 +1,8 @@
 package edu.ramapo.btunney.quackchat.views
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.util.Base64
@@ -15,70 +16,118 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.GestureDetectorCompat
+import edu.ramapo.btunney.quackchat.FriendProfileActivity
 import edu.ramapo.btunney.quackchat.caching.entities.Friend
 import java.lang.NullPointerException
-import java.util.*
 
 class FriendViewFactory {
 
     companion object {
-        private lateinit var linearLayout: LinearLayout
+//        private lateinit var linearLayout: LinearLayout
         private lateinit var mDetector: GestureDetectorCompat
 
         @Synchronized
         fun createFriendView(context: Context, friendViewType: FriendViewType, friend: Friend): LinearLayout {
 
-            linearLayout = LinearLayout(context)
+            val linearLayout = LinearLayout(context)
+
 
             val image = when (friendViewType) {
                 FriendViewType.LIST -> {
                     decodeImage(context, friend.imageSmall)
-
                 }
-                FriendViewType.SINGLE -> decodeImage(context, friend.imageLarge)
+                FriendViewType.PROFILE -> {
+                    decodeImage(context, friend.imageLarge)
+                }
                 else -> null
             } ?: throw NullPointerException("Image is null. Wrong FriendViewType passed in: $friendViewType")
 
-            // TODO: Make a separation between this and a single/profile friend view
-            mDetector = GestureDetectorCompat(context, MyGestureListener())
+            when (friendViewType) {
+                FriendViewType.LIST -> {
+                    // TODO: BEGIN TODO: Make a separation between this and a single/profile friend view
+                    mDetector = GestureDetectorCompat(context, MyGestureListener(friend.username))
 
-            val duckLinearLayout = LinearLayout(context)
+                    val duckLinearLayout = LinearLayout(context)
 
-            val lp = LinearLayout.LayoutParams(MATCH_PARENT, 150)
+                    linearLayout.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, 150)
+                    linearLayout.setPadding(20, 20, 20, 20)
 
-
-            linearLayout.layoutParams = lp
-            linearLayout.setPadding(20, 20, 20, 20)
-
-
-            image.cropToPadding = true
-            image.scaleType = ImageView.ScaleType.FIT_START
-            image.adjustViewBounds = true
-
-            duckLinearLayout.addView(image)
-            duckLinearLayout.setBackgroundColor(Color.RED)
-
-            duckLinearLayout.layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT)
-//            duckLinearLayout.setPadding(20, 20, 20, 20)
+                    image.cropToPadding = true
+                    image.scaleType = ImageView.ScaleType.FIT_START
+                    image.adjustViewBounds = true
 
 
-            linearLayout.addView(duckLinearLayout)
+                    // ONLY FOR LIST
+                    image.setOnClickListener(object: View.OnClickListener {
+                        override fun onClick(v: View?) {
+                            val intent = Intent(context, FriendProfileActivity::class.java)
+                            intent.putExtra("username", friend.username)
+                            context.startActivity(intent)
+
+                            Log.d("@Friend image click", friend.username)
+                        }
+
+                    })
+
+                    // ONLY FOR LIST
+                    linearLayout.setOnClickListener(object: View.OnClickListener {
+                        override fun onClick(v: View?) {
+                            Log.d("@Friend linearlay click", friend.username)
+                        }
+
+                    })
+
+                    duckLinearLayout.addView(image)
+                    duckLinearLayout.setBackgroundColor(Color.RED)
+
+                    duckLinearLayout.layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT)
 
 
-            val usernameView = TextView(context)
-            usernameView.setPadding(20, 0, 20, 20)
-            usernameView.setBackgroundColor(Color.GREEN)
-            usernameView.text = friend.username.also { linearLayout.addView(usernameView)}
+                    linearLayout.addView(duckLinearLayout)
 
-            addGestureListener()
+                    val usernameView = TextView(context)
+                    usernameView.setPadding(20, 0, 20, 20)
+                    usernameView.setBackgroundColor(Color.GREEN)
+                    usernameView.text = friend.username.also { linearLayout.addView(usernameView)}
+
+                    // TODO: END TODO
+                }
+                FriendViewType.PROFILE -> {
+                    linearLayout.orientation = LinearLayout.VERTICAL;
+                    val duckLinearLayout = LinearLayout(context)
+                    linearLayout.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+
+                    image.cropToPadding = true
+                    image.scaleType = ImageView.ScaleType.FIT_START
+                    image.adjustViewBounds = true
+
+                    duckLinearLayout.addView(image)
+                    duckLinearLayout.setBackgroundColor(Color.RED)
+
+                    duckLinearLayout.layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT)
+
+
+                    linearLayout.addView(duckLinearLayout)
+
+                    val usernameView = TextView(context)
+                    usernameView.gravity = Gravity.CENTER_HORIZONTAL
+                    usernameView.setPadding(20, 300, 20, 20)
+                    usernameView.setBackgroundColor(Color.GREEN)
+                    usernameView.text = friend.username.also { linearLayout.addView(usernameView)}
+                }
+            }
+
 
             return linearLayout
         }
 
-        private fun addGestureListener() {
+        // TODO: BROKEN AND ONLY WORKS ON THE LAST THING PASSED
+        private fun addGestureListener(view: View) {
 
-            linearLayout.setOnTouchListener(object: View.OnTouchListener {
+            view.setOnTouchListener(object: View.OnTouchListener {
+                @SuppressLint("ClickableViewAccessibility")
                 override fun onTouch(v: View?, event: MotionEvent?): Boolean {
                     if (mDetector.onTouchEvent(event)) {
                         return true
@@ -99,10 +148,10 @@ class FriendViewFactory {
         }
 
 
-        private class MyGestureListener : GestureDetector.SimpleOnGestureListener() {
-
+        private class MyGestureListener(val username: String) : GestureDetector.SimpleOnGestureListener() {
             override fun onDown(event: MotionEvent): Boolean {
                 Log.d("@Factory on click", "onDown: $event")
+                Log.d("@Factory on click", username)
                 return true
             }
 

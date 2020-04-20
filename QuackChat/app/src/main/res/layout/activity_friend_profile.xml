@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FriendListActivity">
+    tools:context=".FriendProfileActivity">
 
     <ScrollView
-        android:id="@+id/friendListScrollView"
-        android:layout_width="380dp"
-        android:layout_height="539dp"
+        android:id="@+id/friendProfileScrollView"
+        android:layout_width="321dp"
+        android:layout_height="604dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -17,10 +17,9 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/friendListLinearLayout"
+            android:id="@+id/friendProfileLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
-

@@ -21,7 +21,7 @@ import edu.ramapo.btunney.quackchat.views.FriendViewType
 import kotlinx.android.synthetic.main.activity_friend.*
 import org.json.JSONObject
 
-class FriendActivity : AppCompatActivity() {
+class FriendListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -35,7 +35,7 @@ class CameraActivity : AppCompatActivity() {
         if (mDetector.onTouchEvent(event)) {
             runOnUiThread {
                 Runnable {
-                    val intent = Intent(this, FriendActivity::class.java)
+                    val intent = Intent(this, FriendListActivity::class.java)
                     startActivity(intent)
                 }.run()
             }
