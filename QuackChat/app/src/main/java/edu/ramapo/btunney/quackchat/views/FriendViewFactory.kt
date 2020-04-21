@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.util.Base64
 import android.util.Log
 import android.view.GestureDetector
@@ -16,11 +17,10 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.GestureDetectorCompat
 import edu.ramapo.btunney.quackchat.FriendProfileActivity
+import edu.ramapo.btunney.quackchat.MessageActivity
 import edu.ramapo.btunney.quackchat.caching.entities.Friend
-import java.lang.NullPointerException
 
 class FriendViewFactory {
 
@@ -44,9 +44,9 @@ class FriendViewFactory {
                 else -> null
             } ?: throw NullPointerException("Image is null. Wrong FriendViewType passed in: $friendViewType")
 
+            // TODO: Clean up this code
             when (friendViewType) {
                 FriendViewType.LIST -> {
-                    // TODO: BEGIN TODO: Make a separation between this and a single/profile friend view
                     mDetector = GestureDetectorCompat(context, MyGestureListener(friend.username))
 
                     val duckLinearLayout = LinearLayout(context)
@@ -59,7 +59,6 @@ class FriendViewFactory {
                     image.adjustViewBounds = true
 
 
-                    // ONLY FOR LIST
                     image.setOnClickListener(object: View.OnClickListener {
                         override fun onClick(v: View?) {
                             val intent = Intent(context, FriendProfileActivity::class.java)
@@ -71,9 +70,11 @@ class FriendViewFactory {
 
                     })
 
-                    // ONLY FOR LIST
                     linearLayout.setOnClickListener(object: View.OnClickListener {
                         override fun onClick(v: View?) {
+                            val intent = Intent(context, MessageActivity::class.java)
+                            intent.putExtra("username", friend.username)
+                            context.startActivity(intent)
                             Log.d("@Friend linearlay click", friend.username)
                         }
 
@@ -92,7 +93,10 @@ class FriendViewFactory {
                     usernameView.setBackgroundColor(Color.GREEN)
                     usernameView.text = friend.username.also { linearLayout.addView(usernameView)}
 
-                    // TODO: END TODO
+
+                    val gradientDrawable = GradientDrawable()
+                    gradientDrawable.setStroke(4, Color.BLACK)
+                    linearLayout.background = gradientDrawable
                 }
                 FriendViewType.PROFILE -> {
                     linearLayout.orientation = LinearLayout.VERTICAL;

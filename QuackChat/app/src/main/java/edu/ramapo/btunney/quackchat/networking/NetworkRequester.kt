@@ -26,6 +26,17 @@ object NetworkRequester {
         .newBuilder()
         .cookieJar(MemoryCookieJar())
         .build()
+
+    // TODO: make add interceptor?
+//    val httpClient = OkHttpClient.Builder().addInterceptor(object: Interceptor {
+//        override fun intercept(chain: Interceptor.Chain): Response {
+//            TODO("Not yet implemented")
+//        }
+//
+//    })
+//            .cookieJar(MemoryCookieJar())
+//            .build()
+
     private val JSON = "application/json; charset=utf-8".toMediaType()
 
     // TODO: actually make use of this
@@ -35,36 +46,6 @@ object NetworkRequester {
 
     // TODO: Make a generic method to post a json to whatever route
 
-    // TODO enum classes for each distinct route type
-
-//
-//    fun getUsername(route: ServerRoutes, callback: NetworkCallback) {
-//        val request = Request.Builder()
-//            .url(host + route.route)
-//            .get()
-//            .build()
-//
-//        client.newCall(request).enqueue(object : Callback {
-//            override fun onFailure(call: Call, e: IOException) {
-//                e.printStackTrace()
-//
-//            }
-//
-//            override fun onResponse(call: Call, response: Response) {
-//                response.use {
-//                    if (!response.isSuccessful) throw IOException("Unexpected code $response")
-//
-//                    for ((name, value) in response.headers) {
-//                        println("$name: $value")
-//                    }
-//
-//                    println(response.body!!.string())
-//                    callback.onSuccess()
-//                    return
-//                }
-//            }
-//        })
-//    }
 
     /**
      * Extends Cookie to parse auth token (the cookie)
@@ -403,8 +384,37 @@ object NetworkRequester {
      * @param friend
      * @param callback
      */
-    fun sendMessage(route: ServerRoutes, friend: String, callback: NetworkCallback) {
+    fun sendMessage(route: ServerRoutes, friend: String, message: String, callback: NetworkCallback) {
+        val messageJSONString = "{\"message\": \"$message\"}"
+        val messageJSON = JSONObject(messageJSONString)
 
+
+        val body = messageJSON.toString()
+                .toRequestBody(JSON)
+        println(body)
+
+        val request = Request.Builder()
+                .url(host + route.route + "/$friend")
+                .post(body)
+                .build()
+
+        client.newCall(request).enqueue(object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                // TODO change to some other err
+                callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                // Return failure code when adding a friend fails
+                if (!response.isSuccessful) {
+                    // TODO
+                }
+
+
+                callback.onSuccess(null)
+            }
+        })
     }
 
     /**
