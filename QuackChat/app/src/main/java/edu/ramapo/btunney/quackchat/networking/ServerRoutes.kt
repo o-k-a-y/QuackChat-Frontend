@@ -1,7 +1,7 @@
 package edu.ramapo.btunney.quackchat.networking
 
 /**
- * Enum class for server routes
+ * Enum class for server routes to distinguish where the data is being sent
  */
 enum class ServerRoutes(val route: String) {
     LOGIN("/users/login"),
@@ -10,8 +10,10 @@ enum class ServerRoutes(val route: String) {
     ME("/users/me"),
     AUTH("/auth"),
     ADD_FRIEND("/users/friends/add"),
-    GET_FRIENDS("/users/friends/get"),
+    FETCH_FRIENDS("/users/friends/fetch"),
     SEND_MESSAGE("/users/message/send"),
-    CHECK_HASH("/users/hash/check/friendList")
+    CHECK_HASH("/users/hash/check"), // TODO: change to it is generic
+    FETCH_MESSAGES("/users/messages/fetch")
+
 
 }

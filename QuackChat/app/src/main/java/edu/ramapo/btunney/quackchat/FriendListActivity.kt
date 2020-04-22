@@ -35,11 +35,15 @@ class FriendListActivity : AppCompatActivity() {
         Thread {
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
             val hash = db.cacheHashDao().getHash("friendList")
-            val json = "{\"hash\":\"$hash\"}"
-            val hashJSON = JSONObject(json)
+
             if(db.isOpen) {
                 db.openHelper.close()
             }
+
+            val json = "{\"hash\":\"$hash\"}"
+            val hashJSON = JSONObject(json)
+            hashJSON.put("hashType", "friendList")
+
 
             NetworkRequester.validateHash(ServerRoutes.CHECK_HASH, hashJSON, object: NetworkCallback {
                 override fun onFailure(failureCode: NetworkCallback.FailureCode) {
@@ -49,8 +53,11 @@ class FriendListActivity : AppCompatActivity() {
                 // Check if hashes match
                 // If hashes don't match, get new list of friends
                 override fun onSuccess(data: Any?) {
-                    // Hashes match, load cached friends
-                    if (data.toString() != hashJSON.toString()) {
+                    // Hashes don't match, load cached friends
+                    if (JSONObject(data.toString()).getString("hash").toString() != hashJSON.getString("hash").toString()) {
+                        Log.d("@data hash", data.toString())
+                        Log.d("@HASH MISMATCH", "friends hash dont match")
+                        Log.d("@HASH", hashJSON.getString("hash").toString())
                         // Fetch new list of friends as well as new hash
                         retrieveNewFriends(object: Callback<Any> {
                             override fun perform(data: Any?, error: Throwable?) {
@@ -71,7 +78,7 @@ class FriendListActivity : AppCompatActivity() {
      *
      */
     fun retrieveNewFriends(callback: Callback<Any>) {
-        NetworkRequester.fetchFriends(ServerRoutes.GET_FRIENDS, object: NetworkCallback {
+        NetworkRequester.fetchFriends(ServerRoutes.FETCH_FRIENDS, object: NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 TODO("Not yet implemented")
             }

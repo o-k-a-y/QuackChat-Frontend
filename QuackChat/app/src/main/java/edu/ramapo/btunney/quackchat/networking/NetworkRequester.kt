@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.util.Log
+import edu.ramapo.btunney.quackchat.networking.MessageType.*
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -384,10 +385,13 @@ object NetworkRequester {
      * @param friend
      * @param callback
      */
-    fun sendMessage(route: ServerRoutes, friend: String, message: String, callback: NetworkCallback) {
+    fun sendMessage(route: ServerRoutes, friend: String, message: String, messageType: MessageType, callback: NetworkCallback) {
         val messageJSONString = "{\"message\": \"$message\"}"
         val messageJSON = JSONObject(messageJSONString)
 
+
+        // Insert the type of message into the request body
+        messageJSON.put("messageType", messageType.type)
 
         val body = messageJSON.toString()
                 .toRequestBody(JSON)
@@ -414,6 +418,44 @@ object NetworkRequester {
 
                 callback.onSuccess(null)
             }
+        })
+    }
+
+    /**
+     * Return the list of messages the logged in user has
+     *
+     * @param route
+     * @param callback
+     */
+    fun fetchMessages(route: ServerRoutes, callback: NetworkCallback) {
+        val request = Request.Builder()
+                .url(host + route.route)
+                .build()
+
+        var messageJSON: JSONObject? = null
+
+        client.newCall(request).enqueue(object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                // TODO change to some other err
+                callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                // Return failure code when friends can not be returned
+                if (!response.isSuccessful) {
+                    when (response.code) {
+                        else -> {
+                            callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+                        }
+                    }
+                }
+
+                // Convert response to JSON object
+                messageJSON = JSONObject(response.body?.string())
+                callback.onSuccess(messageJSON)
+            }
+
         })
     }
 

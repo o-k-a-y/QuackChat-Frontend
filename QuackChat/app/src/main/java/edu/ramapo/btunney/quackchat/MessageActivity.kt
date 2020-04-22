@@ -5,10 +5,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import androidx.room.Room
+import edu.ramapo.btunney.quackchat.caching.AppDatabase
+import edu.ramapo.btunney.quackchat.caching.entities.Cache
+import edu.ramapo.btunney.quackchat.caching.entities.Message
+import edu.ramapo.btunney.quackchat.networking.MessageType
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
 import kotlinx.android.synthetic.main.activity_message.*
+import org.json.JSONObject
 
 /**
  * This activity is where you can send text messages to a friend
@@ -35,6 +41,9 @@ class MessageActivity : AppCompatActivity() {
 
         // Add listener to message box
         addMessageBoxListener()
+
+        // Fetch any new messages from friend
+        fetchMessages()
     }
 
 
@@ -51,12 +60,17 @@ class MessageActivity : AppCompatActivity() {
             override fun onKey(v: View, keyCode: Int, event: KeyEvent?): Boolean {
                 // If the event is a key-down event on the "enter" button
                 if ((event?.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    if (sendMessageEditText.text.toString() == "") {
+                        return false;
+                    }
                     sendMessage(sendMessageEditText.text.toString())
+                    return true
                 }
-                return false;
+                return false
             }
         })
     }
+
 
     /**
      * Sends a message using NetworkRequester's sendMessage function
@@ -64,7 +78,7 @@ class MessageActivity : AppCompatActivity() {
      * @param message
      */
     private fun sendMessage(message: String) {
-        NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, friend, message, object: NetworkCallback {
+        NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, friend, message, MessageType.TEXT, object: NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 TODO("Not yet implemented")
             }
@@ -74,5 +88,116 @@ class MessageActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    private fun fetchMessages() {
+        Thread {
+            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+            val hash = db.cacheHashDao().getHash("messages")
+
+            if(db.isOpen) {
+                db.openHelper.close()
+            }
+
+            val json = "{\"hash\":\"$hash\"}"
+            val hashJSON = JSONObject(json)
+
+            hashJSON.put("hashType", "messages")
+
+
+            NetworkRequester.validateHash(ServerRoutes.CHECK_HASH, hashJSON, object: NetworkCallback {
+                override fun onFailure(failureCode: NetworkCallback.FailureCode) {
+                    TODO()
+                }
+
+                // Check if hashes match
+                // If hashes don't match, get new list of friends
+                override fun onSuccess(data: Any?) {
+                    // Hashes don't match, load cached friends
+                    if (JSONObject(data.toString()).getString("hash").toString() != hashJSON.getString("hash").toString()) {
+                        // Fetch new list of friends as well as new hash
+                        retrieveNewMessages(object: Callback<Any> {
+                            override fun perform(data: Any?, error: Throwable?) {
+                                loadMessages()
+                            }
+
+                        })
+                    } else {
+                        loadMessages()
+                    }
+                }
+            })
+        }.start()
+    }
+
+    /**
+     * Fetch new messages from server
+     *
+     */
+    private fun retrieveNewMessages(callback: Callback<Any>) {
+        NetworkRequester.fetchMessages(ServerRoutes.FETCH_MESSAGES, object: NetworkCallback {
+            override fun onFailure(failureCode: NetworkCallback.FailureCode) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSuccess(data: Any?) {
+                val stringData: String = data.toString()
+                val messageJSON: JSONObject = JSONObject(stringData)
+
+                val newHash = messageJSON.getString("messagesHash")
+                val messages = messageJSON.getJSONArray("messages")
+
+                // Make new thread to handle access to database so it doesn't run on main UI thread
+                Thread {
+                    val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+
+                    // Insert any new friends into User table
+                    for (i in 0 until messages.length()) {
+                        val messageData = messages.getJSONObject(i)
+
+                        // Get fields from JSON
+                        val type: String = messageData.getString("type")
+                        val to: String = messageData.getString("to")
+                        val from: String = messageData.getString("from")
+                        val message: String = messageData.getString("message")
+                        val timeSent: String = messageData.getString("timeSent")
+
+                        // Insert into local DB
+                        val messageEntity = Message(0, type, to, from, message, timeSent)
+                        db.messageDao().insertOne(messageEntity)
+                    }
+
+                    // Insert hash of friend list into Cache table
+                    val cache = Cache("messages", newHash)
+                    db.cacheHashDao().insertOne(cache)
+
+
+                    // Print all message
+                    for (message in db.messageDao().getAll()) {
+                        Log.i("@RoomDB message: ", message.toString())
+                    }
+
+                    // Check messages hash
+                    val messageHash = db.cacheHashDao().getHash("messages")
+                    Log.d("@RoomDB messages Hash: ", messageHash)
+
+
+                    if(db.isOpen) {
+                        db.openHelper.close()
+                    }
+
+                    // TODO: pass some actual data instead of null so we know what changed
+                    callback.perform(null, null)
+                }.start()
+            }
+        })
+    }
+
+    /**
+     * TODO
+     *
+     */
+    private fun loadMessages() {
+        Log.d("@Load messages", "TODO")
     }
 }
