@@ -9,6 +9,7 @@ import androidx.room.Room
 import edu.ramapo.btunney.quackchat.caching.AppDatabase
 import edu.ramapo.btunney.quackchat.caching.entities.Cache
 import edu.ramapo.btunney.quackchat.caching.entities.Message
+import edu.ramapo.btunney.quackchat.fragments.HeadlinesFragment
 import edu.ramapo.btunney.quackchat.networking.MessageType
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
@@ -44,6 +45,10 @@ class MessageActivity : AppCompatActivity() {
 
         // Fetch any new messages from friend
         fetchMessages()
+
+
+
+
     }
 
 
@@ -194,10 +199,44 @@ class MessageActivity : AppCompatActivity() {
     }
 
     /**
-     * TODO
+     * Load all the messages from the friend
      *
      */
     private fun loadMessages() {
         Log.d("@Load messages", "TODO")
+
+        // Get messages
+        Thread {
+            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+            for (message in db.messageDao().getAll()) {
+//                runOnUiThread {
+                    makeMessageFragment(message)
+//                }
+            }
+            if(db.isOpen) {
+                db.openHelper.close()
+            }
+        }.start()
+
+
     }
+
+    /**
+     * Create fragment using the message data
+     *
+     */
+    private fun makeMessageFragment(message: Message) {
+        // TODO: a single transaction would be better!
+        // TODO: if messagesLinearLayout is null only the latest value will appear (the previous will be wiped)
+
+        // Shove fragments into linear layout
+        val fragment = HeadlinesFragment()
+        val bundle = Bundle()
+        bundle.putParcelable("message", message)
+        fragment.arguments = bundle
+        supportFragmentManager.beginTransaction()
+                .add(R.id.messagesLinearLayout, fragment)
+                .commit()
+    }
+
 }
