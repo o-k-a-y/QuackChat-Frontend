@@ -10,6 +10,15 @@ interface MessageDao {
     @Query("SELECT * FROM message")
     fun getAll(): List<Message>
 
+    @Query("SELECT * FROM message WHERE toWhom = :to")
+    fun getAllToFriend(to: String): List<Message>
+    
+    @Query("SELECT * FROM message WHERE fromWhom = :from")
+    fun getAllFromFriend(from: String): List<Message>
+
     @Insert
     fun insertOne(message: Message)
+
+    @Query("DELETE FROM message")
+    fun nukeTable()
 }

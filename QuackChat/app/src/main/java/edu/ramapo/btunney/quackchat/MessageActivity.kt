@@ -9,7 +9,7 @@ import androidx.room.Room
 import edu.ramapo.btunney.quackchat.caching.AppDatabase
 import edu.ramapo.btunney.quackchat.caching.entities.Cache
 import edu.ramapo.btunney.quackchat.caching.entities.Message
-import edu.ramapo.btunney.quackchat.fragments.HeadlinesFragment
+import edu.ramapo.btunney.quackchat.fragments.MessageFragment
 import edu.ramapo.btunney.quackchat.networking.MessageType
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
@@ -45,10 +45,17 @@ class MessageActivity : AppCompatActivity() {
 
         // Fetch any new messages from friend
         fetchMessages()
+    }
 
+    private fun clearMessageCache() {
+        Thread {
+            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+            db.messageDao().nukeTable()
 
-
-
+            if(db.isOpen) {
+                db.openHelper.close()
+            }
+        }
     }
 
 
@@ -178,7 +185,7 @@ class MessageActivity : AppCompatActivity() {
 
 
                     // Print all message
-                    for (message in db.messageDao().getAll()) {
+                    for (message in db.messageDao().getAllFromFriend(friend)) {
                         Log.i("@RoomDB message: ", message.toString())
                     }
 
@@ -208,7 +215,7 @@ class MessageActivity : AppCompatActivity() {
         // Get messages
         Thread {
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
-            for (message in db.messageDao().getAll()) {
+            for (message in db.messageDao().getAllFromFriend(friend)) {
 //                runOnUiThread {
                     makeMessageFragment(message)
 //                }
@@ -226,13 +233,20 @@ class MessageActivity : AppCompatActivity() {
      *
      */
     private fun makeMessageFragment(message: Message) {
+
+        // TODO: handle all types of message types
+
+//        MessageFragment.newInstance("text")
+//        val test = MessageFragment.newInstance("text")
+
+
         // TODO: a single transaction would be better!
         // TODO: if messagesLinearLayout is null only the latest value will appear (the previous will be wiped)
-
         // Shove fragments into linear layout
-        val fragment = HeadlinesFragment()
         val bundle = Bundle()
         bundle.putParcelable("message", message)
+//        val fragment = MessageFragment.newInstance("text", bundle)
+        val fragment = MessageFragment()
         fragment.arguments = bundle
         supportFragmentManager.beginTransaction()
                 .add(R.id.messagesLinearLayout, fragment)

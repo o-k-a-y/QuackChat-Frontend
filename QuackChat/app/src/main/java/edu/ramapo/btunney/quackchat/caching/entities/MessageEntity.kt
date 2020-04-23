@@ -15,10 +15,10 @@ data class Message (
         @ColumnInfo(name = "type")
         val type: String,
 
-        @ColumnInfo(name = "to")
+        @ColumnInfo(name = "toWhom")
         val to: String,
 
-        @ColumnInfo(name = "from")
+        @ColumnInfo(name = "fromWhom")
         val from: String,
 
         @ColumnInfo(name = "message")
