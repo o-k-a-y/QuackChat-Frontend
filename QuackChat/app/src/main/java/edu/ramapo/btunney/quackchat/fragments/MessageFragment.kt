@@ -75,6 +75,9 @@ class MessageFragment : Fragment() {
             if (messageSent != null) {
                 inf.messageTextView.text = messageSent
                 inf.setBackgroundColor(Color.GREEN)
+
+                // Right justify the text
+                inf.messageTextView.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
             }
         }
 
