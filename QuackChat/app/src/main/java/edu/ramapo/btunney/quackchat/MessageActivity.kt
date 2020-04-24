@@ -76,6 +76,7 @@ class MessageActivity : AppCompatActivity() {
                         return false;
                     }
                     sendMessage(sendMessageEditText.text.toString())
+                    sendMessageEditText.text.clear()
                     return true
                 }
                 return false
@@ -97,6 +98,8 @@ class MessageActivity : AppCompatActivity() {
 
             override fun onSuccess(data: Any?) {
                 Log.d("@MessageActivity", "sent message?")
+                // TODO: this only handles text
+                makeMessageFragment(message)
             }
 
         })
@@ -239,13 +242,26 @@ class MessageActivity : AppCompatActivity() {
 //        MessageFragment.newInstance("text")
 //        val test = MessageFragment.newInstance("text")
 
-
         // TODO: a single transaction would be better!
         // TODO: if messagesLinearLayout is null only the latest value will appear (the previous will be wiped)
         // Shove fragments into linear layout
         val bundle = Bundle()
         bundle.putParcelable("message", message)
 //        val fragment = MessageFragment.newInstance("text", bundle)
+        val fragment = MessageFragment()
+        fragment.arguments = bundle
+        supportFragmentManager.beginTransaction()
+                .add(R.id.messagesLinearLayout, fragment)
+                .commit()
+    }
+
+    /**
+     * Create fragment using the text message sent
+     *
+     */
+    private fun makeMessageFragment(message: String) {
+        val bundle = Bundle()
+        bundle.putString("messageSent", message)
         val fragment = MessageFragment()
         fragment.arguments = bundle
         supportFragmentManager.beginTransaction()

@@ -12,9 +12,12 @@ interface MessageDao {
 
     @Query("SELECT * FROM message WHERE toWhom = :to")
     fun getAllToFriend(to: String): List<Message>
-    
+
     @Query("SELECT * FROM message WHERE fromWhom = :from")
     fun getAllFromFriend(from: String): List<Message>
+
+    // TODO: make query to delete all message from a friend
+    // TODO: make query to delete all messages of type text from a friend
 
     @Insert
     fun insertOne(message: Message)

@@ -11,12 +11,14 @@ import android.widget.TextView
 
 import edu.ramapo.btunney.quackchat.R
 import edu.ramapo.btunney.quackchat.caching.entities.Message
+import edu.ramapo.btunney.quackchat.views.MessageViewType
 import kotlinx.android.synthetic.main.fragment_message.*
 import kotlinx.android.synthetic.main.fragment_message.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val MESSAGE_TYPE = "messageType"
+private const val MESSAGE_SENT = "messageSent"
 
 /**
  * A simple [Fragment] subclass.
@@ -53,21 +55,27 @@ class MessageFragment : Fragment() {
 
         if (message != null) {
             when (message.type) {
-                "text" -> {
+                MessageViewType.TEXT.type -> {
                     inf.messageTextView.text = message.message
                     inf.setBackgroundColor(Color.RED)
                 }
-                "picture" -> {
+                MessageViewType.PICTURE.type -> {
                     // TODO
                 }
-                "video" -> {
+                MessageViewType.VIDEO.type -> {
                     // TODO
                 }
                 else -> {
                     // TODO
                 }
             }
-
+        } else {
+            // TODO: probably awful design
+            val messageSent = bundle?.getString(MESSAGE_SENT)
+            if (messageSent != null) {
+                inf.messageTextView.text = messageSent
+                inf.setBackgroundColor(Color.GREEN)
+            }
         }
 
         return inf
