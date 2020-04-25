@@ -1,10 +1,10 @@
 package edu.ramapo.btunney.quackchat
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.Camera
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
@@ -12,6 +12,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GestureDetectorCompat
@@ -69,28 +70,9 @@ class CameraActivity : AppCompatActivity() {
      */
     private fun requestCameraPermissions() {
         // TODO: temp way to check for permissions (VERY BAD)
-        // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                Toast.makeText(this, "Camera disabled, check permissions", Toast.LENGTH_LONG).show()
-                val permissions = arrayOf(android.Manifest.permission.CAMERA)
-                ActivityCompat.requestPermissions(this, permissions, PERMISSION_USE_CAMERA)
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        arrayOf(Manifest.permission.CAMERA),
-                        PERMISSION_USE_CAMERA)
-
-                // PERMISSION_USE_CAMERA is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
+        val permissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
+        if (!hasPermissions(this, permissions)) {
+            ActivityCompat.requestPermissions(this, permissions, PERMISSION_USE_CAMERA)
         } else {
             // Permission has already been granted
 
@@ -99,7 +81,13 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
-    // TODO: temp
+    /**
+     * The callback for when a permission request is accepted or denied
+     *
+     * @param requestCode the code defined for the permission (PERMISSION_USE_CAMERA)
+     * @param permissions list of permissions being requested
+     * @param grantResults list of the result of each permission response
+     */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             PERMISSION_USE_CAMERA -> {
@@ -123,6 +111,19 @@ class CameraActivity : AppCompatActivity() {
             }
         }
     }
+
+
+    /**
+     * Checks if a list of permissions is granted
+     *
+     * @param context
+     * @param permissions
+     * @return
+     */
+    private fun hasPermissions(context: Context, permissions: Array<String>): Boolean = permissions.all {
+        ActivityCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+    }
+
 
     /**
      * Show the camera stream within the FrameLayout on the activity
