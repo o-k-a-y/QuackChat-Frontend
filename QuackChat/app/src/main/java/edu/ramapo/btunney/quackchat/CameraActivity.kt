@@ -1,13 +1,20 @@
 package edu.ramapo.btunney.quackchat
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.hardware.Camera
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.widget.FrameLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GestureDetectorCompat
+import edu.ramapo.btunney.quackchat.views.CameraPreview
 
 private const val DEBUG_TAG = "Gestures"
 
@@ -15,33 +22,98 @@ class CameraActivity : AppCompatActivity() {
 
     private lateinit var mDetector: GestureDetectorCompat
 
+    private var mCamera: Camera? = null
+    private var mPreview: CameraPreview? = null
+
+    // Used for onRequestPermissionsResult callback when checking for permissions
+    private val PERMISSION_USE_CAMERA = 4000
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
 
+        // TODO: temp way to check for permissions (VERY BAD)
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.CAMERA)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        arrayOf(Manifest.permission.CAMERA),
+                        PERMISSION_USE_CAMERA)
+
+                // PERMISSION_USE_CAMERA is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            // Permission has already been granted
+        }
+
+
         mDetector = GestureDetectorCompat(this, MyGestureListener())
 
+        // Create an instance of Camera
+        mCamera = getCameraInstance()
+
+        mPreview = mCamera?.let {
+            // Create our Preview view
+            CameraPreview(this, it)
+        }
+
+        // Set the Preview view as the content of our activity.
+        mPreview?.also {
+            val preview: FrameLayout = findViewById(R.id.camera_preview)
+            preview.addView(it)
+        }
+
+
     }
 
+    // TODO: temp
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            PERMISSION_USE_CAMERA -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return
+            }
 
-    /**
-     * Detect when user swipes left and right
-     *
-     * @param event
-     * @return
-     */
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        // Send to Friend activity
-        if (mDetector.onTouchEvent(event)) {
-            runOnUiThread {
-                Runnable {
-                    val intent = Intent(this, FriendListActivity::class.java)
-                    startActivity(intent)
-                }.run()
+            // Add other 'when' lines to check for other
+            // permissions this app might request.
+            else -> {
+                // Ignore all other requests.
             }
         }
-        return super.onTouchEvent(event)
     }
+
+
+    // TODO: temp
+    /** A safe way to get an instance of the Camera object. */
+    private fun getCameraInstance(): Camera? {
+        return try {
+            Camera.open() // attempt to get a Camera instance
+        } catch (e: Exception) {
+            // Camera is not available (in use or does not exist)
+            null // returns null if camera is unavailable
+        }
+    }
+
 
     private class MyGestureListener : GestureDetector.SimpleOnGestureListener() {
 
@@ -61,6 +133,24 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Detect when user swipes left and right
+     *
+     * @param event
+     * @return
+     */
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        // Send to Friend activity
+        if (mDetector.onTouchEvent(event)) {
+            runOnUiThread {
+                Runnable {
+                    val intent = Intent(this, FriendListActivity::class.java)
+                    startActivity(intent)
+                }.run()
+            }
+        }
+        return super.onTouchEvent(event)
+    }
 
     fun settingsOnClick(view: View) {
         val intent = Intent(this, SettingsActivity::class.java)
