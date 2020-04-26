@@ -4,19 +4,30 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.hardware.Camera
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.GestureDetectorCompat
 import edu.ramapo.btunney.quackchat.views.CameraPreview
+import kotlinx.android.synthetic.main.activity_camera.*
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 private const val DEBUG_TAG = "Gestures"
 
@@ -27,8 +38,70 @@ class CameraActivity : AppCompatActivity() {
     private var mCamera: Camera? = null
     private var mPreview: CameraPreview? = null
 
+    val MEDIA_TYPE_IMAGE = 1
+    val MEDIA_TYPE_VIDEO = 2
+
+
     // Used for onRequestPermissionsResult callback when checking for permissions
     private val PERMISSION_USE_CAMERA = 4000
+
+    // TODO: NO
+    private val mPicture = Camera.PictureCallback { data, _ ->
+        val pictureFile: File = getOutputMediaFile(MEDIA_TYPE_IMAGE) ?: run {
+            Log.d("@@@@", ("Error creating media file, check storage permissions"))
+            return@PictureCallback
+        }
+
+        try {
+            val fos = FileOutputStream(pictureFile)
+            fos.write(data)
+            fos.close()
+        } catch (e: FileNotFoundException) {
+            Log.d("@@@@", "File not found: ${e.message}")
+        } catch (e: IOException) {
+            Log.d("@@@@", "Error accessing file: ${e.message}")
+        }
+    }
+
+
+    /** Create a File for saving an image or video */
+    private fun getOutputMediaFile(type: Int): File? {
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        val mediaStorageDir = File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                "MyCameraApp"
+        )
+
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        mediaStorageDir.apply {
+            if (!exists()) {
+                if (!mkdirs()) {
+                    Log.d("MyCameraApp", "failed to create directory")
+                    return null
+                }
+            }
+        }
+
+        // Create a media file name
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        return when (type) {
+            MEDIA_TYPE_IMAGE -> {
+                File("${mediaStorageDir.path}${File.separator}IMG_$timeStamp.jpg")
+            }
+            MEDIA_TYPE_VIDEO -> {
+                File("${mediaStorageDir.path}${File.separator}VID_$timeStamp.mp4")
+            }
+            else -> null
+        }
+    }
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +112,8 @@ class CameraActivity : AppCompatActivity() {
         requestCameraPermissions()
 
         // Set the swipe detector to swipe to FriendList activity
-        mDetector = GestureDetectorCompat(this, MyGestureListener())
+//        mDetector = GestureDetectorCompat(this, MyGestureListener())
+
 
     }
 
@@ -50,18 +124,18 @@ class CameraActivity : AppCompatActivity() {
      * @param event
      * @return
      */
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        // Send to Friend activity
-        if (mDetector.onTouchEvent(event)) {
-            runOnUiThread {
-                Runnable {
-                    val intent = Intent(this, FriendListActivity::class.java)
-                    startActivity(intent)
-                }.run()
-            }
-        }
-        return super.onTouchEvent(event)
-    }
+//    override fun onTouchEvent(event: MotionEvent): Boolean {
+//        // Send to Friend activity
+//        if (mDetector.onTouchEvent(event)) {
+//            runOnUiThread {
+//                Runnable {
+//                    val intent = Intent(this, FriendListActivity::class.java)
+//                    startActivity(intent)
+//                }.run()
+//            }
+//        }
+//        return super.onTouchEvent(event)
+//    }
 
 
     /**
@@ -70,7 +144,7 @@ class CameraActivity : AppCompatActivity() {
      */
     private fun requestCameraPermissions() {
         // TODO: temp way to check for permissions (VERY BAD)
-        val permissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
+        val permissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if (!hasPermissions(this, permissions)) {
             ActivityCompat.requestPermissions(this, permissions, PERMISSION_USE_CAMERA)
         } else {
@@ -146,9 +220,9 @@ class CameraActivity : AppCompatActivity() {
             val preview: FrameLayout = findViewById(R.id.camera_preview)
             preview.addView(it)
         }
+
     }
 
-    // TODO: temp
     /** A safe way to get an instance of the Camera object. */
     private fun getCameraInstance(): Camera? {
         return try {
@@ -178,10 +252,32 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
+
+    /**
+     * Go to Settings activity when setting button is clicked
+     *
+     * @param view
+     */
     fun settingsOnClick(view: View) {
         val intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)
 //        finish()
     }
+
+    /**
+     * Take a picture when the take picture button is clicked
+     *
+     * @param view
+     */
+    fun takePictureOnClick(view: View) {
+        try {
+            mCamera!!.takePicture(null, null, mPicture)
+        } catch (e: Exception) {
+            println(e.message)
+        }
+    }
+
+
+
 
 }
