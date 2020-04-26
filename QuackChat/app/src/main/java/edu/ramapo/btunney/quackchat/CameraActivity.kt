@@ -4,17 +4,13 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.hardware.Camera
-import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -109,7 +105,7 @@ class CameraActivity : AppCompatActivity() {
 
         // Request permissions to use camera to take pictures and record video
         // If accepted or previously accepted, camera stream will be displayed on the activity
-        requestCameraPermissions()
+//        requestCameraPermissions()
 
         // Set the swipe detector to swipe to FriendList activity
 //        mDetector = GestureDetectorCompat(this, MyGestureListener())
@@ -117,6 +113,40 @@ class CameraActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * When the activity is paused, free the camera object so we don't run into issues
+     *
+     */
+    override fun onPause() {
+        super.onPause()
+        if (mCamera != null) {
+            mCamera?.stopPreview()
+            camera_preview.removeView(mPreview) // ???? maybe
+            mCamera?.release()
+            mCamera = null
+        }
+    }
+
+
+    /**
+     * When activity is resumed, camera should be shown again
+     *
+     */
+    override fun onResume() {
+        super.onResume()
+//        super.onResume()
+//        val numCams = Camera.getNumberOfCameras()
+//        if (numCams > 0) {
+//            try {
+//                mCamera = Camera.open(0)
+//                mCamera?.startPreview()
+//            } catch (ex: RuntimeException) {
+//                Toast.makeText(this, "Camera not found", Toast.LENGTH_LONG).show()
+//            }
+//        }
+        requestCameraPermissions()
+//        displayCameraPreview()
+    }
 
     /**
      * Detect when user swipes left and right
@@ -143,7 +173,6 @@ class CameraActivity : AppCompatActivity() {
      *
      */
     private fun requestCameraPermissions() {
-        // TODO: temp way to check for permissions (VERY BAD)
         val permissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         if (!hasPermissions(this, permissions)) {
             ActivityCompat.requestPermissions(this, permissions, PERMISSION_USE_CAMERA)
