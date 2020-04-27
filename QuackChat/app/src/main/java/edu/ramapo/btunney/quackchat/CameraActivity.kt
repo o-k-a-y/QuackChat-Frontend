@@ -56,6 +56,7 @@ class CameraActivity : AppCompatActivity() {
 
         var bm = BitmapFactory.decodeByteArray(data, 0, data.size)
         bm = rotateImage(bm, 90F)
+
         imageView2.setImageBitmap(bm)
 
         println(data.size)
@@ -98,7 +99,7 @@ class CameraActivity : AppCompatActivity() {
         super.onPause()
         if (mCamera != null) {
             mCamera?.stopPreview()
-            camera_preview.removeView(mPreview) // ???? maybe
+            cameraPreview.removeView(mPreview) // ???? maybe
             mCamera?.release()
             mCamera = null
         }
@@ -202,7 +203,7 @@ class CameraActivity : AppCompatActivity() {
     private fun resetCamera() {
         if (mCamera != null) {
             mCamera?.stopPreview()
-            camera_preview.removeView(mPreview) // ???? maybe
+            cameraPreview.removeView(mPreview) // ???? maybe
             mCamera?.release()
             mCamera = null
         }
@@ -228,7 +229,7 @@ class CameraActivity : AppCompatActivity() {
 
         // Set the Preview view as the content of our activity.
         mPreview?.also {
-            val preview: FrameLayout = findViewById(R.id.camera_preview)
+            val preview: FrameLayout = findViewById(R.id.cameraPreview)
             preview.addView(it)
         }
 

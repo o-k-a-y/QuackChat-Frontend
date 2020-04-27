@@ -246,7 +246,7 @@ class MessageActivity : AppCompatActivity() {
         // TODO: if messagesLinearLayout is null only the latest value will appear (the previous will be wiped)
         // Shove fragments into linear layout
         val bundle = Bundle()
-        bundle.putParcelable("message", message)
+        bundle.putParcelable(MessageFragment.ReceivedMessageBundleKey, message)
 //        val fragment = MessageFragment.newInstance("text", bundle)
         val fragment = MessageFragment()
         fragment.arguments = bundle

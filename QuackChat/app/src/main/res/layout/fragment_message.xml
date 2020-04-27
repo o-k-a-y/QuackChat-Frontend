@@ -5,10 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".fragments.MessageFragment">
 
-    <TextView
-        android:id="@+id/messageTextView"
+    <LinearLayout
+        android:id="@+id/messageLinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
+        android:layout_height="match_parent"
+        android:orientation="vertical"></LinearLayout>
 </FrameLayout>

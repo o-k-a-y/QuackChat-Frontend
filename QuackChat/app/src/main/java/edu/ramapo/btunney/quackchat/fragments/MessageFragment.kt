@@ -2,23 +2,25 @@ package edu.ramapo.btunney.quackchat.fragments
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-
+import androidx.fragment.app.Fragment
 import edu.ramapo.btunney.quackchat.R
 import edu.ramapo.btunney.quackchat.caching.entities.Message
 import edu.ramapo.btunney.quackchat.views.MessageViewType
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_message.*
 import kotlinx.android.synthetic.main.fragment_message.view.*
 
+
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
 private const val MESSAGE_TYPE = "messageType"
 private const val MESSAGE_SENT = "messageSent"
+
 
 /**
  * A simple [Fragment] subclass.
@@ -38,54 +40,89 @@ class MessageFragment : Fragment() {
 
     }
 
+    /**
+     * The function called when the view is being created
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         // Inflate the layout for this fragment
-        val inf = inflater.inflate(R.layout.fragment_message, container, false)
+        return inflater.inflate(R.layout.fragment_message, container, false)
+    }
 
+    /**
+     * Once the fragment is created, we can add the text/picture/video view to it
+     *
+     * @param view
+     * @param savedInstanceState
+     */
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Get the message from the bundle
-        val bundle = arguments
-        val message = bundle?.getParcelable<Message>("message")
-
-        messageType = bundle?.getString("messageType")
-        Log.d("@Message fragment", messageType ?: "null")
-
+        val bundle = arguments ?: throw RuntimeException("Bundle for message fragment is empty")
+        val message = bundle.getParcelable<Message>(ReceivedMessageBundleKey)
 
         // TODO: handle all cases of text, picture, or video message
 
         if (message != null) {
-            when (message.type) {
-                MessageViewType.TEXT.type -> {
-                    inf.messageTextView.text = message.message
-                    inf.setBackgroundColor(Color.RED)
-                }
-                MessageViewType.PICTURE.type -> {
-                    // TODO
-                }
-                MessageViewType.VIDEO.type -> {
-                    // TODO
-                }
-                else -> {
-                    // TODO
-                }
-            }
+            handleReceivedMessage(message)
         } else {
-            // TODO: probably awful design
-            val messageSent = bundle?.getString(MESSAGE_SENT)
-            if (messageSent != null) {
-                inf.messageTextView.text = messageSent
-                inf.setBackgroundColor(Color.GREEN)
+            val messageSent = bundle.getString(MESSAGE_SENT)
+            handleSentMessage(messageSent)
+        }
+    }
 
-                // Right justify the text
-                inf.messageTextView.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
+    private fun handleReceivedMessage(message: Message) {
+        when (message.type) {
+            MessageViewType.TEXT.type -> {
+
+                val messageTextView = TextView(messageLinearLayout.context)
+                messageTextView.text = message.message
+                messageLinearLayout.addView(messageTextView)
+                messageLinearLayout.setBackgroundColor(Color.RED)
+            }
+            MessageViewType.PICTURE.type -> {
+                // TODO: finish and actually show picture with button and other things
+                val messageTextView = TextView(messageLinearLayout.context)
+                messageTextView.text = "PICTURE TEMP"
+                messageLinearLayout.addView(messageTextView)
+                messageLinearLayout.setBackgroundColor(Color.BLUE)
+            }
+            MessageViewType.VIDEO.type -> {
+                // TODO
+                val messageTextView = TextView(messageLinearLayout.context)
+                messageTextView.text = "VIDEO TEMP"
+                messageLinearLayout.addView(messageTextView)
+                messageLinearLayout.setBackgroundColor(Color.MAGENTA)
+            }
+            else -> {
+                // TODO
             }
         }
+    }
 
-        return inf
+    private fun handleSentMessage(messageSent: String?) {
+        // This is the message you sent to a friend
+        // TODO: probably awful design
+
+        if (messageSent != null) {
+            val messageTextView = TextView(messageLinearLayout.context)
+            messageTextView.text = messageSent
+
+            // Right justify the text
+            messageTextView.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
+
+            messageLinearLayout.addView(messageTextView)
+            messageLinearLayout.setBackgroundColor(Color.GREEN)
+        }
     }
 
     // TODO might not need this
     companion object {
+        const val ReceivedMessageBundleKey = "message"
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
