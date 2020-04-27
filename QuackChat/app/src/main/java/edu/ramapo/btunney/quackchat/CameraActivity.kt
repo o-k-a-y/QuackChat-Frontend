@@ -4,9 +4,12 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.hardware.Camera
 import android.os.Bundle
-import android.os.Environment
+import android.util.Base64
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -16,14 +19,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.GestureDetectorCompat
+import edu.ramapo.btunney.quackchat.networking.MessageType
+import edu.ramapo.btunney.quackchat.networking.NetworkCallback
+import edu.ramapo.btunney.quackchat.networking.NetworkRequester
+import edu.ramapo.btunney.quackchat.networking.ServerRoutes
 import edu.ramapo.btunney.quackchat.views.CameraPreview
 import kotlinx.android.synthetic.main.activity_camera.*
-import java.io.File
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
+
 
 private const val DEBUG_TAG = "Gestures"
 
@@ -41,75 +43,45 @@ class CameraActivity : AppCompatActivity() {
     // Used for onRequestPermissionsResult callback when checking for permissions
     private val PERMISSION_USE_CAMERA = 4000
 
-    // TODO: NO
+
     private val mPicture = Camera.PictureCallback { data, _ ->
-        val pictureFile: File = getOutputMediaFile(MEDIA_TYPE_IMAGE) ?: run {
-            Log.d("@@@@", ("Error creating media file, check storage permissions"))
-            return@PictureCallback
-        }
+        Log.d("what is data", data.toString())
 
-        try {
-            val fos = FileOutputStream(pictureFile)
-            fos.write(data)
-            fos.close()
-        } catch (e: FileNotFoundException) {
-            Log.d("@@@@", "File not found: ${e.message}")
-        } catch (e: IOException) {
-            Log.d("@@@@", "Error accessing file: ${e.message}")
-        }
+        // Base64 encode data
+        val base64EncodedData = Base64.encodeToString(data, Base64.DEFAULT)
+        Log.d("picture", base64EncodedData)
+
+        var bm = BitmapFactory.decodeByteArray(data, 0, data.size)
+        bm = rotateImage(bm, 90F)
+        imageView2.setImageBitmap(bm)
+
+        println(data.size)
+
+        // Reset the camera and its preview
+        resetCamera()
+
+        // TODO: Show preview of picture before sending it
+
+        // TODO: TEMP, sending picture straight to backend
+        NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, "joe", base64EncodedData, MessageType.PICTURE, object: NetworkCallback {
+            override fun onFailure(failureCode: NetworkCallback.FailureCode) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSuccess(data: Any?) {
+                Log.d("@CameraAct", "picture message sent")
+            }
+
+        })
     }
-
-
-    /** Create a File for saving an image or video */
-    private fun getOutputMediaFile(type: Int): File? {
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
-
-        val mediaStorageDir = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                "MyCameraApp"
-        )
-
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
-
-        // Create the storage directory if it does not exist
-        mediaStorageDir.apply {
-            if (!exists()) {
-                if (!mkdirs()) {
-                    Log.d("MyCameraApp", "failed to create directory")
-                    return null
-                }
-            }
-        }
-
-        // Create a media file name
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        return when (type) {
-            MEDIA_TYPE_IMAGE -> {
-                File("${mediaStorageDir.path}${File.separator}IMG_$timeStamp.jpg")
-            }
-            MEDIA_TYPE_VIDEO -> {
-                File("${mediaStorageDir.path}${File.separator}VID_$timeStamp.mp4")
-            }
-            else -> null
-        }
-    }
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
 
-        // Request permissions to use camera to take pictures and record video
-        // If accepted or previously accepted, camera stream will be displayed on the activity
-//        requestCameraPermissions()
-
         // Set the swipe detector to swipe to FriendList activity
-//        mDetector = GestureDetectorCompat(this, MyGestureListener())
-
+        mDetector = GestureDetectorCompat(this, MyGestureListener())
 
     }
 
@@ -130,22 +102,12 @@ class CameraActivity : AppCompatActivity() {
 
     /**
      * When activity is resumed, camera should be shown again
+     * onResume is called right after onCreate
      *
      */
     override fun onResume() {
         super.onResume()
-//        super.onResume()
-//        val numCams = Camera.getNumberOfCameras()
-//        if (numCams > 0) {
-//            try {
-//                mCamera = Camera.open(0)
-//                mCamera?.startPreview()
-//            } catch (ex: RuntimeException) {
-//                Toast.makeText(this, "Camera not found", Toast.LENGTH_LONG).show()
-//            }
-//        }
         requestCameraPermissions()
-//        displayCameraPreview()
     }
 
     /**
@@ -154,18 +116,18 @@ class CameraActivity : AppCompatActivity() {
      * @param event
      * @return
      */
-//    override fun onTouchEvent(event: MotionEvent): Boolean {
-//        // Send to Friend activity
-//        if (mDetector.onTouchEvent(event)) {
-//            runOnUiThread {
-//                Runnable {
-//                    val intent = Intent(this, FriendListActivity::class.java)
-//                    startActivity(intent)
-//                }.run()
-//            }
-//        }
-//        return super.onTouchEvent(event)
-//    }
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        // Send to Friend activity
+        if (mDetector.onTouchEvent(event)) {
+            runOnUiThread {
+                Runnable {
+                    val intent = Intent(this, FriendListActivity::class.java)
+                    startActivity(intent)
+                }.run()
+            }
+        }
+        return super.onTouchEvent(event)
+    }
 
 
     /**
@@ -227,6 +189,33 @@ class CameraActivity : AppCompatActivity() {
         ActivityCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
     }
 
+
+    /**
+     * Every time we take a picture we must reset the camera and the preview
+     *
+     */
+    private fun resetCamera() {
+        // TODO: pick one and refactor code
+        if (mCamera != null) {
+            mCamera?.stopPreview()
+            camera_preview.removeView(mPreview) // ???? maybe
+            mCamera?.release()
+            mCamera = null
+        }
+
+        displayCameraPreview()
+
+//        mPreview = mCamera?.let {
+//            // Create our Preview view
+//            CameraPreview(this, it)
+//        }
+//
+//        // Set the Preview view as the content of our activity.
+//        mPreview?.also {
+//            val preview: FrameLayout = findViewById(R.id.camera_preview)
+//            preview.addView(it)
+//        }
+    }
 
     /**
      * Show the camera stream within the FrameLayout on the activity
@@ -307,6 +296,22 @@ class CameraActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * Rotate a bitmap x degrees
+     * This is used when taking a picture because by default the image comes in landscape (horizontal)
+     * We really only allow vertical images
+     *
+     * @param source
+     * @param angle
+     * @return
+     */
+    // TODO: make this in some ImageConvert model class?
+    fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
+        val matrix = Matrix()
+        matrix.postRotate(angle)
+        return Bitmap.createBitmap(source, 0, 0, source.width, source.height,
+                matrix, true)
+    }
 
 
 }
