@@ -91,7 +91,7 @@ class MessageActivity : AppCompatActivity() {
      * @param message
      */
     private fun sendMessage(message: String) {
-        NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, friend, message, MessageType.TEXT, object: NetworkCallback {
+        NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, arrayOf(friend), message, MessageType.TEXT, object: NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 TODO("Not yet implemented")
             }

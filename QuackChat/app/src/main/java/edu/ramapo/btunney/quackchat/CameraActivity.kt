@@ -65,8 +65,10 @@ class CameraActivity : AppCompatActivity() {
 
         // TODO: Show preview of picture before sending it
 
+        // TODO: VERY TEMP ARRAY OF FRIENDS (HARDCODED)
+        val friends = arrayOf("joe", "bob", "me")
         // TODO: TEMP, sending picture straight to backend
-        NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, "joe", base64EncodedData, MessageType.PICTURE, object: NetworkCallback {
+        NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, friends, base64EncodedData, MessageType.PICTURE, object: NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 TODO("Not yet implemented")
             }

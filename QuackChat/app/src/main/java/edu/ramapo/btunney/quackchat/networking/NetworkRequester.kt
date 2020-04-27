@@ -434,8 +434,13 @@ object NetworkRequester {
         val messageJSON = JSONObject(messageJSONString)
 
 
+        val friendJSONArray = JSONArray(friends)
+
         // Insert the type of message into the request body
         messageJSON.put("messageType", messageType.type)
+
+        // Insert the friends to send message to into the request body
+        messageJSON.put("friends", friendJSONArray)
 
         val body = messageJSON.toString()
                 .toRequestBody(JSON)
