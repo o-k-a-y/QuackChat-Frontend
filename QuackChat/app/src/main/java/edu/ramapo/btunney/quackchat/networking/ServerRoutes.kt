@@ -12,7 +12,7 @@ enum class ServerRoutes(val route: String) {
     ADD_FRIEND("/users/friends/add"),
     FETCH_FRIENDS("/users/friends/fetch"),
     SEND_MESSAGE("/users/message/send"),
-    CHECK_HASH("/users/hash/check"), // TODO: change to it is generic
+    CHECK_HASH("/users/hash/check"),
     FETCH_MESSAGES("/users/messages/fetch")
 
 

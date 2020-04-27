@@ -44,6 +44,9 @@ class CameraActivity : AppCompatActivity() {
     private val PERMISSION_USE_CAMERA = 4000
 
 
+    /**
+     * Handles what happens when a picture is taken
+     */
     private val mPicture = Camera.PictureCallback { data, _ ->
         Log.d("what is data", data.toString())
 
@@ -195,7 +198,6 @@ class CameraActivity : AppCompatActivity() {
      *
      */
     private fun resetCamera() {
-        // TODO: pick one and refactor code
         if (mCamera != null) {
             mCamera?.stopPreview()
             camera_preview.removeView(mPreview) // ???? maybe
@@ -204,17 +206,6 @@ class CameraActivity : AppCompatActivity() {
         }
 
         displayCameraPreview()
-
-//        mPreview = mCamera?.let {
-//            // Create our Preview view
-//            CameraPreview(this, it)
-//        }
-//
-//        // Set the Preview view as the content of our activity.
-//        mPreview?.also {
-//            val preview: FrameLayout = findViewById(R.id.camera_preview)
-//            preview.addView(it)
-//        }
     }
 
     /**

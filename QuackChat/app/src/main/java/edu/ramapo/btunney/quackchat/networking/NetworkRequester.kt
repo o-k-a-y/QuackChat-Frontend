@@ -422,6 +422,50 @@ object NetworkRequester {
     }
 
     /**
+     * Send a message to a list of friends
+     *
+     * @param route
+     * @param friends the list of friends to send message to
+     * @param callback
+     */
+    // TODO: @@@@@@@@@@@@@@@@@@@@@@@@@@@
+    fun sendMessage(route: ServerRoutes, friends: Array<String>, message: String, messageType: MessageType, callback: NetworkCallback) {
+        val messageJSONString = "{\"message\": \"$message\"}"
+        val messageJSON = JSONObject(messageJSONString)
+
+
+        // Insert the type of message into the request body
+        messageJSON.put("messageType", messageType.type)
+
+        val body = messageJSON.toString()
+                .toRequestBody(JSON)
+        println(body)
+
+        val request = Request.Builder()
+                .url(host + route.route)
+                .post(body)
+                .build()
+
+        client.newCall(request).enqueue(object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                // TODO change to some other err
+                callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                // Return failure code when adding a friend fails
+                if (!response.isSuccessful) {
+                    // TODO
+                }
+
+
+                callback.onSuccess(null)
+            }
+        })
+    }
+
+    /**
      * Return the list of messages the logged in user has
      *
      * @param route
