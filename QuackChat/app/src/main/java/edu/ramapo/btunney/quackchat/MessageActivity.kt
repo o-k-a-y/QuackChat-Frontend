@@ -262,7 +262,7 @@ class MessageActivity : AppCompatActivity() {
     private fun makeMessageLinearLayout(message: Message) {
         runOnUiThread {
             Runnable {
-                val messageLinearLayout = MessageViewFactory.createMessageView(this, message, null)
+                val messageLinearLayout = MessageViewFactory.createMessageView(messagesLinearLayout.context, message, null)
 
                 messagesLinearLayout.addView(messageLinearLayout)
 

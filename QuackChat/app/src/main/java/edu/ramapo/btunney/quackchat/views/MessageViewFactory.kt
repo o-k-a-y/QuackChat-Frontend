@@ -39,6 +39,7 @@ class MessageViewFactory {
 
                     val messageTextView = TextView(context)
                     messageTextView.text = message.message
+                    messageTextView.setBackgroundColor(Color.BLACK)
                     messageLinearLayout.addView(messageTextView)
                     messageLinearLayout.setBackgroundColor(Color.YELLOW)
                 }
@@ -87,19 +88,20 @@ class MessageViewFactory {
          */
         private fun handleSentMessage(context: Context, messageSent: String?): LinearLayout {
             // This is the message you sent to a friend
-            // TODO: probably awful design
+            val messageTextView = TextView(context)
+            messageTextView.text = messageSent
 
+            // Needed for TextView so we can right justify the text
+            val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+            messageTextView.layoutParams = params
 
-                val messageTextView = TextView(context)
-                messageTextView.text = messageSent
+            // Right justify the text
+            messageTextView.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
+//            messageTextView.setBackgroundColor(Color.BLACK)
 
-                // Right justify the text
-                messageTextView.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
-
-                messageLinearLayout.addView(messageTextView)
-                messageLinearLayout.setBackgroundColor(Color.GREEN)
-
-
+            messageLinearLayout.addView(messageTextView)
+            messageLinearLayout.setBackgroundColor(Color.GREEN)
+            
             return messageLinearLayout
         }
 
