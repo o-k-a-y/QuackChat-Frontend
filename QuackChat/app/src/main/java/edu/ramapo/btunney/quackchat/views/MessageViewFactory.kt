@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import edu.ramapo.btunney.quackchat.R
 import edu.ramapo.btunney.quackchat.caching.entities.Message
 
 class MessageViewFactory {
@@ -67,7 +68,7 @@ class MessageViewFactory {
                     pictureImageButton.layoutParams = params
 
                     // Make button red
-                    pictureImageButton.setBackgroundColor(Color.RED)
+                    pictureImageButton.setImageResource(R.drawable.ic_unopenedpicture)
 
                     val imageLinearLayout = LinearLayout(context)
                     imageLinearLayout.addView(pictureImageButton)

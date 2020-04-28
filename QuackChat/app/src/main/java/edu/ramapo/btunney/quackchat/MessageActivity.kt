@@ -342,6 +342,7 @@ class MessageActivity : AppCompatActivity() {
             // Change the LinearLayout to the opened picture/video version
             setMediaViewOpened(mediaView)
 
+            // Picture can not be reopened
             mediaView.isClickable = false
             Log.d("@CLICK", "click")
         }
