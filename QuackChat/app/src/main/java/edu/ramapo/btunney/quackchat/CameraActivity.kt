@@ -40,7 +40,6 @@ class CameraActivity : AppCompatActivity() {
     val MEDIA_TYPE_IMAGE = 1
     val MEDIA_TYPE_VIDEO = 2
 
-
     // Used for onRequestPermissionsResult callback when checking for permissions
     private val PERMISSION_USE_CAMERA = 4000
 
@@ -54,16 +53,6 @@ class CameraActivity : AppCompatActivity() {
         // Base64 encode data
         val base64EncodedData = Base64.encodeToString(data, Base64.DEFAULT)
         Log.d("picture", base64EncodedData)
-//
-//        var bm = BitmapFactory.decodeByteArray(data, 0, data.size)
-//        bm = rotateImage(bm, 90F)
-//
-//        val imageTest = ImageView(this)
-//        imageTest.setImageBitmap(bm)
-//
-//        imageView2.addView(imageTest)
-//
-//        println(data.size)
 
         // Reset the camera and its preview
         resetCamera()

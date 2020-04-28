@@ -10,6 +10,8 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.core.view.children
 import androidx.room.Room
 import edu.ramapo.btunney.quackchat.caching.AppDatabase
 import edu.ramapo.btunney.quackchat.caching.entities.Cache
@@ -19,7 +21,9 @@ import edu.ramapo.btunney.quackchat.networking.MessageType
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
+import edu.ramapo.btunney.quackchat.views.MediaOpenedViewFactory
 import edu.ramapo.btunney.quackchat.views.MessageViewFactory
+import edu.ramapo.btunney.quackchat.views.MessageViewType
 import kotlinx.android.synthetic.main.activity_message.*
 import org.json.JSONObject
 
@@ -251,7 +255,7 @@ class MessageActivity : AppCompatActivity() {
     }
 
     /**
-     * TODO
+     * Create a LinearLayout from message data and add to message list
      *
      * @param message
      */
@@ -260,41 +264,18 @@ class MessageActivity : AppCompatActivity() {
             Runnable {
                 val messageLinearLayout = MessageViewFactory.createMessageView(this, message, null)
 
-                // TODO: add onClick to layout
-                // Add an onClick to the button so image is displayed in full screen
-                messageLinearLayout.setOnClickListener {
-                    // Decode and rotate image so it shows normally
-                    val decodedString = Base64.decode(message.message, Base64.DEFAULT)
-                    var decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-                    decodedBitmap = rotateImage(decodedBitmap, 90F)
-
-
-                    // Create image view to display image
-                    val pictureView = ImageView(this)
-                    pictureView.setImageBitmap(decodedBitmap)
-
-                    mediaFrameLayout.addView(pictureView)
-
-//                    messageLinearLayout.isClickable = false
-
-//                    messageLinearLayout.addView(pictureView)
-
-                    Log.d("@CLICK", "click")
-
-                }
-
-
                 messagesLinearLayout.addView(messageLinearLayout)
+                addOnClickToPictureView(messageLinearLayout, message)
+
             }.run()
         }
-
 
 
     }
 
 
     /**
-     * TODO
+     * Create a LinearLayout from the text message sent and add to message list
      *
      * @param message
      */
@@ -323,6 +304,39 @@ class MessageActivity : AppCompatActivity() {
         matrix.postRotate(angle)
         return Bitmap.createBitmap(source, 0, 0, source.width, source.height,
                 matrix, true)
+    }
+
+    private fun addOnClickToPictureView(mediaView: LinearLayout, message: Message) {
+        // TODO: add onClick to layout
+        // Add an onClick to the button so image is displayed in full screen
+        mediaView.setOnClickListener {
+            // Decode and rotate image so it shows normally
+            val decodedString = Base64.decode(message.message, Base64.DEFAULT)
+            var decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+            decodedBitmap = rotateImage(decodedBitmap, 90F)
+
+
+            // Create image view to display image
+            val pictureView = ImageView(this)
+            pictureView.setImageBitmap(decodedBitmap)
+
+            mediaFrameLayout.addView(pictureView)
+
+            setMediaViewOpened(mediaView)
+
+            mediaView.isClickable = false
+            Log.d("@CLICK", "click")
+        }
+    }
+
+
+    private fun setMediaViewOpened(mediaView: LinearLayout) {
+        mediaView.removeAllViews()
+        mediaView.addView(MediaOpenedViewFactory.createOpenedMediaView(this, MessageViewType.PICTURE))
+    }
+
+    private fun decodeImage() {
+
     }
 
     /**

@@ -1,16 +1,14 @@
 package edu.ramapo.btunney.quackchat.views
 
 import android.content.Context
+import android.drm.DrmStore
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Matrix
-import android.util.Base64
-import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import edu.ramapo.btunney.quackchat.R
 import edu.ramapo.btunney.quackchat.caching.entities.Message
 
 class MessageViewFactory {
@@ -47,7 +45,7 @@ class MessageViewFactory {
                 MessageViewType.PICTURE.type -> {
 
                     // Set height and width of picture button
-                    val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                    val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
                     params.width = 50
                     params.height = 50
                     val pictureImageButton = ImageButton(context)
@@ -90,7 +88,7 @@ class MessageViewFactory {
             // This is the message you sent to a friend
             // TODO: probably awful design
 
-            if (messageSent != null) {
+
                 val messageTextView = TextView(context)
                 messageTextView.text = messageSent
 
@@ -99,7 +97,7 @@ class MessageViewFactory {
 
                 messageLinearLayout.addView(messageTextView)
                 messageLinearLayout.setBackgroundColor(Color.GREEN)
-            }
+
 
             return messageLinearLayout
         }
