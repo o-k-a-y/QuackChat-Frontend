@@ -14,6 +14,7 @@ import edu.ramapo.btunney.quackchat.networking.MessageType
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
+import edu.ramapo.btunney.quackchat.views.MessageViewFactory
 import kotlinx.android.synthetic.main.activity_message.*
 import org.json.JSONObject
 
@@ -108,7 +109,8 @@ class MessageActivity : AppCompatActivity() {
             override fun onSuccess(data: Any?) {
                 Log.d("@MessageActivity", "sent message?")
                 // TODO: this only handles text
-                makeMessageFragment(message)
+//                makeMessageFragment(message)
+                makeMessageLinearLayout(message)
             }
 
         })
@@ -229,7 +231,10 @@ class MessageActivity : AppCompatActivity() {
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
             for (message in db.messageDao().getAllFromFriend(friend)) {
 //                runOnUiThread {
-                    makeMessageFragment(message)
+
+                // TODO
+                makeMessageLinearLayout(message)
+//                    makeMessageFragment(message)
 //                }
             }
             if(db.isOpen) {
@@ -237,6 +242,61 @@ class MessageActivity : AppCompatActivity() {
             }
         }.start()
 
+
+    }
+
+    /**
+     * TODO
+     *
+     * @param message
+     */
+    private fun makeMessageLinearLayout(message: Message) {
+        runOnUiThread {
+            Runnable {
+                val messageLinearLayout = MessageViewFactory.createMessageView(this, message, null)
+                messagesLinearLayout.addView(messageLinearLayout)
+            }.run()
+        }
+
+
+        // TODO: add onClick to layout
+//        // Add an onClick to the button so image is displayed in full screen
+//        messageLinearLayout.setOnClickListener {
+//            // Decode and rotate image so it shows normally
+//            val decodedString = Base64.decode(message.message, Base64.DEFAULT)
+//            var decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+//            decodedBitmap = rotateImage(decodedBitmap, 90F)
+//
+//
+//            // Create image view to display image
+//            val pictureView = ImageView(context)
+//            pictureView.setImageBitmap(decodedBitmap)
+//
+//            val test = getActivity().findViewById<FrameLayout>(R.id.mediaFrameLayout)
+//            test.addView(pictureView)
+//
+////                    messageLinearLayout.isClickable = false
+//
+////                    messageLinearLayout.addView(pictureView)
+//
+//            Log.d("@CLICK", "click")
+
+//        }
+    }
+
+
+    /**
+     * TODO
+     *
+     * @param message
+     */
+    private fun makeMessageLinearLayout(message: String) {
+        runOnUiThread {
+            Runnable {
+                val messageLinearLayout = MessageViewFactory.createMessageView(this, null, message)
+                messagesLinearLayout.addView(messageLinearLayout)
+            }.run()
+        }
 
     }
 
