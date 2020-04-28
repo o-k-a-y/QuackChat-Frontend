@@ -265,6 +265,10 @@ class MessageActivity : AppCompatActivity() {
                 val messageLinearLayout = MessageViewFactory.createMessageView(this, message, null)
 
                 messagesLinearLayout.addView(messageLinearLayout)
+
+                // Add padding
+                addPadding(messageLinearLayout)
+
                 addOnClickToPictureView(messageLinearLayout, message)
 
             }.run()
@@ -276,13 +280,17 @@ class MessageActivity : AppCompatActivity() {
 
     /**
      * Create a LinearLayout from the text message sent and add to message list
-     *
+     *f
      * @param message
      */
     private fun makeMessageLinearLayout(message: String) {
         runOnUiThread {
             Runnable {
                 val messageLinearLayout = MessageViewFactory.createMessageView(this, null, message)
+
+                // Add padding
+                addPadding(messageLinearLayout)
+
                 messagesLinearLayout.addView(messageLinearLayout)
             }.run()
         }
@@ -330,9 +338,23 @@ class MessageActivity : AppCompatActivity() {
     }
 
 
+    /**
+     * Change what the media view pictures (picture and video) look like
+     *
+     * @param mediaView
+     */
     private fun setMediaViewOpened(mediaView: LinearLayout) {
         mediaView.removeAllViews()
         mediaView.addView(MediaOpenedViewFactory.createOpenedMediaView(this, MessageViewType.PICTURE))
+    }
+
+    /**
+     * Add padding to the linear layout
+     *
+     * @param linearLayout
+     */
+    private fun addPadding(linearLayout: LinearLayout) {
+        linearLayout.setPadding(0, 20, 0, 20)
     }
 
     private fun decodeImage() {

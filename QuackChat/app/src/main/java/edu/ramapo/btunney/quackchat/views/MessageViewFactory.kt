@@ -54,10 +54,11 @@ class MessageViewFactory {
                     // Make button red
                     pictureImageButton.setBackgroundColor(Color.RED)
 
-                    // Add some padding to the view
                     val imageLinearLayout = LinearLayout(context)
                     imageLinearLayout.addView(pictureImageButton)
-                    imageLinearLayout.setPadding(0, 20, 0, 20)
+
+//                    // Add some padding to the view
+//                    imageLinearLayout.setPadding(0, 20, 0, 20)
 
                     // Add to fragment layout
                     messageLinearLayout.addView(imageLinearLayout)
