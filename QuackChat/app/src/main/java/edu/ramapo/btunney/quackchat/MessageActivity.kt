@@ -45,6 +45,15 @@ class MessageActivity : AppCompatActivity() {
 
         // Fetch any new messages from friend
         fetchMessages()
+
+
+        // When clicked all views are removed
+        mediaFrameLayout.setOnClickListener(object: View.OnClickListener {
+            override fun onClick(v: View?) {
+                mediaFrameLayout.removeAllViews()
+            }
+
+        })
     }
 
     private fun clearMessageCache() {
@@ -236,18 +245,9 @@ class MessageActivity : AppCompatActivity() {
      *
      */
     private fun makeMessageFragment(message: Message) {
-
-        // TODO: handle all types of message types
-
-//        MessageFragment.newInstance("text")
-//        val test = MessageFragment.newInstance("text")
-
-        // TODO: a single transaction would be better!
-        // TODO: if messagesLinearLayout is null only the latest value will appear (the previous will be wiped)
         // Shove fragments into linear layout
         val bundle = Bundle()
         bundle.putParcelable(MessageFragment.ReceivedMessageBundleKey, message)
-//        val fragment = MessageFragment.newInstance("text", bundle)
         val fragment = MessageFragment()
         fragment.arguments = bundle
         supportFragmentManager.beginTransaction()

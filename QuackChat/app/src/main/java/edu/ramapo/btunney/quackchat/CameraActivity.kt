@@ -15,6 +15,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -53,13 +54,16 @@ class CameraActivity : AppCompatActivity() {
         // Base64 encode data
         val base64EncodedData = Base64.encodeToString(data, Base64.DEFAULT)
         Log.d("picture", base64EncodedData)
-
-        var bm = BitmapFactory.decodeByteArray(data, 0, data.size)
-        bm = rotateImage(bm, 90F)
-
-        imageView2.setImageBitmap(bm)
-
-        println(data.size)
+//
+//        var bm = BitmapFactory.decodeByteArray(data, 0, data.size)
+//        bm = rotateImage(bm, 90F)
+//
+//        val imageTest = ImageView(this)
+//        imageTest.setImageBitmap(bm)
+//
+//        imageView2.addView(imageTest)
+//
+//        println(data.size)
 
         // Reset the camera and its preview
         resetCamera()

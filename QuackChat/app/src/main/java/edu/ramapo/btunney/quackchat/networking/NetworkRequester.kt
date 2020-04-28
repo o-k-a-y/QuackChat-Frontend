@@ -379,60 +379,15 @@ object NetworkRequester {
     }
 
     /**
-     * Send a message to a friend
-     *
-     * @param route
-     * @param friend
-     * @param callback
-     */
-    fun sendMessage(route: ServerRoutes, friend: String, message: String, messageType: MessageType, callback: NetworkCallback) {
-        val messageJSONString = "{\"message\": \"$message\"}"
-        val messageJSON = JSONObject(messageJSONString)
-
-
-        // Insert the type of message into the request body
-        messageJSON.put("messageType", messageType.type)
-
-        val body = messageJSON.toString()
-                .toRequestBody(JSON)
-        println(body)
-
-        val request = Request.Builder()
-                .url(host + route.route + "/$friend")
-                .post(body)
-                .build()
-
-        client.newCall(request).enqueue(object: Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                e.printStackTrace()
-                // TODO change to some other err
-                callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                // Return failure code when adding a friend fails
-                if (!response.isSuccessful) {
-                    // TODO
-                }
-
-
-                callback.onSuccess(null)
-            }
-        })
-    }
-
-    /**
      * Send a message to a list of friends
      *
      * @param route
      * @param friends the list of friends to send message to
      * @param callback
      */
-    // TODO: @@@@@@@@@@@@@@@@@@@@@@@@@@@
     fun sendMessage(route: ServerRoutes, friends: Array<String>, message: String, messageType: MessageType, callback: NetworkCallback) {
         val messageJSONString = "{\"message\": \"$message\"}"
         val messageJSON = JSONObject(messageJSONString)
-
 
         val friendJSONArray = JSONArray(friends)
 

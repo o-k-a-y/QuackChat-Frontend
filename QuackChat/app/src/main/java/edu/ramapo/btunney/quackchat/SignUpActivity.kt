@@ -30,11 +30,10 @@ class SignUpActivity : AppCompatActivity() {
     }
 
 
-
     /**
-     * TODO
+     * Creates a JSON object from the form fields to create a user
      *
-     * @param view
+     * @param view the sign up button
      */
     fun signUpOnClick(view: View) {
         if (confirmPasswordEditText.text.toString() != this.passwordEditText.text.toString()) {
@@ -46,7 +45,6 @@ class SignUpActivity : AppCompatActivity() {
         val userMap = signUpFormToMap()
         val userJSON = JSONObject(userMap)
 
-        // TODO: Make HTTP request to backend / improve method
         createUser(userJSON)
     }
 
@@ -130,9 +128,9 @@ class SignUpActivity : AppCompatActivity() {
 
 
     /**
-     * TODO
+     * Convert the text inside the form into a map to convert to JSON later
      *
-     * @return
+     * @return a map containing user details
      */
     private fun signUpFormToMap(): Map<String, String> {
         val username: String = usernameEditText.text.toString()

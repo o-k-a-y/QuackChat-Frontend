@@ -1,18 +1,24 @@
 package edu.ramapo.btunney.quackchat.fragments
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.Matrix
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.*
+import androidx.annotation.MainThread
 import androidx.fragment.app.Fragment
 import edu.ramapo.btunney.quackchat.R
 import edu.ramapo.btunney.quackchat.caching.entities.Message
 import edu.ramapo.btunney.quackchat.views.MessageViewType
-import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_message.*
 import kotlinx.android.synthetic.main.fragment_message.*
-import kotlinx.android.synthetic.main.fragment_message.view.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -75,6 +81,11 @@ class MessageFragment : Fragment() {
         }
     }
 
+    /**
+     * Creates a view containing the message a friend sent you
+     *
+     * @param message
+     */
     private fun handleReceivedMessage(message: Message) {
         when (message.type) {
             MessageViewType.TEXT.type -> {
@@ -82,14 +93,57 @@ class MessageFragment : Fragment() {
                 val messageTextView = TextView(messageLinearLayout.context)
                 messageTextView.text = message.message
                 messageLinearLayout.addView(messageTextView)
-                messageLinearLayout.setBackgroundColor(Color.RED)
+                messageLinearLayout.setBackgroundColor(Color.YELLOW)
             }
             MessageViewType.PICTURE.type -> {
                 // TODO: finish and actually show picture with button and other things
-                val messageTextView = TextView(messageLinearLayout.context)
-                messageTextView.text = "PICTURE TEMP"
-                messageLinearLayout.addView(messageTextView)
-                messageLinearLayout.setBackgroundColor(Color.BLUE)
+//                val messageTextView = TextView(messageLinearLayout.context)
+//                messageTextView.text = "PICTURE TEMP"
+//                messageLinearLayout.addView(messageTextView)
+//                messageLinearLayout.setBackgroundColor(Color.BLUE)
+
+                // Set height and width of picture button
+                val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                params.width = 50
+                params.height = 50
+                val pictureImageButton = ImageButton(messageLinearLayout.context)
+                pictureImageButton.layoutParams = params
+
+                // Make button red
+                pictureImageButton.setBackgroundColor(Color.RED)
+
+                // Add some padding to the view
+                val imageLinearLayout = LinearLayout(messageLinearLayout.context)
+                imageLinearLayout.addView(pictureImageButton)
+                imageLinearLayout.setPadding(0, 20, 0, 20)
+
+                // Add to fragment layout
+                messageLinearLayout.addView(imageLinearLayout)
+
+                // Add an onClick to the button so image is displayed in full screen
+                messageLinearLayout.setOnClickListener {
+                    // Decode and rotate image so it shows normally
+                    val decodedString = Base64.decode(message.message, Base64.DEFAULT)
+                    var decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+                    decodedBitmap = rotateImage(decodedBitmap, 90F)
+
+
+                    // Create image view to display image
+                    val pictureView = ImageView(messageLinearLayout.context)
+                    pictureView.setImageBitmap(decodedBitmap)
+
+
+                    val test = getActivity()?.findViewById<FrameLayout>(R.id.mediaFrameLayout)
+                    test?.addView(pictureView)
+
+//                    messageLinearLayout.isClickable = false
+
+//                    messageLinearLayout.addView(pictureView)
+
+                    Log.d("@CLICK", "click")
+
+                }
+
             }
             MessageViewType.VIDEO.type -> {
                 // TODO
@@ -104,6 +158,11 @@ class MessageFragment : Fragment() {
         }
     }
 
+    /**
+     * Creates a temporary TextView containing the text you sent to a friend
+     *
+     * @param messageSent the message you sent to a friend
+     */
     private fun handleSentMessage(messageSent: String?) {
         // This is the message you sent to a friend
         // TODO: probably awful design
@@ -118,6 +177,22 @@ class MessageFragment : Fragment() {
             messageLinearLayout.addView(messageTextView)
             messageLinearLayout.setBackgroundColor(Color.GREEN)
         }
+    }
+
+    /**
+     * Rotate a bitmap x degrees
+     * This is used when taking a picture because by default the image comes in landscape (horizontal)
+     * We really only allow vertical images
+     *
+     * @param source
+     * @param angle
+     * @return
+     */
+    private fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
+        val matrix = Matrix()
+        matrix.postRotate(angle)
+        return Bitmap.createBitmap(source, 0, 0, source.width, source.height,
+                matrix, true)
     }
 
     // TODO might not need this
