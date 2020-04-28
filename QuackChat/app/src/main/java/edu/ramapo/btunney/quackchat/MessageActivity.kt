@@ -1,10 +1,15 @@
 package edu.ramapo.btunney.quackchat
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.widget.ImageView
 import androidx.room.Room
 import edu.ramapo.btunney.quackchat.caching.AppDatabase
 import edu.ramapo.btunney.quackchat.caching.entities.Cache
@@ -254,34 +259,37 @@ class MessageActivity : AppCompatActivity() {
         runOnUiThread {
             Runnable {
                 val messageLinearLayout = MessageViewFactory.createMessageView(this, message, null)
+
+                // TODO: add onClick to layout
+                // Add an onClick to the button so image is displayed in full screen
+                messageLinearLayout.setOnClickListener {
+                    // Decode and rotate image so it shows normally
+                    val decodedString = Base64.decode(message.message, Base64.DEFAULT)
+                    var decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+                    decodedBitmap = rotateImage(decodedBitmap, 90F)
+
+
+                    // Create image view to display image
+                    val pictureView = ImageView(this)
+                    pictureView.setImageBitmap(decodedBitmap)
+
+                    mediaFrameLayout.addView(pictureView)
+
+//                    messageLinearLayout.isClickable = false
+
+//                    messageLinearLayout.addView(pictureView)
+
+                    Log.d("@CLICK", "click")
+
+                }
+
+
                 messagesLinearLayout.addView(messageLinearLayout)
             }.run()
         }
 
 
-        // TODO: add onClick to layout
-//        // Add an onClick to the button so image is displayed in full screen
-//        messageLinearLayout.setOnClickListener {
-//            // Decode and rotate image so it shows normally
-//            val decodedString = Base64.decode(message.message, Base64.DEFAULT)
-//            var decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-//            decodedBitmap = rotateImage(decodedBitmap, 90F)
-//
-//
-//            // Create image view to display image
-//            val pictureView = ImageView(context)
-//            pictureView.setImageBitmap(decodedBitmap)
-//
-//            val test = getActivity().findViewById<FrameLayout>(R.id.mediaFrameLayout)
-//            test.addView(pictureView)
-//
-////                    messageLinearLayout.isClickable = false
-//
-////                    messageLinearLayout.addView(pictureView)
-//
-//            Log.d("@CLICK", "click")
 
-//        }
     }
 
 
@@ -298,6 +306,23 @@ class MessageActivity : AppCompatActivity() {
             }.run()
         }
 
+    }
+
+
+    /**
+     * Rotate a bitmap x degrees
+     * This is used when taking a picture because by default the image comes in landscape (horizontal)
+     * We really only allow vertical images
+     *
+     * @param source
+     * @param angle
+     * @return
+     */
+    private fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
+        val matrix = Matrix()
+        matrix.postRotate(angle)
+        return Bitmap.createBitmap(source, 0, 0, source.width, source.height,
+                matrix, true)
     }
 
     /**
