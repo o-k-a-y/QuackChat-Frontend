@@ -16,6 +16,17 @@ class MessageViewFactory {
 
         private lateinit var messageLinearLayout: LinearLayout
 
+        /**
+         * Creates and returns a LinearLayout containing message information
+         *      A simple text message will be a TextView inside a LinearLayout
+         *      A picture will be a button inside a LinearLayout containing an onClick to display the containing image
+         *      A video will be a button inside a LinearLayout containing an onClick to display the containing video
+         *
+         * @param context the context of the activity in which to the LinearLayout will be displayed
+         * @param message the Message Entity object containing the received message data
+         * @param messageSent a string containing the text message you sent to a friend
+         * @return a LinearLayout containing message information
+         */
         fun createMessageView(context: Context, message: Message?, messageSent: String?): LinearLayout {
 
             messageLinearLayout = LinearLayout(context)
@@ -28,10 +39,13 @@ class MessageViewFactory {
             }
         }
 
+
         /**
          * Creates a view containing the message a friend sent you
          *
-         * @param message
+         * @param context the context of the activity you want the layout displayed to
+         * @param message the message you've received
+         * @return
          */
         private fun handleReceivedMessage(context: Context, message: Message): LinearLayout {
             when (message.type) {
@@ -84,7 +98,9 @@ class MessageViewFactory {
         /**
          * Creates a temporary TextView containing the text you sent to a friend
          *
+         * @param context the context of the activity you want the layout displayed to
          * @param messageSent the message you sent to a friend
+         * @return a LinearLayout containing a TextView with the text you've sent
          */
         private fun handleSentMessage(context: Context, messageSent: String?): LinearLayout {
             // This is the message you sent to a friend

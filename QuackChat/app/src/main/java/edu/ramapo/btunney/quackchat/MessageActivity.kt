@@ -262,14 +262,16 @@ class MessageActivity : AppCompatActivity() {
     private fun makeMessageLinearLayout(message: Message) {
         runOnUiThread {
             Runnable {
-                val messageLinearLayout = MessageViewFactory.createMessageView(messagesLinearLayout.context, message, null)
+                val messageLinearLayout = MessageViewFactory.createMessageView(this, message, null)
 
                 messagesLinearLayout.addView(messageLinearLayout)
 
                 // Add padding
                 addPadding(messageLinearLayout)
 
+                // Make image clickable
                 addOnClickToPictureView(messageLinearLayout, message)
+
 
             }.run()
         }
@@ -314,8 +316,15 @@ class MessageActivity : AppCompatActivity() {
                 matrix, true)
     }
 
+    /**
+     * Add an onClick listener to the LinearLayout containing a picture
+     * When clicked, it will display the image in fullscreen, and when clicked again,
+     * the image will disappear and the original LinearLayout can not be opened again
+     *
+     * @param mediaView the LinearLayout containing the picture message
+     * @param message the message data
+     */
     private fun addOnClickToPictureView(mediaView: LinearLayout, message: Message) {
-        // TODO: add onClick to layout
         // Add an onClick to the button so image is displayed in full screen
         mediaView.setOnClickListener {
             // Decode and rotate image so it shows normally
@@ -330,6 +339,7 @@ class MessageActivity : AppCompatActivity() {
 
             mediaFrameLayout.addView(pictureView)
 
+            // Change the LinearLayout to the opened picture/video version
             setMediaViewOpened(mediaView)
 
             mediaView.isClickable = false
