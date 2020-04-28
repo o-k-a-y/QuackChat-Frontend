@@ -3,7 +3,6 @@ package edu.ramapo.btunney.quackchat
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
@@ -11,7 +10,7 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.core.view.children
+import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import edu.ramapo.btunney.quackchat.caching.AppDatabase
 import edu.ramapo.btunney.quackchat.caching.entities.Cache
@@ -39,6 +38,11 @@ class MessageActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Hide the top bar in activity
+        if (supportActionBar != null)
+            supportActionBar?.hide()
+
         setContentView(R.layout.activity_message)
 
         // Get username of friend from intent
@@ -270,8 +274,10 @@ class MessageActivity : AppCompatActivity() {
                 addPadding(messageLinearLayout)
 
                 // Make image clickable
-                addOnClickToPictureView(messageLinearLayout, message)
-
+                // TODO: allow this to be used for video view as well
+                if (message.type == MessageViewType.PICTURE.type || message.type == MessageViewType.VIDEO.type) {
+                    addOnClickToPictureView(messageLinearLayout, message)
+                }
 
             }.run()
         }
@@ -324,6 +330,7 @@ class MessageActivity : AppCompatActivity() {
      * @param mediaView the LinearLayout containing the picture message
      * @param message the message data
      */
+    // TODO: allow this to be used for video view as well
     private fun addOnClickToPictureView(mediaView: LinearLayout, message: Message) {
         // Add an onClick to the button so image is displayed in full screen
         mediaView.setOnClickListener {
