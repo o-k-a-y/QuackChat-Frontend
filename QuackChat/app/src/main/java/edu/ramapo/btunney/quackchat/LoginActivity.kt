@@ -32,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun clearCache() {
 //        Thread {
-//            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+//            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
 //
 //            // TODO
 //            db.clearAllTables()
@@ -45,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
 //        }.start()
 
         // TODO make global var with database name instead of coupling
-        CCleaner(applicationContext, "CacheTest").wipeCache()
+        CCleaner(applicationContext, DATABASE_NAME).wipeCache()
     }
 
 

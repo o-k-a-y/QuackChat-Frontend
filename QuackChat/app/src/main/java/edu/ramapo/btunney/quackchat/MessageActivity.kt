@@ -78,7 +78,7 @@ class MessageActivity : AppCompatActivity() {
 
     private fun clearMessageCache() {
         Thread {
-            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
             db.messageDao().nukeTable()
 
             if(db.isOpen) {
@@ -137,7 +137,7 @@ class MessageActivity : AppCompatActivity() {
 
     private fun fetchMessages() {
         Thread {
-            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
             val hash = db.cacheHashDao().getHash("messages")
 
             db.close()
@@ -192,7 +192,7 @@ class MessageActivity : AppCompatActivity() {
 
                 // Make new thread to handle access to database so it doesn't run on main UI thread
                 Thread {
-                    val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+                    val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
 
                     // Insert any new messages into Message table
                     for (i in 0 until messages.length()) {
@@ -215,13 +215,17 @@ class MessageActivity : AppCompatActivity() {
                             message = from + timeSent
 
                             val cacheDir = applicationContext.cacheDir
-                            val cacheFile = File.createTempFile(message, null, cacheDir)
 
-                            // Write message contents to cache file
-                            cacheFile.writeText(fileContents)
+                            if (cacheDir != null) {
+                                val cacheFile = File.createTempFile(message, null, cacheDir)
 
-                            // This will be the name of the file
-                            message = cacheFile.name
+                                // Write message contents to cache file
+                                cacheFile.writeText(fileContents)
+
+                                // This will be the name of the file
+                                message = cacheFile.name
+                            }
+
                         }
 
                         // Insert into local DB
@@ -264,7 +268,7 @@ class MessageActivity : AppCompatActivity() {
 
         // Get messages
         Thread {
-            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
             for (message in db.messageDao().getAllFromFriend(friend)) {
 //                runOnUiThread {
 //                    Runnable {

@@ -139,6 +139,6 @@ class SettingsActivity : AppCompatActivity() {
     private fun clearCache() {
 
         // TODO make global var with database name instead of coupling
-        CCleaner(applicationContext, "CacheTest").wipeCache()
+        CCleaner(applicationContext, DATABASE_NAME).wipeCache()
     }
 }

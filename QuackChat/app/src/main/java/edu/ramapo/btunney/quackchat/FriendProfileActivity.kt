@@ -29,7 +29,7 @@ class FriendProfileActivity : AppCompatActivity() {
     private fun displayFriendProfile(username: String) {
         Thread {
 
-            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
             var friendProfile = LinearLayout(this)
 
             val friend = db.friendDao().findByName(username)

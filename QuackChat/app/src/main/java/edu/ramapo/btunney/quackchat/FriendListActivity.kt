@@ -33,7 +33,7 @@ class FriendListActivity : AppCompatActivity() {
 
     private fun fetchFriends() {
         Thread {
-            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
             val hash = db.cacheHashDao().getHash("friendList")
 
             if(db.isOpen) {
@@ -92,7 +92,7 @@ class FriendListActivity : AppCompatActivity() {
 
                 // Make new thread to handle access to database so it doesn't run on main UI thread
                 Thread {
-                    val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+                    val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
 
                     // Insert any new friends into User table
                     for (i in 0 until friendList.length()) {
@@ -140,7 +140,7 @@ class FriendListActivity : AppCompatActivity() {
         Thread {
             var factoryTest = LinearLayout(this)
 
-            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
 
             // Every friend
             for (friend in db.friendDao().getAll()) {
