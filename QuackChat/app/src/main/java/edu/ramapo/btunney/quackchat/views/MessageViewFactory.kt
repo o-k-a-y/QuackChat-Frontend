@@ -49,10 +49,9 @@ class MessageViewFactory {
         private fun handleReceivedMessage(context: Context, message: Message): LinearLayout {
             when (message.type) {
                 MessageViewType.TEXT.type -> {
-
                     val messageTextView = TextView(context)
                     messageTextView.text = message.message
-                    messageTextView.setBackgroundColor(Color.BLACK)
+//                    messageTextView.setBackgroundColor(Color.BLACK)
                     messageLinearLayout.addView(messageTextView)
                     messageLinearLayout.setBackgroundColor(Color.YELLOW)
                 }

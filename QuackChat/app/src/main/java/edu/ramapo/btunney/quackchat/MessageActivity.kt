@@ -25,6 +25,7 @@ import edu.ramapo.btunney.quackchat.views.MessageViewFactory
 import edu.ramapo.btunney.quackchat.views.MessageViewType
 import kotlinx.android.synthetic.main.activity_message.*
 import org.json.JSONObject
+import java.io.File
 
 /**
  * This activity is where you can send text messages to a friend
@@ -190,7 +191,7 @@ class MessageActivity : AppCompatActivity() {
                 Thread {
                     val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
 
-                    // Insert any new friends into User table
+                    // Insert any new messages into Message table
                     for (i in 0 until messages.length()) {
                         val messageData = messages.getJSONObject(i)
 
@@ -198,8 +199,27 @@ class MessageActivity : AppCompatActivity() {
                         val type: String = messageData.getString("type")
                         val to: String = messageData.getString("to")
                         val from: String = messageData.getString("from")
-                        val message: String = messageData.getString("message")
+                        var message: String = messageData.getString("message")
                         val timeSent: String = messageData.getString("timeSent")
+
+                        // If message is picture or video, we should make a file in the cache directory so
+                        // we don't overwhelm the local DB (max 1mb files)
+                        // TODO
+                        if (type == MessageType.PICTURE.type || type == MessageType.VIDEO.type) {
+                            // The actual contents of the message
+                            val fileContents = message
+
+                            message = from + timeSent
+
+                            val cacheDir = applicationContext.cacheDir
+                            val cacheFile = File.createTempFile(message, null, cacheDir)
+
+                            // Write message contents to cache file
+                            cacheFile.writeText(fileContents)
+
+                            // This will be the name of the file
+                            message = cacheFile.name
+                        }
 
                         // Insert into local DB
                         val messageEntity = Message(0, type, to, from, message, timeSent)
@@ -244,12 +264,16 @@ class MessageActivity : AppCompatActivity() {
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
             for (message in db.messageDao().getAllFromFriend(friend)) {
 //                runOnUiThread {
+//                    Runnable {
+                        // TODO
+                        makeMessageLinearLayout(message)
+//                    }.run()
 
-                // TODO
-                makeMessageLinearLayout(message)
 //                    makeMessageFragment(message)
 //                }
             }
+
+
             if(db.isOpen) {
                 db.openHelper.close()
             }
@@ -334,11 +358,14 @@ class MessageActivity : AppCompatActivity() {
     private fun addOnClickToPictureView(mediaView: LinearLayout, message: Message) {
         // Add an onClick to the button so image is displayed in full screen
         mediaView.setOnClickListener {
+            // message.message = filename in cacheDir
+            val messageContent = File(cacheDir, message.message)
+
             // Decode and rotate image so it shows normally
-            val decodedString = Base64.decode(message.message, Base64.DEFAULT)
+            val decodedString = Base64.decode(messageContent.readText(), Base64.DEFAULT)
+
             var decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
             decodedBitmap = rotateImage(decodedBitmap, 90F)
-
 
             // Create image view to display image
             val pictureView = ImageView(this)
@@ -354,6 +381,7 @@ class MessageActivity : AppCompatActivity() {
             Log.d("@CLICK", "click")
         }
     }
+
 
 
     /**

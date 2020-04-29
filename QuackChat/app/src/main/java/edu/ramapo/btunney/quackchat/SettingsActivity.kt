@@ -70,7 +70,7 @@ class SettingsActivity : AppCompatActivity() {
                 println("logged out attempt")
 
                 // TODO: Delete cookie from storage
-                clearRoomDB()
+//                clearRoomDB()
 
 
                 runOnUiThread {

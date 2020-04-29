@@ -32,8 +32,13 @@ class LoginActivity : AppCompatActivity() {
     private fun clearRoomDB() {
         Thread {
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
-            db.clearAllTables()
-            db.close()
+
+            // TODO
+            db.messageDao().nukeTable()
+
+            if(db.isOpen) {
+                db.openHelper.close()
+            }
         }.start()
     }
 
