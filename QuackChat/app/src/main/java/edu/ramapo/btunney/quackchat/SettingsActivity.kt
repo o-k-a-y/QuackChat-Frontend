@@ -15,6 +15,7 @@ import edu.ramapo.btunney.quackchat.caching.AppDatabase
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
+import edu.ramapo.btunney.quackchat.utils.CCleaner
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity() {
@@ -70,7 +71,7 @@ class SettingsActivity : AppCompatActivity() {
                 println("logged out attempt")
 
                 // TODO: Delete cookie from storage
-                clearRoomDB()
+                clearCache()
 
 
                 runOnUiThread {
@@ -133,11 +134,11 @@ class SettingsActivity : AppCompatActivity() {
         })
     }
 
-    private fun clearRoomDB() {
-        Thread {
-            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
-            db.clearAllTables()
-            db.close()
-        }.start()
+
+    // TODO
+    private fun clearCache() {
+
+        // TODO make global var with database name instead of coupling
+        CCleaner(applicationContext, "CacheTest").wipeCache()
     }
 }

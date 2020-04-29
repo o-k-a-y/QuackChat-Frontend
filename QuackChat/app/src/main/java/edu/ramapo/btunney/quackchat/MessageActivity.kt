@@ -140,9 +140,7 @@ class MessageActivity : AppCompatActivity() {
             val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
             val hash = db.cacheHashDao().getHash("messages")
 
-            if(db.isOpen) {
-                db.openHelper.close()
-            }
+            db.close()
 
             val json = "{\"hash\":\"$hash\"}"
             val hashJSON = JSONObject(json)

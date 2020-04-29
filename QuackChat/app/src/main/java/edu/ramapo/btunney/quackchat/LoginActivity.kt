@@ -11,6 +11,7 @@ import edu.ramapo.btunney.quackchat.caching.AppDatabase
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
+import edu.ramapo.btunney.quackchat.utils.CCleaner
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONObject
 
@@ -25,21 +26,26 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Nuke Room DB data
-        clearRoomDB()
+        // Nuke Room DB data and delete all cache files
+        clearCache()
     }
 
-    private fun clearRoomDB() {
-        Thread {
-            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+    private fun clearCache() {
+//        Thread {
+//            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "CacheTest").build()
+//
+//            // TODO
+//            db.clearAllTables()
+//            applicationContext.cacheDir.deleteRecursively()
+////            db.messageDao().nukeTable()
+//
+//            if(db.isOpen) {
+//                db.openHelper.close()
+//            }
+//        }.start()
 
-            // TODO
-            db.messageDao().nukeTable()
-
-            if(db.isOpen) {
-                db.openHelper.close()
-            }
-        }.start()
+        // TODO make global var with database name instead of coupling
+        CCleaner(applicationContext, "CacheTest").wipeCache()
     }
 
 

@@ -40,9 +40,7 @@ class FriendProfileActivity : AppCompatActivity() {
                 }.run()
             }
 
-            if (db.isOpen) {
-                db.openHelper.close()
-            }
+            db.close()
 
         }.start()
 
