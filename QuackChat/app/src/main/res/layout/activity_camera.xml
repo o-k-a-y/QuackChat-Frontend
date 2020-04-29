@@ -7,6 +7,11 @@
     tools:context=".CameraActivity">
 
 
+    <TextureView
+        android:id="@+id/cameraPreview2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <FrameLayout
         android:id="@+id/cameraPreview"
         android:layout_width="0dp"

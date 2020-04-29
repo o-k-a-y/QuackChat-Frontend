@@ -1,5 +1,7 @@
 package edu.ramapo.btunney.quackchat
 
+import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -37,8 +39,11 @@ class MessageActivity : AppCompatActivity() {
     private lateinit var friend: String
 
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         // Hide the top bar in activity
         if (supportActionBar != null)
