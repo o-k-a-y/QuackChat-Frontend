@@ -9,6 +9,7 @@ import android.view.SurfaceView
 import java.io.IOException
 
 /** A basic Camera preview class */
+// Code taken from https://developer.android.com/guide/topics/media/camera
 class CameraPreview(
         context: Context,
         private val mCamera: Camera

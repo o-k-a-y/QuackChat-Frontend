@@ -6,8 +6,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.room.Room
-import edu.ramapo.btunney.quackchat.caching.AppDatabase
+import edu.ramapo.btunney.quackchat.caching.RoomDatabaseDAO
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
@@ -31,21 +30,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun clearCache() {
-//        Thread {
-//            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
-//
-//            // TODO
-//            db.clearAllTables()
-//            applicationContext.cacheDir.deleteRecursively()
-////            db.messageDao().nukeTable()
-//
-//            if(db.isOpen) {
-//                db.openHelper.close()
-//            }
-//        }.start()
-
-        // TODO make global var with database name instead of coupling
-        CCleaner(applicationContext, DATABASE_NAME).wipeCache()
+        CCleaner(applicationContext, RoomDatabaseDAO.DATABASE_NAME).wipeCache()
     }
 
 

@@ -7,11 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
-import androidx.room.Room
-import edu.ramapo.btunney.quackchat.caching.AppDatabase
+import edu.ramapo.btunney.quackchat.caching.RoomDatabaseDAO
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
@@ -139,6 +136,6 @@ class SettingsActivity : AppCompatActivity() {
     private fun clearCache() {
 
         // TODO make global var with database name instead of coupling
-        CCleaner(applicationContext, DATABASE_NAME).wipeCache()
+        CCleaner(applicationContext, RoomDatabaseDAO.DATABASE_NAME).wipeCache()
     }
 }

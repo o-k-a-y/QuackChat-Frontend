@@ -1,4 +1,4 @@
-package edu.ramapo.btunney.quackchat
+package edu.ramapo.btunney.quackchat.utils
 
 /**
  * Used to handle callbacks

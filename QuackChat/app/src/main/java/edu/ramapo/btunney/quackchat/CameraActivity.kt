@@ -265,6 +265,7 @@ class CameraActivity : AppCompatActivity() {
     }
 
     /** Create a File for saving an image or video */
+    // Code taken from https://developer.android.com/guide/topics/media/camera
     private fun getOutputMediaFile(type: Int): File? {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.

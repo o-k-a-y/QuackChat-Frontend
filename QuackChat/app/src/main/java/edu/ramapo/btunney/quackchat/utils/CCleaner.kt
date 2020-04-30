@@ -2,7 +2,7 @@ package edu.ramapo.btunney.quackchat.utils
 
 import android.content.Context
 import androidx.room.Room
-import edu.ramapo.btunney.quackchat.caching.AppDatabase
+import edu.ramapo.btunney.quackchat.caching.RoomDatabaseDAO
 
 /**
  * TODO
@@ -38,7 +38,7 @@ class CCleaner(private val applicationContext: Context, private val roomDatabase
      */
     private fun deleteRoomDB() {
         Thread {
-            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, roomDatabaseName).build()
+            val db = Room.databaseBuilder(applicationContext, RoomDatabaseDAO::class.java, roomDatabaseName).build()
 
             db.clearAllTables()
             db.close()

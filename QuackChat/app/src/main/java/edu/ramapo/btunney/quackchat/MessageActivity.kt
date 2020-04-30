@@ -13,15 +13,13 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
-import edu.ramapo.btunney.quackchat.caching.AppDatabase
+import edu.ramapo.btunney.quackchat.caching.RoomDatabaseDAO
+import edu.ramapo.btunney.quackchat.caching.HashType
 import edu.ramapo.btunney.quackchat.caching.entities.Cache
 import edu.ramapo.btunney.quackchat.caching.entities.Message
 import edu.ramapo.btunney.quackchat.fragments.MessageFragment
-import edu.ramapo.btunney.quackchat.networking.MessageType
-import edu.ramapo.btunney.quackchat.networking.NetworkCallback
-import edu.ramapo.btunney.quackchat.networking.NetworkRequester
-import edu.ramapo.btunney.quackchat.networking.ServerRoutes
+import edu.ramapo.btunney.quackchat.networking.*
+import edu.ramapo.btunney.quackchat.utils.Callback
 import edu.ramapo.btunney.quackchat.views.MediaOpenedViewFactory
 import edu.ramapo.btunney.quackchat.views.MessageViewFactory
 import edu.ramapo.btunney.quackchat.views.MessageViewType
@@ -76,17 +74,6 @@ class MessageActivity : AppCompatActivity() {
         })
     }
 
-    private fun clearMessageCache() {
-        Thread {
-            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
-            db.messageDao().nukeTable()
-
-            if(db.isOpen) {
-                db.openHelper.close()
-            }
-        }
-    }
-
 
     private fun showFriendUsername() {
         friendUsernameTextView.text = friend
@@ -137,15 +124,12 @@ class MessageActivity : AppCompatActivity() {
 
     private fun fetchMessages() {
         Thread {
-            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
-            val hash = db.cacheHashDao().getHash("messages")
-
-            db.close()
+            val hash = RoomDatabaseDAO.getInstance(this).getHash(HashType.MESSAGES)
 
             val json = "{\"hash\":\"$hash\"}"
             val hashJSON = JSONObject(json)
 
-            hashJSON.put("hashType", "messages")
+            hashJSON.put(NetworkJSONKeys.HASHTYPE.type, HashType.MESSAGES.type)
 
 
             NetworkRequester.validateHash(ServerRoutes.CHECK_HASH, hashJSON, object: NetworkCallback {
@@ -157,13 +141,12 @@ class MessageActivity : AppCompatActivity() {
                 // If hashes don't match, get new list of friends
                 override fun onSuccess(data: Any?) {
                     // Hashes don't match, load cached friends
-                    if (JSONObject(data.toString()).getString("hash").toString() != hashJSON.getString("hash").toString()) {
+                    if (JSONObject(data.toString()).getString(NetworkJSONKeys.HASH.type).toString() != hashJSON.getString(NetworkJSONKeys.HASH.type).toString()) {
                         // Fetch new list of friends as well as new hash
                         retrieveNewMessages(object: Callback<Any> {
                             override fun perform(data: Any?, error: Throwable?) {
                                 loadMessages()
                             }
-
                         })
                     } else {
                         loadMessages()
@@ -187,23 +170,21 @@ class MessageActivity : AppCompatActivity() {
                 val stringData: String = data.toString()
                 val messageJSON: JSONObject = JSONObject(stringData)
 
-                val newHash = messageJSON.getString("messagesHash")
-                val messages = messageJSON.getJSONArray("messages")
+                val newHash = messageJSON.getString(NetworkJSONKeys.MESSAGESHASH.type)
+                val messages = messageJSON.getJSONArray(NetworkJSONKeys.MESSAGES.type)
 
                 // Make new thread to handle access to database so it doesn't run on main UI thread
                 Thread {
-                    val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
-
                     // Insert any new messages into Message table
                     for (i in 0 until messages.length()) {
                         val messageData = messages.getJSONObject(i)
 
                         // Get fields from JSON
-                        val type: String = messageData.getString("type")
-                        val to: String = messageData.getString("to")
-                        val from: String = messageData.getString("from")
-                        var message: String = messageData.getString("message")
-                        val timeSent: String = messageData.getString("timeSent")
+                        val type: String = messageData.getString(NetworkJSONKeys.TYPE.type)
+                        val to: String = messageData.getString(NetworkJSONKeys.TO.type)
+                        val from: String = messageData.getString(NetworkJSONKeys.FROM.type)
+                        var message: String = messageData.getString(NetworkJSONKeys.MESSAGE.type)
+                        val timeSent: String = messageData.getString(NetworkJSONKeys.TIMESENT.type)
 
                         // If message is picture or video, we should make a file in the cache directory so
                         // we don't overwhelm the local DB (max 1mb files)
@@ -225,32 +206,25 @@ class MessageActivity : AppCompatActivity() {
                                 // This will be the name of the file
                                 message = cacheFile.name
                             }
-
                         }
 
                         // Insert into local DB
                         val messageEntity = Message(0, type, to, from, message, timeSent)
-                        db.messageDao().insertOne(messageEntity)
+                        RoomDatabaseDAO.getInstance(applicationContext).insertMessage(messageEntity)
                     }
 
                     // Insert hash of friend list into Cache table
-                    val cache = Cache("messages", newHash)
-                    db.cacheHashDao().insertOne(cache)
+                    val cache = Cache(HashType.MESSAGES.type, newHash)
+                    RoomDatabaseDAO.getInstance(applicationContext).insertHash(cache)
 
-
-                    // Print all message
-                    for (message in db.messageDao().getAllFromFriend(friend)) {
-                        Log.i("@RoomDB message: ", message.toString())
-                    }
-
-                    // Check messages hash
-                    val messageHash = db.cacheHashDao().getHash("messages")
-                    Log.d("@RoomDB messages Hash: ", messageHash)
-
-
-                    if(db.isOpen) {
-                        db.openHelper.close()
-                    }
+//                    // Print all message
+//                    for (message in db.messageDao().getAllFromFriend(friend)) {
+//                        Log.i("@RoomDB message: ", message.toString())
+//                    }
+//
+//                    // Check messages hash
+//                    val messageHash = db.cacheHashDao().getHash("messages")
+//                    Log.d("@RoomDB messages Hash: ", messageHash)
 
                     // TODO: pass some actual data instead of null so we know what changed
                     callback.perform(null, null)
@@ -268,25 +242,10 @@ class MessageActivity : AppCompatActivity() {
 
         // Get messages
         Thread {
-            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
-            for (message in db.messageDao().getAllFromFriend(friend)) {
-//                runOnUiThread {
-//                    Runnable {
-                        // TODO
-                        makeMessageLinearLayout(message)
-//                    }.run()
-
-//                    makeMessageFragment(message)
-//                }
-            }
-
-
-            if(db.isOpen) {
-                db.openHelper.close()
+            for (message in RoomDatabaseDAO.getInstance(applicationContext).getAllMessagesFrom(friend)) {
+                makeMessageLinearLayout(message)
             }
         }.start()
-
-
     }
 
     /**

@@ -1,21 +1,18 @@
 package edu.ramapo.btunney.quackchat
 
 //import android.support.v7.app.AppCompatActivity
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
-import edu.ramapo.btunney.quackchat.caching.AppDatabase
+import edu.ramapo.btunney.quackchat.caching.RoomDatabaseDAO
+import edu.ramapo.btunney.quackchat.caching.HashType
 import edu.ramapo.btunney.quackchat.caching.entities.Cache
 import edu.ramapo.btunney.quackchat.caching.entities.Friend
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
+import edu.ramapo.btunney.quackchat.utils.Callback
 import edu.ramapo.btunney.quackchat.views.FriendViewFactory
 import edu.ramapo.btunney.quackchat.views.FriendViewType
 import kotlinx.android.synthetic.main.activity_friend.*
@@ -33,23 +30,17 @@ class FriendListActivity : AppCompatActivity() {
 
     private fun fetchFriends() {
         Thread {
-            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
-            val hash = db.cacheHashDao().getHash("friendList")
-
-            if(db.isOpen) {
-                db.openHelper.close()
-            }
+            // Get friend list hash
+            val hash = RoomDatabaseDAO.getInstance(this).getHash(HashType.FRIENDLIST)
 
             val json = "{\"hash\":\"$hash\"}"
             val hashJSON = JSONObject(json)
-            hashJSON.put("hashType", "friendList")
-
+            hashJSON.put("hashType", HashType.FRIENDLIST.type)
 
             NetworkRequester.validateHash(ServerRoutes.CHECK_HASH, hashJSON, object: NetworkCallback {
                 override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                     TODO()
                 }
-
                 // Check if hashes match
                 // If hashes don't match, get new list of friends
                 override fun onSuccess(data: Any?) {
@@ -92,8 +83,6 @@ class FriendListActivity : AppCompatActivity() {
 
                 // Make new thread to handle access to database so it doesn't run on main UI thread
                 Thread {
-                    val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
-
                     // Insert any new friends into User table
                     for (i in 0 until friendList.length()) {
                         val friendData = friendList.getJSONObject(i)
@@ -105,27 +94,12 @@ class FriendListActivity : AppCompatActivity() {
 
                         // Insert into local DB
                         val friend = Friend(username, imageLarge, imageSmall)
-                        db.friendDao().insertOne(friend)
+                        RoomDatabaseDAO.getInstance(applicationContext).insertFriend(friend)
                     }
 
                     // Insert hash of friend list into Cache table
                     val cache = Cache("friendList", newHash)
-                    db.cacheHashDao().insertOne(cache)
-
-
-                    // Print all friends
-                    for (fren in db.friendDao().getAll()) {
-                        Log.i("@RoomDB friend: ", fren.toString())
-                    }
-
-                    // Check friend list hash
-                    val he = db.cacheHashDao().getHash("friendList")
-                    Log.d("@RoomDB friends Hash: ", he)
-
-
-                    if(db.isOpen) {
-                        db.openHelper.close()
-                    }
+                    RoomDatabaseDAO.getInstance(applicationContext).insertHash(cache)
 
                     // TODO: pass some actual data instead of null so we know what changed
                     callback.perform(null, null)
@@ -140,10 +114,8 @@ class FriendListActivity : AppCompatActivity() {
         Thread {
             var factoryTest = LinearLayout(this)
 
-            val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, DATABASE_NAME).build()
-
             // Every friend
-            for (friend in db.friendDao().getAll()) {
+            for (friend in RoomDatabaseDAO.getInstance(applicationContext).getAllFriends()) {
                 // Testing bad factory
                 runOnUiThread {
                     Runnable {
@@ -152,9 +124,6 @@ class FriendListActivity : AppCompatActivity() {
                     }.run()
                 }
 
-            }
-            if(db.isOpen) {
-                db.openHelper.close()
             }
         }.start()
 
