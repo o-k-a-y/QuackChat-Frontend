@@ -12,7 +12,6 @@ import edu.ramapo.btunney.quackchat.caching.entities.Friend
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
-import edu.ramapo.btunney.quackchat.utils.Callback
 import edu.ramapo.btunney.quackchat.views.FriendViewFactory
 import edu.ramapo.btunney.quackchat.views.FriendViewType
 import kotlinx.android.synthetic.main.activity_friend.*

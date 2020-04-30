@@ -19,7 +19,6 @@ import edu.ramapo.btunney.quackchat.caching.entities.Cache
 import edu.ramapo.btunney.quackchat.caching.entities.Message
 import edu.ramapo.btunney.quackchat.fragments.MessageFragment
 import edu.ramapo.btunney.quackchat.networking.*
-import edu.ramapo.btunney.quackchat.utils.Callback
 import edu.ramapo.btunney.quackchat.views.MediaOpenedViewFactory
 import edu.ramapo.btunney.quackchat.views.MessageViewFactory
 import edu.ramapo.btunney.quackchat.views.MessageViewType
@@ -335,6 +334,7 @@ class MessageActivity : AppCompatActivity() {
 
             // Create image view to display image
             val pictureView = ImageView(this)
+            pictureView.setScaleType(ImageView.ScaleType.FIT_XY) // image should fit full screen size
             pictureView.setImageBitmap(decodedBitmap)
 
             mediaFrameLayout.addView(pictureView)

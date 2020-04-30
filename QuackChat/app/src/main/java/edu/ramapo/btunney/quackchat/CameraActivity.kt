@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.hardware.Camera
 import android.hardware.Camera.Parameters.SCENE_MODE_PORTRAIT
@@ -20,7 +19,6 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -70,7 +68,7 @@ class CameraActivity : AppCompatActivity() {
         // TODO: Show preview of picture before sending it
 
         // TODO: VERY TEMP ARRAY OF FRIENDS (HARDCODED)
-        val friends = arrayOf("joe", "bob", "me")
+        val friends = arrayOf("joe")
         // TODO: TEMP, sending picture straight to backend
         NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, friends, base64EncodedData, MessageType.PICTURE, object: NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
@@ -87,6 +85,11 @@ class CameraActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Hide the top bar in activity
+        if (supportActionBar != null)
+            supportActionBar?.hide()
+
         setContentView(R.layout.activity_camera)
 
         // Set the swipe detector to swipe to FriendList activity
@@ -229,11 +232,15 @@ class CameraActivity : AppCompatActivity() {
         // Create an instance of Camera
         mCamera = getCameraInstance()
 
+//        setCameraPreviewSize()
+        // TODO: VERY TEMP SOLUTION THAT DOESNT WORK ON EMULATOR BESIDES NEXUS 5
         val params: Camera.Parameters? = mCamera?.parameters
-//        params?.focusMode = Camera.Parameters.FOCUS_MODE_AUTO
-//        mCamera?.parameters = params
+        params?.setPreviewSize(1920, 1080)
+        params?.setPictureSize(1920, 1080)
+
+        mCamera?.parameters = params
+
         params?.sceneMode = SCENE_MODE_PORTRAIT
-        mCamera?.setDisplayOrientation(90)
 
         mPreview = mCamera?.let {
             // Create our Preview view
@@ -246,6 +253,23 @@ class CameraActivity : AppCompatActivity() {
             preview.addView(it)
         }
 
+    }
+
+    // TODO: BROKEN
+    private fun setCameraPreviewSize() {
+        val params: Camera.Parameters? = mCamera?.parameters
+
+        params?.sceneMode = SCENE_MODE_PORTRAIT
+        val supportedPreviewSizes = params?.supportedPreviewSizes
+        val previewSize = supportedPreviewSizes?.get(0)
+
+        val supportedCameraSizes = params?.supportedPictureSizes
+        val pictureSize = supportedCameraSizes?.get(0)
+
+        params?.setPreviewSize(1920, 1080)
+        params?.setPictureSize(1920, 1080)
+
+        mCamera?.parameters = params
     }
 
     /** A safe way to get an instance of the Camera object. */
