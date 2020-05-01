@@ -330,7 +330,9 @@ class MessageActivity : AppCompatActivity() {
             val decodedString = Base64.decode(messageContent.readText(), Base64.DEFAULT)
 
             var decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-            decodedBitmap = rotateImage(decodedBitmap, 90F)
+
+            // New cameraX API doesn't require this
+//            decodedBitmap = rotateImage(decodedBitmap, 90F)
 
             // Create image view to display image
             val pictureView = ImageView(this)

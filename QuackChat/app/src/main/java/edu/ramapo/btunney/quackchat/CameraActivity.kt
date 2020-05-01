@@ -2,196 +2,43 @@ package edu.ramapo.btunney.quackchat
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Matrix
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
-import android.util.Size
-import android.view.Surface
-import android.view.TextureView
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
-
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
-import androidx.camera.core.impl.PreviewConfig
-
-import com.google.common.util.concurrent.ListenableFuture
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
+import androidx.core.view.GestureDetectorCompat
+import edu.ramapo.btunney.quackchat.networking.MessageType
+import edu.ramapo.btunney.quackchat.networking.NetworkCallback
+import edu.ramapo.btunney.quackchat.networking.NetworkRequester
+import edu.ramapo.btunney.quackchat.networking.ServerRoutes
 import kotlinx.android.synthetic.main.activity_camera.*
 import java.io.File
 import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 
-
-// This is an arbitrary number we are using to keep track of the permission
-// request. Where an app has multiple context for requesting permission,
-// this can help differentiate the different contexts.
-private const val REQUEST_CODE_PERMISSIONS = 10
-
-// This is an array of all the permission specified in the manifest.
-private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
 
 class CameraActivity : AppCompatActivity() {
 
     private val PERMISSION_USE_CAMERA = 4000
-
+    private lateinit var mDetector: GestureDetectorCompat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_camera)
 
-        view_camera.bindToLifecycle(this)
+        // TODO: broken
+        mDetector = GestureDetectorCompat(this, MyGestureListener())
 
+//        view_camera.bindToLifecycle(this)
     }
 
 
-    /**
-     * Process result from permission request dialog box, has the request
-     * been granted? If yes, start Camera. Otherwise display a toast
-     */
-//    override fun onRequestPermissionsResult(
-//            requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-//        if (requestCode == REQUEST_CODE_PERMISSIONS) {
-//            if (allPermissionsGranted()) {
-//                viewFinder.post { startCamera() }
-//            } else {
-//                Toast.makeText(this,
-//                        "Permissions not granted by the user.",
-//                        Toast.LENGTH_SHORT).show()
-//                finish()
-//            }
-//        }
-//    }
-
-//    /**
-//     * Check if all permission specified in the manifest have been granted
-//     */
-//    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-//        ContextCompat.checkSelfPermission(
-//                baseContext, it) == PackageManager.PERMISSION_GRANTED
-//    }
-//
-//    private fun bindPreview(cameraProvider : ProcessCameraProvider) {
-//        var preview : Preview = Preview.Builder()
-//                .build()
-//
-//        var cameraSelector : CameraSelector = CameraSelector.Builder()
-//                .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-//                .build()
-//
-//        var camera = cameraProvider.bindToLifecycle(this as LifecycleOwner, cameraSelector, preview)
-//
-//
-//        preview.setSurfaceProvider(cameraView.createSurfaceProvider(camera.cameraInfo))
-//
-//    }
-
-//
-//    private fun displayCameraPreview() {
-//        try {
-//
-//            cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-//
-//            cameraProviderFuture.addListener(Runnable {
-//                val cameraProvider = cameraProviderFuture.get()
-//                bindPreview(cameraProvider)
-//            }, ContextCompat.getMainExecutor(this))
-//
-//        } catch(e: Exception) {
-//            println(e.message)
-//        }
-//    }
-
-
-
-
-
-//    private lateinit var mDetector: GestureDetectorCompat
-//
-//    private var mCamera: Camera? = null
-//    private var mPreview: CameraPreview? = null
-//    private var mediaRecorder: MediaRecorder? = null
-//
-//    val MEDIA_TYPE_IMAGE = 1
-//    val MEDIA_TYPE_VIDEO = 2
-//
-//    // Used for onRequestPermissionsResult callback when checking for permissions
-//    private val PERMISSION_USE_CAMERA = 4000
-//
-//
-//    /**
-//     * Handles what happens when a picture is taken
-//     */
-//    private val mPicture = Camera.PictureCallback { data, _ ->
-//        Log.d("what is data", data.toString())
-//
-//        // Base64 encode data
-//        val base64EncodedData = Base64.encodeToString(data, Base64.DEFAULT)
-//        Log.d("picture", base64EncodedData)
-//
-//        // Reset the camera and its preview
-//        resetCamera()
-//
-//        // TODO: Show preview of picture before sending it
-//
-//        // TODO: VERY TEMP ARRAY OF FRIENDS (HARDCODED)
-//        val friends = arrayOf("joe")
-//        // TODO: TEMP, sending picture straight to backend
-//        NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, friends, base64EncodedData, MessageType.PICTURE, object: NetworkCallback {
-//            override fun onFailure(failureCode: NetworkCallback.FailureCode) {
-//                TODO("Not yet implemented")
-//            }
-//
-//            override fun onSuccess(data: Any?) {
-//                Log.d("@CameraAct", "picture message sent")
-//            }
-//
-//        })
-//    }
-//
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//
-//        // Hide the top bar in activity
-//        if (supportActionBar != null)
-//            supportActionBar?.hide()
-//
-//        setContentView(R.layout.activity_camera)
-//
-//        // Set the swipe detector to swipe to FriendList activity
-//        mDetector = GestureDetectorCompat(this, MyGestureListener())
-//
-//    }
-//
-//    /**
-//     * When the activity is paused, free the camera object so we don't run into issues
-//     *
-//     */
-//    override fun onPause() {
-//        super.onPause()
-////        if (mCamera != null) {
-////            mCamera?.stopPreview()
-////            cameraPreview.removeView(mPreview) // ???? maybe
-////            mCamera?.release()
-////            mCamera = null
-////        }
-////
-////        // TODO: TEMP
-////        // Release MediaRecorder if used
-////        releaseMediaRecorder()
-//
-////        cameraProviderFuture
-//    }
-//
-//
     /**
      * When activity is resumed, camera should be shown again
      * onResume is called right after onCreate
@@ -201,27 +48,46 @@ class CameraActivity : AppCompatActivity() {
         super.onResume()
         requestCameraPermissions()
     }
-//
-//    /**
-//     * Detect when user swipes left and right
-//     *
-//     * @param event
-//     * @return
-//     */
-//    override fun onTouchEvent(event: MotionEvent): Boolean {
-//        // Send to Friend activity
-//        if (mDetector.onTouchEvent(event)) {
-//            runOnUiThread {
-//                Runnable {
-//                    val intent = Intent(this, FriendListActivity::class.java)
-//                    startActivity(intent)
-//                }.run()
-//            }
-//        }
-//        return super.onTouchEvent(event)
-//    }
-//
-//
+
+
+    private class MyGestureListener : GestureDetector.SimpleOnGestureListener() {
+        override fun onDown(event: MotionEvent): Boolean {
+            Log.d("Motion event", "onDown: $event")
+            return true
+        }
+
+        override fun onFling(
+                event1: MotionEvent,
+                event2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+        ): Boolean {
+            Log.d("Motion event", "onFling: $event1 $event2")
+            return true
+        }
+    }
+
+
+    /**
+     * Detect when user swipes left and right
+     *
+     * @param event
+     * @return
+     */
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        // Send to Friend activity
+        if (mDetector.onTouchEvent(event)) {
+            runOnUiThread {
+                Runnable {
+                    val intent = Intent(this, FriendListActivity::class.java)
+                    startActivity(intent)
+                }.run()
+            }
+        }
+        return super.onTouchEvent(event)
+    }
+
+
     /**
      * Ask user to accept permissions to take pictures and record videos
      *
@@ -281,262 +147,102 @@ class CameraActivity : AppCompatActivity() {
         ActivityCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
     }
 
-//
-//    /**
-//     * Every time we take a picture we must reset the camera and the preview
-//     *
-//     */
-//    private fun resetCamera() {
-//        if (mCamera != null) {
-//            mCamera?.stopPreview()
-//            cameraPreview.removeView(mPreview) // ???? maybe
-//            mCamera?.release()
-//            mCamera = null
-//        }
-//
-//        displayCameraPreview()
-//    }
-//
+
     /**
      * Show the camera stream within the FrameLayout on the activity
      *
      */
     private fun displayCameraPreview() {
-
-//        Log.d("@Camera activity", "got em")
-//
-//        // Create an instance of Camera
-//        mCamera = getCameraInstance()
-//
-////        setCameraPreviewSize()
-//        // TODO: VERY TEMP SOLUTION THAT DOESNT WORK ON EMULATOR BESIDES NEXUS 5
-//        val params: Camera.Parameters? = mCamera?.parameters
-//        params?.setPreviewSize(1920, 1080)
-//        params?.setPictureSize(1920, 1080)
-//
-//        mCamera?.parameters = params
-//
-//        params?.sceneMode = SCENE_MODE_PORTRAIT
-//
-//        mPreview = mCamera?.let {
-//            // Create our Preview view
-//            CameraPreview(this, it)
-//        }
-//
-//        // Set the Preview view as the content of our activity.
-//        mPreview?.also {
-//            val preview: FrameLayout = findViewById(R.id.cameraPreview)
-//            preview.addView(it)
-//        }
+        view_camera.bindToLifecycle(this)
 
     }
-//
-//    // TODO: BROKEN
-//    private fun setCameraPreviewSize() {
-//        val params: Camera.Parameters? = mCamera?.parameters
-//
-//        params?.sceneMode = SCENE_MODE_PORTRAIT
-//        val supportedPreviewSizes = params?.supportedPreviewSizes
-//        val previewSize = supportedPreviewSizes?.get(0)
-//
-//        val supportedCameraSizes = params?.supportedPictureSizes
-//        val pictureSize = supportedCameraSizes?.get(0)
-//
-//        params?.setPreviewSize(1920, 1080)
-//        params?.setPictureSize(1920, 1080)
-//
-//        mCamera?.parameters = params
-//    }
-//
-//    /** A safe way to get an instance of the Camera object. */
-//    private fun getCameraInstance(): Camera? {
-//        return try {
-//            Camera.open() // attempt to get a Camera instance
-//        } catch (e: Exception) {
-//            // Camera is not available (in use or does not exist)
-//            null // returns null if camera is unavailable
-//        }
-//    }
-//
-//    // TODO: BEGIN TEMP
-//    /** Create a file Uri for saving an image or video */
-//    private fun getOutputMediaFileUri(type: Int): Uri {
-//        return Uri.fromFile(getOutputMediaFile(type))
-//    }
-//
-//    /** Create a File for saving an image or video */
-//    // Code taken from https://developer.android.com/guide/topics/media/camera
-//    private fun getOutputMediaFile(type: Int): File? {
-//        // To be safe, you should check that the SDCard is mounted
-//        // using Environment.getExternalStorageState() before doing this.
-//
-//        val mediaStorageDir = File(
-//                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-//                "MyCameraApp"
-//        )
-//        // This location works best if you want the created images to be shared
-//        // between applications and persist after your app has been uninstalled.
-//
-//        // Create the storage directory if it does not exist
-//        mediaStorageDir.apply {
-//            if (!exists()) {
-//                if (!mkdirs()) {
-//                    Log.d("MyCameraApp", "failed to create directory")
-//                    return null
-//                }
-//            }
-//        }
-//
-//        // Create a media file name
-//        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-//        return when (type) {
-//            MEDIA_TYPE_IMAGE -> {
-//                File("${mediaStorageDir.path}${File.separator}IMG_$timeStamp.jpg")
-//            }
-//            MEDIA_TYPE_VIDEO -> {
-//                File("${mediaStorageDir.path}${File.separator}VID_$timeStamp.mp4")
-//            }
-//            else -> null
-//        }
-//    }
-//
-//
-//    private fun prepareVideoRecorder(): Boolean {
-//        mediaRecorder = MediaRecorder()
-//
-//        mCamera?.let { camera ->
-//            // Step 1: Unlock and set camera to MediaRecorder
-//            camera?.unlock()
-//
-//            mediaRecorder?.run {
-//                setCamera(camera)
-//
-//                // Step 2: Set sources
-//                setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
-//                setVideoSource(MediaRecorder.VideoSource.CAMERA)
-//
-//                // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
-//                setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH))
-//
-//                // Step 4: Set output file
-//                setOutputFile(getOutputMediaFile(MEDIA_TYPE_VIDEO).toString())
-//
-//                // Step 5: Set the preview output
-//                setPreviewDisplay(mPreview?.holder?.surface)
-//
-//                setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-//                setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT)
-//                setVideoEncoder(MediaRecorder.VideoEncoder.DEFAULT)
-//
-//
-//                // Step 6: Prepare configured MediaRecorder
-//                return try {
-//                    prepare()
-//                    true
-//                } catch (e: IllegalStateException) {
-//                    Log.d("@VIDEO", "IllegalStateException preparing MediaRecorder: ${e.message}")
-//                    releaseMediaRecorder()
-//                    false
-//                } catch (e: IOException) {
-//                    Log.d("@VIDEO", "IOException preparing MediaRecorder: ${e.message}")
-//                    releaseMediaRecorder()
-//                    false
-//                }
-//            }
-//
-//        }
-//        return false
-//    }
-//
-//    private fun releaseMediaRecorder() {
-//        mediaRecorder?.reset() // clear recorder configuration
-//        mediaRecorder?.release() // release the recorder object
-//        mediaRecorder = null
-//        mCamera?.lock() // lock camera for later use
-//    }
-//
-//
-//    // TODO: END TEMP
-//
-//
-//    private class MyGestureListener : GestureDetector.SimpleOnGestureListener() {
-//
-//        override fun onDown(event: MotionEvent): Boolean {
-//            Log.d(DEBUG_TAG, "onDown: $event")
-//            return true
-//        }
-//
-//        override fun onFling(
-//                event1: MotionEvent,
-//                event2: MotionEvent,
-//                velocityX: Float,
-//                velocityY: Float
-//        ): Boolean {
-//            Log.d(DEBUG_TAG, "onFling: $event1 $event2")
-//            return true
-//        }
-//    }
-//
-//
-//    /**
-//     * Go to Settings activity when setting button is clicked
-//     *
-//     * @param view
-//     */
-//    fun settingsOnClick(view: View) {
-//        val intent = Intent(this, SettingsActivity::class.java)
-//        startActivity(intent)
-////        finish()
-//    }
-//
+
+
+    /**
+     * Go to Settings activity when settings button is clicked
+     *
+     * @param view settings button
+     */
+    fun settingsOnClick(view: View) {
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
+//        finish()
+    }
+
+
+    /**
+     * Go to FriendList activity when friend list button is clicked
+     *
+     * @param view friend list button
+     */
+    fun friendListOnClick(view: View) {
+        val intent = Intent(this, FriendListActivity::class.java)
+        startActivity(intent)
+    }
+
+
     /**
      * Take a picture when the take picture button is clicked
      *
-     * @param view
+     * @param view take photo button
      */
     fun takePictureOnClick(view: View) {
         Log.d("Fuk", "ff")
         try {
-            view_camera.takePicture(object: Executor {
-                override fun execute(command: Runnable) {
-                    Log.d("executed", "executed")
-                    command.run()
-                }
+            view_camera.takePicture(
+                    File(applicationContext.cacheDir, "test").absoluteFile,
+                    object : Executor {
+                        override fun execute(command: Runnable) {
+                            command.run()
+                        }
 
-            }, object: ImageCapture.OnImageCapturedCallback() {
-                override fun onError(exception: ImageCaptureException) {
-                    super.onError(exception)
-                    Log.d("@", "error")
-                }
+                    },
+                    object : ImageCapture.OnImageSavedCallback {
+                        override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                            println("image saved?")
+                            val file = File(applicationContext.cacheDir, "test")
+                            val filePath = file.absolutePath
 
-                override fun onCaptureSuccess(image: ImageProxy) {
-                    super.onCaptureSuccess(image)
-                    Log.d("@", "success")
-                }
-            })
+                            // TODO: Bitmap if I needed to change from byte array
+//                            val bitmap = BitmapFactory.decodeFile(filePath)
+//
+//                            runOnUiThread {
+//                                Runnable {
+//                                    imageButton.setImageBitmap(bitmap)
+//                                }.run()
+//                            }
+
+                            val byteArray = file.readBytes()
+
+                            // Base64 encode data
+                            val base64EncodedData = Base64.encodeToString(byteArray, Base64.DEFAULT)
+                            Log.d("picture", base64EncodedData)
+
+                            // TODO: Show preview of picture before sending it
+
+                            // TODO: VERY TEMP ARRAY OF FRIENDS (HARDCODED)
+                            val friends = arrayOf("joe")
+                            // TODO: TEMP, sending picture straight to backend
+                            NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, friends, base64EncodedData, MessageType.PICTURE, object : NetworkCallback {
+                                override fun onFailure(failureCode: NetworkCallback.FailureCode) {
+                                    TODO("Not yet implemented")
+                                }
+
+                                override fun onSuccess(data: Any?) {
+                                    Log.d("@CameraAct", "picture message sent")
+                                }
+
+                            })
+                        }
+
+                        override fun onError(exception: ImageCaptureException) {
+                            println("image cant be saved")
+                        }
+                    }
+            )
         } catch (e: Exception) {
             println(e.message)
         }
     }
-
-//
-//
-//    /**
-//     * Rotate a bitmap x degrees
-//     * This is used when taking a picture because by default the image comes in landscape (horizontal)
-//     * We really only allow vertical images
-//     *
-//     * @param source
-//     * @param angle
-//     * @return
-//     */
-//    // TODO: make this in some ImageConvert model class?
-//    fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
-//        val matrix = Matrix()
-//        matrix.postRotate(angle)
-//        return Bitmap.createBitmap(source, 0, 0, source.width, source.height,
-//                matrix, true)
-//    }
-
 
 }

@@ -29,13 +29,23 @@
     <androidx.camera.view.CameraView
         android:id="@+id/view_camera"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+    </androidx.camera.view.CameraView>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="friendListOnClick"
+        android:text="Button" />
 
 
     <Button
         android:id="@+id/buttonCapture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="takePictureOnClick"
         android:layout_gravity="center"
         android:text="Capture"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,7 +59,7 @@
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="takePictureOnClick"
+        android:onClick="settingsOnClick"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
