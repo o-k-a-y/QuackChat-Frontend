@@ -8,30 +8,30 @@
     tools:context=".CameraActivity">
 
 
-<!--    <TextureView-->
-<!--        android:id="@+id/cameraPreview2"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content" />-->
+    <!--    <TextureView-->
+    <!--        android:id="@+id/cameraPreview2"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content" />-->
 
-<!--    <FrameLayout-->
-<!--        android:id="@+id/cameraPreview"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_weight="1"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.5"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
+    <!--    <FrameLayout-->
+    <!--        android:id="@+id/cameraPreview"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:layout_weight="1"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.5"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
 
-<!--    </FrameLayout>-->
+    <!--    </FrameLayout>-->
 
-    <androidx.camera.view.CameraView
-        android:id="@+id/view_camera"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <androidx.camera.view.CameraView
+            android:id="@+id/view_camera"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </androidx.camera.view.CameraView>
+        </androidx.camera.view.CameraView>
 
     <Button
         android:id="@+id/button"
@@ -45,25 +45,25 @@
         android:id="@+id/buttonCapture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="takePictureOnClick"
         android:layout_gravity="center"
+        android:onClick="takePictureOnClick"
         android:text="Capture"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.229"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.919" />
+        app:layout_constraintVertical_bias="0.912" />
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="settingsOnClick"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="10dp"
+        android:onClick="settingsOnClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.129"
@@ -72,12 +72,31 @@
         app:layout_constraintVertical_bias="0.042"
         app:srcCompat="@android:drawable/ic_menu_preferences" />
 
-    <FrameLayout
-        android:id="@+id/imageView2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <Button
+        android:id="@+id/startRecordingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startRecordingOnClick"
+        android:text="record"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.554"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.912" />
 
-    </FrameLayout>
+    <Button
+        android:id="@+id/stopRecordingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="stopRecordingOnClick"
+        android:text="stop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.885"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.912" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
