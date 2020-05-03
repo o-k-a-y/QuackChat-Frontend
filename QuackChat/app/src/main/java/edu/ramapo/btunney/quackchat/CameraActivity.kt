@@ -5,16 +5,20 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
-import android.view.*
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.*
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.ImageCaptureException
+import androidx.camera.core.VideoCapture
 import androidx.camera.view.CameraView
 import androidx.core.app.ActivityCompat
-import androidx.core.view.GestureDetectorCompat
+import androidx.core.content.FileProvider
+import androidx.core.view.isInvisible
 import edu.ramapo.btunney.quackchat.networking.MessageType
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
@@ -32,6 +36,10 @@ class CameraActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Hide the top bar in activity
+        if (supportActionBar != null)
+            supportActionBar?.hide()
 
         setContentView(R.layout.activity_camera)
         
@@ -280,7 +288,7 @@ class CameraActivity : AppCompatActivity() {
         // Make sure capture mode is for images
         setCaptureMode(CameraView.CaptureMode.VIDEO)
 //        view_camera.setCaptureMode(CameraView.CaptureMode.VIDEO)
-        view_camera.startRecording(File(applicationContext.cacheDir, "video"),
+        view_camera.startRecording(File(applicationContext.cacheDir, "video.mp4"),
                 object : Executor {
                     override fun execute(command: Runnable) {
                         command.run()
@@ -289,6 +297,21 @@ class CameraActivity : AppCompatActivity() {
                 },
                 object : VideoCapture.OnVideoSavedCallback {
                     override fun onVideoSaved(file: File) {
+                        runOnUiThread {
+                            Runnable {
+                                val uri = FileProvider.getUriForFile(applicationContext, applicationContext.packageName + ".provider", file)
+                                videoView.setVideoURI(uri)
+
+                                view_camera.visibility = View.INVISIBLE
+
+//                                val mediaController = MediaController(applicationContext)
+//                                mediaController.setAnchorView(videoView)
+//                                videoView.setMediaController(mediaController)
+
+
+                                videoView.start()
+                            }.run()
+                        }
                         val byteArray = file.readBytes()
                         // Base64 encode data
                         val base64EncodedData = Base64.encodeToString(byteArray, Base64.DEFAULT)
