@@ -67,7 +67,7 @@ class FriendListActivity : AppCompatActivity() {
      * Fetch new list of friends from server
      *
      */
-    fun retrieveNewFriends(callback: Callback<Any>) {
+    private fun retrieveNewFriends(callback: Callback<Any>) {
         NetworkRequester.fetchFriends(ServerRoutes.FETCH_FRIENDS, object: NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 TODO("Not yet implemented")
@@ -107,7 +107,7 @@ class FriendListActivity : AppCompatActivity() {
         })
     }
 
-    fun loadFriends() {
+    private fun loadFriends() {
         Log.d("Load friends", "loading friends")
 
         Thread {

@@ -5,9 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -17,12 +15,7 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.VideoCapture
 import androidx.camera.view.CameraView
 import androidx.core.app.ActivityCompat
-import androidx.core.content.FileProvider
-import androidx.core.view.isInvisible
 import edu.ramapo.btunney.quackchat.networking.MessageType
-import edu.ramapo.btunney.quackchat.networking.NetworkCallback
-import edu.ramapo.btunney.quackchat.networking.NetworkRequester
-import edu.ramapo.btunney.quackchat.networking.ServerRoutes
 import kotlinx.android.synthetic.main.activity_camera.*
 import java.io.File
 import java.util.concurrent.Executor
@@ -50,6 +43,22 @@ class CameraActivity : AppCompatActivity() {
 //        view_camera.bindToLifecycle(this)
     }
 
+    /**
+     * When activity is paused, we should stop the camera if it's currently recording otherwise bad voodoo will happen
+     *
+     */
+    override fun onPause() {
+        if (viewCamera.isRecording) {
+            viewCamera.stopRecording()
+            try {
+                Thread.sleep(500)
+            } catch (e: InterruptedException) {
+                // TODO Auto-generated catch block
+                e.printStackTrace()
+            }
+            super.onPause()
+        } else super.onPause()
+    }
 
     /**
      * When activity is resumed, camera should be shown again
@@ -59,6 +68,8 @@ class CameraActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         requestCameraPermissions()
+
+        setRecordButtonVisible(true)
 
     }
 
@@ -167,7 +178,7 @@ class CameraActivity : AppCompatActivity() {
      */
     private fun displayCameraPreview() {
 //        view_camera.isEnabled = false
-        view_camera.bindToLifecycle(this)
+        viewCamera.bindToLifecycle(this)
 //        view_camera.setOnTouchListener(null)
 //        view_camera.setOnClickListener(null)
 //        view_camera.setOnKeyListener(null)
@@ -184,9 +195,36 @@ class CameraActivity : AppCompatActivity() {
      * @param captureMode the mode for capture
      */
     private fun setCaptureMode(captureMode: CameraView.CaptureMode) {
-        view_camera.captureMode = captureMode
+        viewCamera.captureMode = captureMode
     }
 
+
+    /**
+     * Goes to the SendMediaActivity with the media type in the intent
+     *
+     * @param messageType type of media to send (picture/video)
+     */
+    private fun sendMedia(messageType: MessageType) {
+        val intent = Intent(applicationContext, SendMediaActivity::class.java)
+        intent.putExtra(SendMediaActivity.MEDIATYPE, messageType.type)
+        startActivity(intent)
+    }
+
+    /**
+     * Set the visibility of the start and stop recording buttons
+     * If true is passed in, start will be visible while stop will not and vice versa
+     *
+     * @param doIt whether or not to make the start button visible
+     */
+    private fun setRecordButtonVisible(doIt: Boolean) {
+        if (doIt) {
+            startRecordingButton.visibility = View.VISIBLE
+            stopRecordingButton.visibility = View.GONE
+        } else {
+            startRecordingButton.visibility = View.GONE
+            stopRecordingButton.visibility = View.VISIBLE
+        }
+    }
 
     /**
      * Go to Settings activity when settings button is clicked
@@ -222,8 +260,8 @@ class CameraActivity : AppCompatActivity() {
         // Make sure capture mode is for images
         setCaptureMode(CameraView.CaptureMode.IMAGE)
         try {
-            view_camera.takePicture(
-                    File(applicationContext.cacheDir, "test").absoluteFile,
+            viewCamera.takePicture(
+                    File(applicationContext.cacheDir, "picture").absoluteFile,
                     object : Executor {
                         override fun execute(command: Runnable) {
                             command.run()
@@ -232,40 +270,42 @@ class CameraActivity : AppCompatActivity() {
                     },
                     object : ImageCapture.OnImageSavedCallback {
                         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                            println("image saved?")
-                            val file = File(applicationContext.cacheDir, "test")
-                            val filePath = file.absolutePath
+                            sendMedia(MessageType.PICTURE)
 
-                            // TODO: Bitmap if I needed to change from byte array
-//                            val bitmap = BitmapFactory.decodeFile(filePath)
+//                            println("image saved?")
+//                            val file = File(applicationContext.cacheDir, "picture")
+//                            val filePath = file.absolutePath
 //
-//                            runOnUiThread {
-//                                Runnable {
-//                                    imageButton.setImageBitmap(bitmap)
-//                                }.run()
-//                            }
-
-                            val byteArray = file.readBytes()
-
-                            // Base64 encode data
-                            val base64EncodedData = Base64.encodeToString(byteArray, Base64.DEFAULT)
-                            Log.d("picture", base64EncodedData)
-
-                            // TODO: Show preview of picture before sending it
-
-                            // TODO: VERY TEMP ARRAY OF FRIENDS (HARDCODED)
-                            val friends = arrayOf("joe")
-                            // TODO: TEMP, sending picture straight to backend
-                            NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, friends, base64EncodedData, MessageType.PICTURE, object : NetworkCallback {
-                                override fun onFailure(failureCode: NetworkCallback.FailureCode) {
-                                    TODO("Not yet implemented")
-                                }
-
-                                override fun onSuccess(data: Any?) {
-                                    Log.d("@CameraAct", "picture message sent")
-                                }
-
-                            })
+//                            // TODO: Bitmap if I needed to change from byte array
+////                            val bitmap = BitmapFactory.decodeFile(filePath)
+////
+////                            runOnUiThread {
+////                                Runnable {
+////                                    imageButton.setImageBitmap(bitmap)
+////                                }.run()
+////                            }
+//
+//                            val byteArray = file.readBytes()
+//
+//                            // Base64 encode data
+//                            val base64EncodedData = Base64.encodeToString(byteArray, Base64.DEFAULT)
+//                            Log.d("picture", base64EncodedData)
+//
+//                            // TODO: Show preview of picture before sending it
+//
+//                            // TODO: VERY TEMP ARRAY OF FRIENDS (HARDCODED)
+//                            val friends = arrayOf("joe")
+//                            // TODO: TEMP, sending picture straight to backend
+//                            NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, friends, base64EncodedData, MessageType.PICTURE, object : NetworkCallback {
+//                                override fun onFailure(failureCode: NetworkCallback.FailureCode) {
+//                                    TODO("Not yet implemented")
+//                                }
+//
+//                                override fun onSuccess(data: Any?) {
+//                                    Log.d("@CameraAct", "picture message sent")
+//                                }
+//
+//                            })
                         }
 
                         override fun onError(exception: ImageCaptureException) {
@@ -284,11 +324,12 @@ class CameraActivity : AppCompatActivity() {
      * @param view
      */
     fun startRecordingOnClick(view: View) {
+        setRecordButtonVisible(false)
 
         // Make sure capture mode is for images
         setCaptureMode(CameraView.CaptureMode.VIDEO)
 //        view_camera.setCaptureMode(CameraView.CaptureMode.VIDEO)
-        view_camera.startRecording(File(applicationContext.cacheDir, "video.mp4"),
+        viewCamera.startRecording(File(applicationContext.cacheDir, "video.mp4"),
                 object : Executor {
                     override fun execute(command: Runnable) {
                         command.run()
@@ -297,29 +338,20 @@ class CameraActivity : AppCompatActivity() {
                 },
                 object : VideoCapture.OnVideoSavedCallback {
                     override fun onVideoSaved(file: File) {
-                        runOnUiThread {
-                            Runnable {
-                                val uri = FileProvider.getUriForFile(applicationContext, applicationContext.packageName + ".provider", file)
-                                videoView.setVideoURI(uri)
+                        sendMedia(MessageType.VIDEO)
 
-                                view_camera.visibility = View.INVISIBLE
-
-//                                val mediaController = MediaController(applicationContext)
-//                                mediaController.setAnchorView(videoView)
-//                                videoView.setMediaController(mediaController)
-
-
-                                videoView.start()
-                            }.run()
-                        }
-                        val byteArray = file.readBytes()
-                        // Base64 encode data
-                        val base64EncodedData = Base64.encodeToString(byteArray, Base64.DEFAULT)
-                        Log.d("picture", base64EncodedData)
+//                        // TODO: this should be in a different activity
+//                        val byteArray = file.readBytes()
+//                        // Base64 encode data
+//                        val base64EncodedData = Base64.encodeToString(byteArray, Base64.DEFAULT)
+//                        Log.d("picture", base64EncodedData)
                     }
 
                     override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {
-                        TODO("Not yet implemented")
+                        Toast.makeText(applicationContext,"Failed to record video, check log", Toast.LENGTH_LONG).show()
+                        Log.d("@Camera error", message)
+                        Log.d("@Camera error", videoCaptureError.toString())
+                        Log.d("@Camera error", cause?.message)
                     }
 
                 })
@@ -331,7 +363,7 @@ class CameraActivity : AppCompatActivity() {
      * @param view
      */
     fun stopRecordingOnClick(view: View) {
-        view_camera.stopRecording()
+        viewCamera.stopRecording()
     }
 
 }
