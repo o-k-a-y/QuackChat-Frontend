@@ -163,8 +163,8 @@ class CameraActivity : AppCompatActivity() {
     /**
      * Checks if a list of permissions is granted
      *
-     * @param context
-     * @param permissions
+     * @param context application context
+     * @param permissions list of permissions to grant
      * @return
      */
     private fun hasPermissions(context: Context, permissions: Array<String>): Boolean = permissions.all {
@@ -177,13 +177,7 @@ class CameraActivity : AppCompatActivity() {
      *
      */
     private fun displayCameraPreview() {
-//        view_camera.isEnabled = false
         viewCamera.bindToLifecycle(this)
-//        view_camera.setOnTouchListener(null)
-//        view_camera.setOnClickListener(null)
-//        view_camera.setOnKeyListener(null)
-//        view_camera.isEnabled = false
-//        view_camera.isEnabled = false
     }
 
 
@@ -255,8 +249,6 @@ class CameraActivity : AppCompatActivity() {
      * @param view take photo button
      */
     fun takePictureOnClick(view: View) {
-        Log.d("Fuk", "ff")
-
         // Make sure capture mode is for images
         setCaptureMode(CameraView.CaptureMode.IMAGE)
         try {
@@ -271,41 +263,6 @@ class CameraActivity : AppCompatActivity() {
                     object : ImageCapture.OnImageSavedCallback {
                         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                             sendMedia(MessageType.PICTURE)
-
-//                            println("image saved?")
-//                            val file = File(applicationContext.cacheDir, "picture")
-//                            val filePath = file.absolutePath
-//
-//                            // TODO: Bitmap if I needed to change from byte array
-////                            val bitmap = BitmapFactory.decodeFile(filePath)
-////
-////                            runOnUiThread {
-////                                Runnable {
-////                                    imageButton.setImageBitmap(bitmap)
-////                                }.run()
-////                            }
-//
-//                            val byteArray = file.readBytes()
-//
-//                            // Base64 encode data
-//                            val base64EncodedData = Base64.encodeToString(byteArray, Base64.DEFAULT)
-//                            Log.d("picture", base64EncodedData)
-//
-//                            // TODO: Show preview of picture before sending it
-//
-//                            // TODO: VERY TEMP ARRAY OF FRIENDS (HARDCODED)
-//                            val friends = arrayOf("joe")
-//                            // TODO: TEMP, sending picture straight to backend
-//                            NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, friends, base64EncodedData, MessageType.PICTURE, object : NetworkCallback {
-//                                override fun onFailure(failureCode: NetworkCallback.FailureCode) {
-//                                    TODO("Not yet implemented")
-//                                }
-//
-//                                override fun onSuccess(data: Any?) {
-//                                    Log.d("@CameraAct", "picture message sent")
-//                                }
-//
-//                            })
                         }
 
                         override fun onError(exception: ImageCaptureException) {
@@ -319,9 +276,9 @@ class CameraActivity : AppCompatActivity() {
     }
 
     /**
-     * TODO
+     * Start recording a video
      *
-     * @param view
+     * @param view start recording button
      */
     fun startRecordingOnClick(view: View) {
         setRecordButtonVisible(false)
@@ -329,7 +286,7 @@ class CameraActivity : AppCompatActivity() {
         // Make sure capture mode is for images
         setCaptureMode(CameraView.CaptureMode.VIDEO)
 //        view_camera.setCaptureMode(CameraView.CaptureMode.VIDEO)
-        viewCamera.startRecording(File(applicationContext.cacheDir, "video.mp4"),
+        viewCamera.startRecording(File(applicationContext.cacheDir, "video"),
                 object : Executor {
                     override fun execute(command: Runnable) {
                         command.run()
@@ -358,7 +315,7 @@ class CameraActivity : AppCompatActivity() {
     }
 
     /**
-     * TODO
+     * Stop recording the video
      *
      * @param view
      */

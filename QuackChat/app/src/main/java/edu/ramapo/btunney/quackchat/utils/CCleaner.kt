@@ -5,13 +5,11 @@ import androidx.room.Room
 import edu.ramapo.btunney.quackchat.caching.RoomDatabaseDAO
 
 /**
- * TODO
+ * This class contains a method to delete all cache and local Room DB tables
  *
- * @constructor
- * TODO
  *
- * @param applicationContext
- * @param roomDatabaseName
+ * @param applicationContext context of the application
+ * @param roomDatabaseName name of the local Room DB
  */
 class CCleaner(private val applicationContext: Context, private val roomDatabaseName: String) {
 

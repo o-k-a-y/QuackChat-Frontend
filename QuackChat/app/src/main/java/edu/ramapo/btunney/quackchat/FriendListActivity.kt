@@ -27,6 +27,11 @@ class FriendListActivity : AppCompatActivity() {
         fetchFriends()
     }
 
+    /**
+     * Check if local and remote friend list hash match
+     * If they don't, call retrieveNewFriends() and fetch them
+     *
+     */
     private fun fetchFriends() {
         Thread {
             // Get friend list hash

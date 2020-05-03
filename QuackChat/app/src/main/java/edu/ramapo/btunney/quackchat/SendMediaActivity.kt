@@ -76,6 +76,8 @@ class SendMediaActivity : AppCompatActivity() {
      */
     private fun displayPicture() {
         val imageView = ImageView(this)
+
+        // TODO make this a variable or function somewhere accessible to SendMediaToFriend and SendMedia
         val filePath = cacheDir.absolutePath + "/picture"
         val bitmap = BitmapFactory.decodeFile(filePath)
         imageView.setImageBitmap(bitmap)
@@ -88,7 +90,8 @@ class SendMediaActivity : AppCompatActivity() {
      *
      */
     private fun displayVideo() {
-        val file = File(cacheDir.absoluteFile.toString() + "/video.mp4")
+        // TODO make this a variable or function somewhere accessible to SendMediaToFriend and SendMedia
+        val file = File(cacheDir.absolutePath + "/video")
         val uri = FileProvider.getUriForFile(this, this.packageName + ".provider", file)
         videoView.setVideoURI(uri)
         videoView.start()
@@ -101,8 +104,13 @@ class SendMediaActivity : AppCompatActivity() {
      * @param view
      */
     fun sendToFriendsOnClick(view: View) {
+        val typeOfMedia = intent.getStringExtra(MEDIATYPE)
         val intent = Intent(this, SendMediaToFriends::class.java)
+        intent.putExtra(MEDIATYPE, typeOfMedia)
         startActivity(intent)
+
+        // TODO: maybe figure out way to come back to this state using finishAffinity()
+        finish()
     }
 
 

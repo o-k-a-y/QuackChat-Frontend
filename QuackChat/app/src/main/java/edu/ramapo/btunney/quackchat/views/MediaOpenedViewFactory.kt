@@ -14,7 +14,6 @@ import edu.ramapo.btunney.quackchat.R
  */
 class MediaOpenedViewFactory {
     companion object {
-
         fun createOpenedMediaView(context: Context, mediaType: MessageViewType): ImageView {
 
             // Set height and width of opened media image
@@ -22,25 +21,21 @@ class MediaOpenedViewFactory {
             params.width = 50
             params.height = 50
 
-            when (mediaType) {
-                MessageViewType.PICTURE -> {
-                    // TODO
-                }
-            }
-
             val openedImageView = ImageView(context)
             openedImageView.layoutParams = params
 
-            openedImageView.setImageResource(R.drawable.ic_openedpicture)
 
-//            // Add some padding to the view
-//            val openedLinearLayout = LinearLayout(context)
-//            openedLinearLayout.addView(openedImageView)
-//            openedLinearLayout.setPadding(0, 20, 0, 20)
-//
-//            // Add to fragment layout
-//            openedLinearLayout.addView(openedImageView)
-
+            when (mediaType) {
+                MessageViewType.PICTURE -> {
+                    openedImageView.setImageResource(R.drawable.ic_openedpicture)
+                }
+                MessageViewType.VIDEO -> {
+                    openedImageView.setImageResource(R.drawable.ic_openedvideo)
+                }
+                else -> {
+                    // TODO
+                }
+            }
             return openedImageView
         }
     }
