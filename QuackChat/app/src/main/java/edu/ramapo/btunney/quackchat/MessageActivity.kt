@@ -7,14 +7,16 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.os.Bundle
 import android.util.Base64
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import edu.ramapo.btunney.quackchat.caching.RoomDatabaseDAO
+import androidx.core.content.FileProvider
 import edu.ramapo.btunney.quackchat.caching.HashType
+import edu.ramapo.btunney.quackchat.caching.RoomDatabaseDAO
 import edu.ramapo.btunney.quackchat.caching.entities.Cache
 import edu.ramapo.btunney.quackchat.caching.entities.Message
 import edu.ramapo.btunney.quackchat.fragments.MessageFragment
@@ -25,6 +27,7 @@ import edu.ramapo.btunney.quackchat.views.MessageViewType
 import kotlinx.android.synthetic.main.activity_message.*
 import org.json.JSONObject
 import java.io.File
+
 
 /**
  * This activity is where you can send text messages to a friend
@@ -53,6 +56,9 @@ class MessageActivity : AppCompatActivity() {
         if (extras != null) {
             friend = extras.getString("username").toString()
         }
+
+        // Hide video view
+        messageVideoView.visibility = View.GONE
 
         // Display friend username
         showFriendUsername()
@@ -121,6 +127,13 @@ class MessageActivity : AppCompatActivity() {
         })
     }
 
+
+    /**
+     * Check if local hash for messages matches remote
+     * If they don't match, fetch new messages from server by calling retrieveNewMessages()
+     * If they match, call loadMessages()
+     *
+     */
     private fun fetchMessages() {
         Thread {
             val hash = RoomDatabaseDAO.getInstance(this).getHash(HashType.MESSAGES)
@@ -264,8 +277,10 @@ class MessageActivity : AppCompatActivity() {
 
                 // Make image clickable
                 // TODO: allow this to be used for video view as well
-                if (message.type == MessageViewType.PICTURE.type || message.type == MessageViewType.VIDEO.type) {
+                if (message.type == MessageViewType.PICTURE.type) {
                     addOnClickToPictureView(messageLinearLayout, message)
+                } else if (message.type == MessageViewType.VIDEO.type) {
+                    addOnClickToVideoView(messageLinearLayout, message)
                 }
 
             }.run()
@@ -319,20 +334,15 @@ class MessageActivity : AppCompatActivity() {
      * @param mediaView the LinearLayout containing the picture message
      * @param message the message data
      */
-    // TODO: allow this to be used for video view as well
     private fun addOnClickToPictureView(mediaView: LinearLayout, message: Message) {
         // Add an onClick to the button so image is displayed in full screen
         mediaView.setOnClickListener {
             // message.message = filename in cacheDir
             val messageContent = File(cacheDir, message.message)
 
-            // Decode and rotate image so it shows normally
+            // Decode image
             val decodedString = Base64.decode(messageContent.readText(), Base64.DEFAULT)
-
-            var decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-
-            // New cameraX API doesn't require this
-//            decodedBitmap = rotateImage(decodedBitmap, 90F)
+            val decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
 
             // Create image view to display image
             val pictureView = ImageView(this)
@@ -342,7 +352,7 @@ class MessageActivity : AppCompatActivity() {
             mediaFrameLayout.addView(pictureView)
 
             // Change the LinearLayout to the opened picture/video version
-            setMediaViewOpened(mediaView)
+            setMediaViewOpened(mediaView, MessageViewType.PICTURE)
 
             // Picture can not be reopened
             mediaView.isClickable = false
@@ -350,6 +360,53 @@ class MessageActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Add an onClick listener to the LinearLayout containing a video
+     * When clicked, it will display the video in fullscreen, and when TODO: closed or stopped,
+     * the video will disappear and the original LinearLayout can not be opened again
+     *
+     * @param mediaView the LinearLayout containing the video message
+     * @param message the message data
+     */
+    private fun addOnClickToVideoView(mediaView: LinearLayout, message: Message) {
+        mediaView.setOnClickListener{
+            messageVideoView.visibility = View.VISIBLE
+            // message.message = filename in cacheDir
+            val messageContent = File(cacheDir, message.message)
+
+            // Decode video
+            val byteArray = Base64.decode(messageContent.readText(), Base64.DEFAULT)
+
+            // Create file with byte array
+            val file = File(cacheDir.absolutePath + "/test")
+            file.writeBytes(byteArray)
+
+            // Display the video in full screen
+            // TODO: make this into a function
+            val uri = FileProvider.getUriForFile(this, this.packageName + ".provider", file)
+
+            messageVideoView.setVideoURI(uri)
+            val metrics = DisplayMetrics()
+            applicationContext.getResources().getDisplayMetrics();
+            val params = messageVideoView.layoutParams
+            params.width = metrics.widthPixels
+            params.height = metrics.heightPixels
+
+            messageVideoView.layoutParams = params
+            messageVideoView.start()
+
+            messageVideoView.setOnCompletionListener {
+                messageVideoView.visibility = View.GONE
+            }
+            
+            // Change the LinearLayout to the opened picture/video version
+            setMediaViewOpened(mediaView, MessageViewType.VIDEO)
+
+            // Video can not be reopened
+            mediaView.isClickable = false
+            Log.d("@CLICK", "click")
+        }
+    }
 
 
     /**
@@ -357,9 +414,9 @@ class MessageActivity : AppCompatActivity() {
      *
      * @param mediaView
      */
-    private fun setMediaViewOpened(mediaView: LinearLayout) {
+    private fun setMediaViewOpened(mediaView: LinearLayout, messageType: MessageViewType) {
         mediaView.removeAllViews()
-        mediaView.addView(MediaOpenedViewFactory.createOpenedMediaView(this, MessageViewType.PICTURE))
+        mediaView.addView(MediaOpenedViewFactory.createOpenedMediaView(this, messageType))
     }
 
     /**

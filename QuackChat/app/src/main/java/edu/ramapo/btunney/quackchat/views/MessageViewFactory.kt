@@ -17,9 +17,9 @@ class MessageViewFactory {
 
         /**
          * Creates and returns a LinearLayout containing message information
-         *      A simple text message will be a TextView inside a LinearLayout
-         *      A picture will be a button inside a LinearLayout containing an onClick to display the containing image
-         *      A video will be a button inside a LinearLayout containing an onClick to display the containing video
+         * A simple text message will be a TextView inside a LinearLayout
+         * A picture will be a button inside a LinearLayout containing an onClick to display the containing image
+         * A video will be a button inside a LinearLayout containing an onClick to display the containing video
          *
          * @param context the context of the activity in which to the LinearLayout will be displayed
          * @param message the Message Entity object containing the received message data
@@ -47,6 +47,14 @@ class MessageViewFactory {
          * @return
          */
         private fun handleReceivedMessage(context: Context, message: Message): LinearLayout {
+
+            // Set height and width of picture button
+            val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            params.width = 50
+            params.height = 50
+            val pictureImageButton = ImageButton(context)
+            pictureImageButton.layoutParams = params
+
             when (message.type) {
                 MessageViewType.TEXT.type -> {
                     val messageTextView = TextView(context)
@@ -57,13 +65,6 @@ class MessageViewFactory {
                 }
                 MessageViewType.PICTURE.type -> {
 
-                    // Set height and width of picture button
-                    val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-                    params.width = 50
-                    params.height = 50
-                    val pictureImageButton = ImageButton(context)
-                    pictureImageButton.layoutParams = params
-
                     // Make button red
                     pictureImageButton.setImageResource(R.drawable.ic_unopenedpicture)
 
@@ -72,19 +73,16 @@ class MessageViewFactory {
 
 //                    // Add some padding to the view
 //                    imageLinearLayout.setPadding(0, 20, 0, 20)
-
-                    // Add to fragment layout
                     messageLinearLayout.addView(imageLinearLayout)
-
-
-
                 }
                 MessageViewType.VIDEO.type -> {
-                    // TODO
-                    val messageTextView = TextView(context)
-                    messageTextView.text = "VIDEO TEMP"
-                    messageLinearLayout.addView(messageTextView)
-                    messageLinearLayout.setBackgroundColor(Color.MAGENTA)
+                    // Make button purple
+                    pictureImageButton.setImageResource(R.drawable.ic_unopenedvideo)
+
+                    val imageLinearLayout = LinearLayout(context)
+                    imageLinearLayout.addView(pictureImageButton)
+
+                    messageLinearLayout.addView(imageLinearLayout)
                 }
                 else -> {
                     // TODO
@@ -118,6 +116,7 @@ class MessageViewFactory {
             
             return messageLinearLayout
         }
+
 
         /**
          * Rotate a bitmap x degrees
