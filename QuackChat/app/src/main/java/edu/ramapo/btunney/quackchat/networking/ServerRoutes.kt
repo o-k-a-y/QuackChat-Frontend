@@ -14,7 +14,7 @@ enum class ServerRoutes(val route: String) {
     FETCH_FRIENDS("/users/friends/fetch"),
     SEND_MESSAGE("/users/message/send"),
     CHECK_HASH("/users/hash/check"),
-    FETCH_MESSAGES("/users/messages/fetch")
-
+    FETCH_MESSAGES("/users/messages/fetch"),
+    DELETE_MESSAGES("/users/messages/delete")
 
 }

@@ -60,20 +60,22 @@ class FriendViewFactory {
                     image.adjustViewBounds = true
 
 
+                    // When friend image is clicked
                     image.setOnClickListener(object: View.OnClickListener {
                         override fun onClick(v: View?) {
                             val intent = Intent(context, FriendProfileActivity::class.java)
                             intent.putExtra("username", friend.username)
+
+                            // Used to determine when to kill activity when friend is deleted
                             if (context !is Activity) return
                             context.startActivityForResult(intent, 999)
-
-//                            context.startActivity(intent)
 
                             Log.d("@Friend image click", friend.username)
                         }
 
                     })
 
+                    // When the friend username is clicked
                     linearLayout.setOnClickListener(object: View.OnClickListener {
                         override fun onClick(v: View?) {
                             val intent = Intent(context, MessageActivity::class.java)

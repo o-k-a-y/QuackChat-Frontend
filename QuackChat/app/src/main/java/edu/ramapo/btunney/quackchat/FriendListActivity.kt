@@ -36,7 +36,7 @@ class FriendListActivity : AppCompatActivity() {
     }
 
     /**
-     * TODO
+     * Kill the activity when a friend is deleted
      *
      * @param requestCode
      * @param resultCode

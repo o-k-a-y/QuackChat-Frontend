@@ -414,9 +414,9 @@ object NetworkRequester {
     /**
      * Send a message to a list of friends
      *
-     * @param route
+     * @param route the route on the server
      * @param friends the list of friends to send message to
-     * @param callback
+     * @param callback handles success and failure of call
      */
     fun sendMessage(route: ServerRoutes, friends: Array<String>, message: String, messageType: MessageType, callback: NetworkCallback) {
         val messageJSONString = "{\"message\": \"$message\"}"
@@ -461,8 +461,8 @@ object NetworkRequester {
     /**
      * Return the list of messages the logged in user has
      *
-     * @param route
-     * @param callback
+     * @param route the route on the server
+     * @param callback handles success and failure of call
      */
     fun fetchMessages(route: ServerRoutes, callback: NetworkCallback) {
         val request = Request.Builder()
@@ -496,11 +496,48 @@ object NetworkRequester {
     }
 
     /**
+     * Delete all the messages that were sent from a user's friend
+     *
+     * @param route the route on the server
+     * @param sentFrom which friend sent the messages
+     * @param callback handles success and failure of call
+     */
+    fun deleteMessages(route: ServerRoutes, sentFrom: String, callback: NetworkCallback) {
+        val request = Request.Builder()
+                .url(host + route.route + "/" + sentFrom)
+                .delete(sentFrom.toRequestBody())
+                .build()
+
+        client.newCall(request).enqueue(object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                // TODO change to some other err
+                callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                // Return failure code when deleting a friend's messages fails
+                if (!response.isSuccessful) {
+                    when (response.code) {
+                        else -> {
+                            callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+                        }
+                    }
+                    return
+                }
+
+                callback.onSuccess(null)
+            }
+
+        })
+    }
+
+    /**
      * Validate if the hash in local DB matches hash in remote DB
      *
-     * @param route
-     * @param hash
-     * @param callback
+     * @param route the route on the server
+     * @param hash the local hash of the data
+     * @param callback handles success and failure of call
      */
     fun validateHash(route: ServerRoutes, hash: JSONObject, callback: NetworkCallback) {
         println(hash.toString())

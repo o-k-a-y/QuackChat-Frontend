@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.net.Network
 import android.os.Bundle
 import android.util.Base64
 import android.util.DisplayMetrics
@@ -251,12 +252,44 @@ class MessageActivity : AppCompatActivity() {
     private fun loadMessages() {
         Log.d("@Load messages", "TODO")
 
-        // Get messages
+        // Get messages from Room DB
         Thread {
             for (message in RoomDatabaseDAO.getInstance(applicationContext).getAllMessagesFrom(friend)) {
                 makeMessageLinearLayout(message)
             }
+
+            // Delete the messages so they can't be opened again when refreshing activity
+            deleteMessagesFromBackend()
+            deleteMessagesFromCache()
         }.start()
+    }
+
+    /**
+     * Delete all the messages the user opened from the backend
+     * It would have been better to only delete the messages the user "opened" but we
+     * assume that if you opened the messages you will read each of them
+     *
+     */
+    private fun deleteMessagesFromBackend() {
+        NetworkRequester.deleteMessages(ServerRoutes.DELETE_MESSAGES, friend, object: NetworkCallback {
+            override fun onFailure(failureCode: NetworkCallback.FailureCode) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSuccess(data: Any?) {
+//                TODO("Not yet implemented")
+                // Deleting messages requires no action
+            }
+
+        })
+    }
+
+    /**
+     * Delete all the messages the friend sent you from the Room DB
+     *
+     */
+    private fun deleteMessagesFromCache() {
+        RoomDatabaseDAO.getInstance(applicationContext).deleteMessages(friend)
     }
 
     /**
@@ -425,10 +458,6 @@ class MessageActivity : AppCompatActivity() {
      */
     private fun addPadding(linearLayout: LinearLayout) {
         linearLayout.setPadding(0, 20, 0, 20)
-    }
-
-    private fun decodeImage() {
-
     }
 
 
