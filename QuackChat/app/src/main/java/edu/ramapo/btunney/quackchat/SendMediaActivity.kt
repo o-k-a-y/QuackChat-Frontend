@@ -14,11 +14,18 @@ import java.io.File
 
 /**
  * This activity is where you send the picture or video you've taken/record
+ * The picture/video you took is displayed on the screen with a button to send if you decide to send it.
+ * If you click the send button, you will be given your list of friends to decide which friends
+ * should receive it.
  *
  */
-
 class SendMediaActivity : AppCompatActivity() {
 
+    /**
+     * Display the media depending on what it is
+     *
+     * @param savedInstanceState
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_send_media)

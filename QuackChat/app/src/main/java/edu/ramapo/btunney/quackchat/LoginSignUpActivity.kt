@@ -10,6 +10,14 @@ import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
 
+/**
+ * This activity displays the options of either signing up or logging in to the user
+ * If the user clicks the login button they will be brought to the LoginActivity
+ * where they can log in with a pre-existing account.
+ * If the user clicks the sign up button they will be brought to the SignUpActivity
+ * where they can sign up with a new user account
+ *
+ */
 class LoginSignUpActivity : AppCompatActivity() {
 
     /**
@@ -45,7 +53,7 @@ class LoginSignUpActivity : AppCompatActivity() {
 
         }
 
-
+        // When LoginActivity or SignUpActivity dies
         when (requestCode) {
             5, 7 -> {
                 val ref = this
@@ -96,7 +104,6 @@ class LoginSignUpActivity : AppCompatActivity() {
 
         // Make sure result code is ok
         if (resultCode != RESULT_OK) {
-            // TODO how message if makes sense
             Log.e(javaClass.simpleName, "Something went terribly wrong")
             return
 
@@ -109,25 +116,25 @@ class LoginSignUpActivity : AppCompatActivity() {
     }
 
     /**
-     * TODO
+     * Log in
      *
-     * @param view
+     * @param view the log in button
      */
     fun loginOnClick(view: View) {
         login()
     }
 
     /**
-     * TODO
+     * Sign up
      *
-     * @param view
+     * @param view the sign up button
      */
     fun signUpOnClick(view: View) {
         signUp()
     }
 
     /**
-     * TODO
+     * Go to LoginActivity to login with user credentials
      *
      */
     private fun login() {
@@ -139,7 +146,7 @@ class LoginSignUpActivity : AppCompatActivity() {
     }
 
     /**
-     * TODO
+     * Go to SignUpActivity to create a user account
      *
      */
     private fun signUp() {

@@ -18,20 +18,25 @@ import edu.ramapo.btunney.quackchat.views.FriendViewType
 import kotlinx.android.synthetic.main.activity_friend.*
 import org.json.JSONObject
 
+/**
+ * This activity is where you see your list of friends.
+ * The list of friends is displayed as a Vertical ScrollView containing LinearLayouts
+ * where each represents a friend.
+ *
+ * Tapping on the friend's profile picture bring you to the FriendProfileActivity where you can view
+ * friend information as well as remove the friend from your friend list (also deletes messages)
+ *
+ * Tapping on the friend's username or white space near it will take you to the MessageActivity where
+ * you can see what message they have sent you
+ *
+ */
 class FriendListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friend)
 
-//        // Check if we deleted a friend and if so, return to previous Activity
-//        if (intent.extras != null) {
-//            if (intent.getBooleanExtra(DELETEFRIEND, false)) {
-//                finish()
-//            }
-//        }
-
-        // TODO: add a swipe gesture to refresh data and then call updateFriends() method :P
+        // Check if we need to update the friend list and display all friends
         fetchFriends()
     }
 

@@ -15,6 +15,16 @@ import edu.ramapo.btunney.quackchat.networking.ServerRoutes
 import edu.ramapo.btunney.quackchat.utils.CCleaner
 import kotlinx.android.synthetic.main.activity_settings.*
 
+/**
+ * This activity show different user settings are available.
+ * Currently there aren't many.
+ *
+ * The only thing you can do here is:
+ *      1. View your username
+ *      2. Log out
+ *      3. Add a friend by username
+ *
+ */
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +35,7 @@ class SettingsActivity : AppCompatActivity() {
         displayUsername()
 
 
+        // If you press enter, it will attempt to add the friend in the TextView
         addFriendEditText.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(v: View, keyCode: Int, event: KeyEvent?): Boolean {
                 // If the event is a key-down event on the "enter" button
@@ -68,6 +79,7 @@ class SettingsActivity : AppCompatActivity() {
                 println("logged out attempt")
 
                 // TODO: Delete cookie from storage
+                // Clear the cache on log out
                 clearCache()
 
 
@@ -95,7 +107,9 @@ class SettingsActivity : AppCompatActivity() {
 
         val friend = addFriendEditText.text.toString()
 
+        // Attempt to add friend
         NetworkRequester.addFriend(ServerRoutes.ADD_FRIEND, friend, object: NetworkCallback {
+            // Display error message to user
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 var toastText = ""
                 toastText = when (failureCode) {
@@ -109,7 +123,7 @@ class SettingsActivity : AppCompatActivity() {
                         "Network error"
                     }
                     else -> {
-                        "It's fucked"
+                        "It's ducked"
                     }
                 }
                 // Show error message as a toast
@@ -120,6 +134,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
 
+            // Tell user request was sent
             override fun onSuccess(data: Any?) {
                 runOnUiThread {
                     Runnable {
@@ -131,11 +146,11 @@ class SettingsActivity : AppCompatActivity() {
         })
     }
 
-
-    // TODO
+    /**
+     * Clears the cache files as well as the Room DB tables
+     *
+     */
     private fun clearCache() {
-
-        // TODO make global var with database name instead of coupling
         CCleaner(applicationContext, RoomDatabaseDAO.DATABASE_NAME).wipeCache()
     }
 }

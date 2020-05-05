@@ -24,6 +24,7 @@ import java.io.File
 
 /**
  * This activity allows you to choose who to send the media to
+ * They will receive it as a picture/video message which they can view in MessageActivity
  *
  */
 class SendMediaToFriends : AppCompatActivity() {

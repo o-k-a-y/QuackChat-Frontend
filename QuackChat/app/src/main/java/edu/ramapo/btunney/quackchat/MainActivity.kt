@@ -9,10 +9,25 @@ import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
 
 
+/**
+ * This activity lives for the purpose of checking if the user is already authenticated.
+ * They are authenticated if:
+ *      1. They have a cookie stored in SharedPreferences that hasn't expired
+ *      2. The cookie matches the session stored on the MongoDB backend database
+ *      3. The NodeJS backend is active and can talk with the MongoDB database
+ *      4. The network request to check if the user is authenticated succeeds
+ *
+ * If the user is authenticated they will be brought to the CameraActivity.
+ * Otherwise they will be forced to log in again. Note that if the network is bad they
+ * will probably never be able to log in
+ *
+ */
 class MainActivity : AppCompatActivity() {
 
     /**
-     * TODO
+     * Check if user is authenticated
+     * If they are, bring to CameraActivity
+     * otherwise bring to LoginSignUpActivity
      *
      * @param savedInstanceState
      */
@@ -31,42 +46,45 @@ class MainActivity : AppCompatActivity() {
         // Ask server if user is authenticated
         NetworkRequester.authenticate(ServerRoutes.AUTH, object: NetworkCallback {
             /**
-             * User is not authenticated
+             * User is not authenticated, ask them to log in or sign up
              *
              * @param failureCode
              */
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
-                // go to loginsignup page
+                // Go to login/signup page
                 Log.d("fail code", failureCode.toString())
-                runOnUiThread {
-                    Runnable {
-                        val intent = Intent(mainRef, LoginSignUpActivity::class.java)
 
-                        startActivityForResult(intent, 10)
-
-                        finish()
-//                        startLoginSignUpActivity()
-                    }.run()
-                }
+                startLoginSignUpActivity()
+//                runOnUiThread {
+//                    Runnable {
+//                        val intent = Intent(mainRef, LoginSignUpActivity::class.java)
+//
+//                        startActivityForResult(intent, 10)
+//
+//                        finish()
+////                        startLoginSignUpActivity()
+//                    }.run()
+//                }
             }
 
             /**
-             * User is authenticated
+             * User is authenticated, go to CameraActivity
              *
              */
             override fun onSuccess(data: Any?) {
-                // go to camera activity
+                // Go to camera activity
+                startCameraActivity()
 
-                runOnUiThread {
-                    Runnable {
-                        val intent = Intent(mainRef, CameraActivity::class.java)
-
-                        startActivityForResult(intent, 11)
-
-                        finish()
-//                        startCameraActivity()
-                    }.run()
-                }
+//                runOnUiThread {
+//                    Runnable {
+//                        val intent = Intent(mainRef, CameraActivity::class.java)
+//
+//                        startActivityForResult(intent, 11)
+//
+//                        finish()
+////                        startCameraActivity()
+//                    }.run()
+//                }
             }
 
         })
@@ -75,29 +93,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * TODO
+     * Bring user to CameraActivity
      *
      */
     private fun startCameraActivity() {
         val intent = Intent(this, CameraActivity::class.java)
-
         startActivity(intent)
-
         finish()
+
         // Kotlin style
 //        Intent(this, CameraActivity::class.java).also { startActivity(it) }
 //        finish()
     }
 
     /**
-     * TODO
+     * Bring user to Login/Signup Activity
      *
      */
     private fun startLoginSignUpActivity() {
         val intent = Intent(this, LoginSignUpActivity::class.java)
-
         startActivity(intent)
-
         finish()
     }
 

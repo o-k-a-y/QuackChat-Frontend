@@ -21,7 +21,20 @@ import kotlinx.android.synthetic.main.activity_camera.*
 import java.io.File
 import java.util.concurrent.Executor
 
-
+/**
+ * The main feature of this Activity is to allow the user to take pictures and record videos
+ * to send to friends.
+ * If the user gives camera permission, they will see a camera preview (what the camera sees).
+ * If the user gives record audio permission, they can record videos with sound.
+ * The user can send these pictures and videos to friends (if they have any) which will send them a message
+ * and can be viewed in the MessageActivity.
+ *
+ * Along with the camera, the user can also access their account setting by clicking the settings button
+ * which will take them to the SettingsActivity.
+ * They can also view their messages by clicking the message button which will take them to the FriendListActivity.
+ * There they can see any messages their friends have sent them (if they have any friends)
+ *
+ */
 class CameraActivity : AppCompatActivity() {
 
     private val PERMISSION_USE_CAMERA = 4000
@@ -36,12 +49,9 @@ class CameraActivity : AppCompatActivity() {
             supportActionBar?.hide()
 
         setContentView(R.layout.activity_camera)
-        
 
         // TODO: broken
 //        mDetector = GestureDetectorCompat(this, MyGestureListener())
-
-//        view_camera.bindToLifecycle(this)
     }
 
     /**
@@ -73,7 +83,6 @@ class CameraActivity : AppCompatActivity() {
         setRecordButtonVisible(true)
 
     }
-
 
 //    private class MyGestureListener : GestureDetector.SimpleOnGestureListener() {
 //        override fun onDown(event: MotionEvent): Boolean {

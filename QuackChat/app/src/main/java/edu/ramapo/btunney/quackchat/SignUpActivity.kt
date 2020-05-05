@@ -16,11 +16,18 @@ import kotlinx.android.synthetic.main.activity_signup.*
 import kotlinx.android.synthetic.main.activity_signup.passwordEditText
 import org.json.JSONObject
 
-
+/**
+ * This activity allows the user to create a user account by giving:
+ *      1. a username
+ *      2. an email address
+ *      3. a password
+ *      4. a verified password (do they match)
+ *
+ */
 class SignUpActivity : AppCompatActivity() {
 
     /**
-     * TODO
+     * Create the activity view
      *
      * @param savedInstanceState
      */

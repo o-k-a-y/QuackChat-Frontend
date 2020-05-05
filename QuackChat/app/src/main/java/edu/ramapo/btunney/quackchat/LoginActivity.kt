@@ -14,6 +14,13 @@ import edu.ramapo.btunney.quackchat.utils.CCleaner
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONObject
 
+/**
+ * This activity is where the user can sign in using a pre-existing account.
+ * It will check if the credentials are invalid or if there is an error making
+ * the network request to check.
+ * The user must provide a username, an email address, and a password.
+ *
+ */
 class LoginActivity : AppCompatActivity() {
 
     /**
@@ -29,6 +36,10 @@ class LoginActivity : AppCompatActivity() {
         clearCache()
     }
 
+    /**
+     * Clear the Room DB cache when logging in
+     *
+     */
     private fun clearCache() {
         CCleaner(applicationContext, RoomDatabaseDAO.DATABASE_NAME).wipeCache()
     }
@@ -37,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
     /**
      * Verify login information and log in if correct
      *
-     * @param view
+     * @param view the log in button
      */
     fun loginOnClick(view: View) {
         val username: String = usernameEditText.text.toString()

@@ -4,18 +4,16 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.util.Log
-import edu.ramapo.btunney.quackchat.networking.MessageType.*
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
-import java.nio.charset.Charset
 import java.util.*
 
 /**
- * Singleton class to allow HTTP requests
+ * Singleton class to allow HTTP requests to the backend
  */
 object NetworkRequester {
 
@@ -59,7 +57,6 @@ object NetworkRequester {
         name = nameAndValue[0]
         val value = nameAndValue[1]
 
-
         var expiresAt = keys[1] // need to format date probably
 
         val expire = expiresAt.split("=")
@@ -69,13 +66,6 @@ object NetworkRequester {
         val pathh = path.split("=")
         path = pathh[1]
 
-        val httpOnly = keys[3] // if value = "httponly" it should be a boolean set to true
-
-        var httponly = false
-
-        if (httpOnly == "httponly") {
-            httponly = true
-        }
 
         var date = Date(expiresAt)
         var time = date.time
@@ -87,7 +77,7 @@ object NetworkRequester {
             .value(value)
             .expiresAt(time) // long integer
             .path(path)
-            .httpOnly()
+            .httpOnly() // TODO: should be https but server doesn't support this
             .build()
     }
 

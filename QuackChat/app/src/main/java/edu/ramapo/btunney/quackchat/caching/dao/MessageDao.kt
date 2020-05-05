@@ -5,6 +5,10 @@ import androidx.room.Insert
 import androidx.room.Query
 import edu.ramapo.btunney.quackchat.caching.entities.Message
 
+/**
+ * This DAO supplies queries to get, insert, and delete messages
+ *
+ */
 @Dao
 interface MessageDao {
     @Query("SELECT * FROM message")
@@ -22,6 +26,6 @@ interface MessageDao {
     @Query("DELETE FROM message WHERE fromWhom = :from")
     fun deleteAllFromFriend(from: String)
 
-    @Query("DELETE FROM message")
-    fun nukeTable()
+//    @Query("DELETE FROM message")
+//    fun nukeTable()
 }
