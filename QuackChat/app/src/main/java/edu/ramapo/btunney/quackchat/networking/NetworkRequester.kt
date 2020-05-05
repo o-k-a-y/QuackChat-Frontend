@@ -28,7 +28,7 @@ object NetworkRequester {
         .cookieJar(MemoryCookieJar())
         .build()
 
-    // TODO: make add interceptor?
+    // TODO: make interceptor?
 //    val httpClient = OkHttpClient.Builder().addInterceptor(object: Interceptor {
 //        override fun intercept(chain: Interceptor.Chain): Response {
 //            TODO("Not yet implemented")
@@ -39,14 +39,9 @@ object NetworkRequester {
 //            .build()
 
     private val JSON = "application/json; charset=utf-8".toMediaType()
-
-    // TODO: actually make use of this
     private const val host = "http://52.55.108.86:3000" // The protocol and host and port
-    private val port = "3000" // The port the server is using
-
 
     // TODO: Make a generic method to post a json to whatever route
-
 
     /**
      * Extends Cookie to parse auth token (the cookie)
@@ -90,7 +85,7 @@ object NetworkRequester {
             .domain("52.55.108.86")
             .name(name)
             .value(value)
-            .expiresAt(time) // long
+            .expiresAt(time) // long integer
             .path(path)
             .httpOnly()
             .build()
@@ -110,6 +105,12 @@ object NetworkRequester {
         addStoredCookie(sharedPrefCookie)
     }
 
+    /**
+     * Check if the user is authenticated
+     *
+     * @param route the route on the server
+     * @param callback handles success and failure of call
+     */
     fun authenticate(route: ServerRoutes, callback: NetworkCallback) {
         val request = Request.Builder()
             .url(host + route.route)
@@ -135,19 +136,14 @@ object NetworkRequester {
                                 return
                             }
                         }
-
                         Log.d("Successfully auth", "test")
-
-
                     }
 
                     callback.onSuccess(null)
 //                    println(response.body!!.string())
                     return
-
                 }
             }
-
         })
     }
 
@@ -340,6 +336,43 @@ object NetworkRequester {
     }
 
     /**
+     * Delete a friend
+     *
+     * @param route the route on the server
+     * @param username the user to delete
+     * @param callback handles success and failure of call
+     */
+    fun deleteFriend(route: ServerRoutes, username: String, callback: NetworkCallback) {
+        val request = Request.Builder()
+                .url(host + route.route + "/" + username)
+                .delete(username.toRequestBody())
+                .build()
+
+        client.newCall(request).enqueue(object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                // TODO change to some other err
+                callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                // Return failure code when deleting a friend fails
+                if (!response.isSuccessful) {
+                    when (response.code) {
+                        else -> {
+                            callback.onFailure(NetworkCallback.FailureCode.DEFAULT)
+                        }
+                    }
+                    return
+                }
+
+                callback.onSuccess(null)
+            }
+
+        })
+    }
+
+    /**
      * Return the list of friends the logged in user has
      *
      * @param route the route on the server
@@ -459,7 +492,6 @@ object NetworkRequester {
                 messageJSON = JSONObject(response.body?.string())
                 callback.onSuccess(messageJSON)
             }
-
         })
     }
 
@@ -496,11 +528,8 @@ object NetworkRequester {
                     callback.onSuccess(hashJSON)
                 }
             }
-
         })
-
     }
-
 
     /**
      * Set application context to be able to save cookies and other SharedPreferences objects to disk
@@ -511,6 +540,12 @@ object NetworkRequester {
         this.applicationContext = context
     }
 
+    /**
+     * Add cookie stored on disk to the list of cookies for network requests
+     * The cookie is grabbed from SharedPreferences and first wrapped before adding
+     *
+     * @param cookie
+     */
     private fun addStoredCookie(cookie: Cookie) {
         val wrappedCookie = WrappedCookie.wrap(cookie)
 
@@ -519,14 +554,23 @@ object NetworkRequester {
     }
 
 
+    /**
+     * This class is for the CookieJar stored in memory on the app used for sending network requests
+     *
+     */
     class MemoryCookieJar : CookieJar {
-//        private val cache = mutableSetOf<WrappedCookie>() made private member of singleton?
-
+        /**
+         * Return the list of cookies for sending with the request object
+         *
+         * @param url where we're sending the cookies to (what url the cookies have)
+         * @return the list of cookies
+         */
         @Synchronized
         override fun loadForRequest(url: HttpUrl): List<Cookie> {
             val cookiesToRemove = mutableSetOf<WrappedCookie>()
             val validCookies = mutableSetOf<WrappedCookie>()
 
+            // Get the valid cookies and remove expired ones
             cache.forEach { cookie ->
                 if (cookie.isExpired()) {
                     cookiesToRemove.add(cookie)
@@ -540,32 +584,39 @@ object NetworkRequester {
             return validCookies.toList().map(WrappedCookie::unwrap)
         }
 
+        /**
+         * Save the cookies we got from the network response (should only be one for now)
+         * Also save the cookies to SharedPreferences so we can access on app start to automatically
+         * log the user in if they have a valid cookie
+         *
+         * @param url the url set on the cookies (hopefully where they came from)
+         * @param cookies the list of cookies returned from network response
+         */
         @Synchronized
         override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
             val cookiesToAdd = cookies.map { WrappedCookie.wrap(it) }
 
-            // check what key cookies have
+//            // Check what key cookies have
+//            cookies.forEach { cookie ->
+//                println("cookie: $cookie")
+//            }
             // TODO: ONLY SAVE THE RIGHT COOKIE (I.E. CHECK THE COOKIE THAT HAS connect.sid NAME)
-            cookies.forEach { cookie ->
-                println("cookie: $cookie")
-            }
+
             // Save cookie to SharedPreferences
-            // TODO: ONLY SAVE THE RIGHT COOKIE (I.E. CHECK THE COOKIE THAT HAS connect.sid NAME)
-
-
-            // TODO: ALSO make it save in a format like a hash map in string from that can be converted back to a map
-            //          or save as a JSON form https://stackoverflow.com/questions/7944601/how-to-save-hashmap-to-shared-preferences
-            //                  check the Gson().toJson(map) one
-            // Only allow this application to see token
             val sharedPreferences: SharedPreferences = applicationContext!!.getSharedPreferences("AuthLogin", MODE_PRIVATE)
             val editor = sharedPreferences.edit()
             editor.putString("AuthToken", cookies[0].toString())
-            editor.apply() // if something breaks, change to commit() even though it doesn't activate in bg
+            editor.apply() // if something breaks, change to commit() even though it doesn't activate in background
 
+            // Refresh the cookies
             cache.removeAll(cookiesToAdd)
             cache.addAll(cookiesToAdd)
         }
 
+        /**
+         * Clear all cookies stored in cache
+         *
+         */
         @Synchronized
         fun clear() {
             cache.clear()
@@ -574,16 +625,41 @@ object NetworkRequester {
 
     }
 
+    /**
+     * This class allows for taking a cookie and wrapping it so it can be sent to the server
+     *
+     * @property cookie the cookie to wrap
+     */
     class WrappedCookie private constructor(val cookie: Cookie) {
+        /**
+         * Unwrap the cookie (return to original state
+         */
         fun unwrap() = cookie
 
+        /**
+         * Check if cookie passed expire time
+         *
+         */
         fun isExpired() = cookie.expiresAt < System.currentTimeMillis()
 
+        /**
+         * Check if the cookie's url matches the correct url
+         *
+         * @param url url to check
+         */
         fun matches(url: HttpUrl) = cookie.matches(url)
 
+        /**
+         * Check if something is equal to the wrapped cookie
+         *
+         * @param other the thing to check
+         * @return true if equal to the wrapped cookie, false otherwise
+         */
         override fun equals(other: Any?): Boolean {
+            // Check if it's the same type
             if (other !is WrappedCookie) return false
 
+            // See if they have the same values
             return other.cookie.name == cookie.name &&
                     other.cookie.domain == cookie.domain &&
                     other.cookie.path == cookie.path &&
@@ -591,6 +667,11 @@ object NetworkRequester {
                     other.cookie.hostOnly == cookie.hostOnly
         }
 
+        /**
+         * The hashCode() function of Cookie object but for WrappedCookie
+         *
+         * @return the hash of the cookie
+         */
         override fun hashCode(): Int {
             var hash = 17
             hash = 31 * hash + cookie.name.hashCode()
@@ -601,7 +682,15 @@ object NetworkRequester {
             return hash
         }
 
+        /**
+         * Public functions
+         */
         companion object {
+            /**
+             * Wrap the cookie
+             *
+             * @param cookie
+             */
             fun wrap(cookie: Cookie) = WrappedCookie(cookie)
         }
     }

@@ -10,6 +10,7 @@ enum class ServerRoutes(val route: String) {
     ME("/users/me"),
     AUTH("/auth"),
     ADD_FRIEND("/users/friends/add"),
+    DELETE_FRIEND("/users/friends/delete"),
     FETCH_FRIENDS("/users/friends/fetch"),
     SEND_MESSAGE("/users/message/send"),
     CHECK_HASH("/users/hash/check"),

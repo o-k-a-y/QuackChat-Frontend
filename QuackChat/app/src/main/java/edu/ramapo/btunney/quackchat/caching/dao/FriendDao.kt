@@ -23,6 +23,8 @@ interface FriendDao {
     @Insert
     fun insertAll(friends: Array<Friend>)
 
-    @Delete
-    fun delete(friend: Friend)
+//    @Delete
+//    fun delete(friend: Friend)
+    @Query("DELETE FROM friend WHERE username = :username")
+    fun delete(username: String)
 }

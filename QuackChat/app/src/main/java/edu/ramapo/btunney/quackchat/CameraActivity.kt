@@ -240,6 +240,7 @@ class CameraActivity : AppCompatActivity() {
      */
     fun friendListOnClick(view: View) {
         val intent = Intent(this, FriendListActivity::class.java)
+        intent.putExtra(FriendListActivity.DELETEFRIEND, false)
         startActivity(intent)
     }
 

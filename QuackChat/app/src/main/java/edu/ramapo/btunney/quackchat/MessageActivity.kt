@@ -19,7 +19,6 @@ import edu.ramapo.btunney.quackchat.caching.HashType
 import edu.ramapo.btunney.quackchat.caching.RoomDatabaseDAO
 import edu.ramapo.btunney.quackchat.caching.entities.Cache
 import edu.ramapo.btunney.quackchat.caching.entities.Message
-import edu.ramapo.btunney.quackchat.fragments.MessageFragment
 import edu.ramapo.btunney.quackchat.networking.*
 import edu.ramapo.btunney.quackchat.views.MediaOpenedViewFactory
 import edu.ramapo.btunney.quackchat.views.MessageViewFactory
@@ -398,7 +397,7 @@ class MessageActivity : AppCompatActivity() {
             messageVideoView.setOnCompletionListener {
                 messageVideoView.visibility = View.GONE
             }
-            
+
             // Change the LinearLayout to the opened picture/video version
             setMediaViewOpened(mediaView, MessageViewType.VIDEO)
 
@@ -432,33 +431,5 @@ class MessageActivity : AppCompatActivity() {
 
     }
 
-    /**
-     * Create fragment using the message data
-     *
-     */
-    private fun makeMessageFragment(message: Message) {
-        // Shove fragments into linear layout
-        val bundle = Bundle()
-        bundle.putParcelable(MessageFragment.ReceivedMessageBundleKey, message)
-        val fragment = MessageFragment()
-        fragment.arguments = bundle
-        supportFragmentManager.beginTransaction()
-                .add(R.id.messagesLinearLayout, fragment)
-                .commit()
-    }
-
-    /**
-     * Create fragment using the text message sent
-     *
-     */
-    private fun makeMessageFragment(message: String) {
-        val bundle = Bundle()
-        bundle.putString("messageSent", message)
-        val fragment = MessageFragment()
-        fragment.arguments = bundle
-        supportFragmentManager.beginTransaction()
-                .add(R.id.messagesLinearLayout, fragment)
-                .commit()
-    }
 
 }

@@ -1,6 +1,7 @@
 package edu.ramapo.btunney.quackchat
 
 //import android.support.v7.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
@@ -23,8 +24,27 @@ class FriendListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friend)
 
+//        // Check if we deleted a friend and if so, return to previous Activity
+//        if (intent.extras != null) {
+//            if (intent.getBooleanExtra(DELETEFRIEND, false)) {
+//                finish()
+//            }
+//        }
+
         // TODO: add a swipe gesture to refresh data and then call updateFriends() method :P
         fetchFriends()
+    }
+
+    /**
+     * TODO
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        finish()
     }
 
     /**
@@ -115,6 +135,7 @@ class FriendListActivity : AppCompatActivity() {
     private fun loadFriends() {
         Log.d("Load friends", "loading friends")
 
+        val activityRef = this
         Thread {
             var factoryTest = LinearLayout(this)
 
@@ -123,7 +144,7 @@ class FriendListActivity : AppCompatActivity() {
                 // Testing bad factory
                 runOnUiThread {
                     Runnable {
-                        factoryTest = FriendViewFactory.createFriendView(this, FriendViewType.LIST, friend)
+                        factoryTest = FriendViewFactory.createFriendView(activityRef, FriendViewType.LIST, friend)
                         friendListLinearLayout.addView(factoryTest)
                     }.run()
                 }
@@ -131,6 +152,13 @@ class FriendListActivity : AppCompatActivity() {
             }
         }.start()
 
+    }
+
+    /**
+     * Used when passing intents to this Activity
+     */
+    companion object {
+        val DELETEFRIEND = "deleteFriend"
     }
 
 }

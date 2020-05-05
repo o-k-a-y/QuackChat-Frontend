@@ -1,6 +1,7 @@
 package edu.ramapo.btunney.quackchat.views
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -63,7 +64,10 @@ class FriendViewFactory {
                         override fun onClick(v: View?) {
                             val intent = Intent(context, FriendProfileActivity::class.java)
                             intent.putExtra("username", friend.username)
-                            context.startActivity(intent)
+                            if (context !is Activity) return
+                            context.startActivityForResult(intent, 999)
+
+//                            context.startActivity(intent)
 
                             Log.d("@Friend image click", friend.username)
                         }

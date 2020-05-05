@@ -16,11 +16,11 @@ interface MessageDao {
     @Query("SELECT * FROM message WHERE fromWhom = :from")
     fun getAllFromFriend(from: String): List<Message>
 
-    // TODO: make query to delete all message from a friend
-    // TODO: make query to delete all messages of type text from a friend
-
     @Insert
     fun insertOne(message: Message)
+
+    @Query("DELETE FROM message WHERE fromWhom = :from")
+    fun deleteAllFromFriend(from: String)
 
     @Query("DELETE FROM message")
     fun nukeTable()

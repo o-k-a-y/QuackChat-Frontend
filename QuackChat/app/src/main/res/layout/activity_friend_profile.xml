@@ -8,13 +8,13 @@
 
     <ScrollView
         android:id="@+id/friendProfileScrollView"
-        android:layout_width="321dp"
-        android:layout_height="604dp"
+        android:layout_width="331dp"
+        android:layout_height="371dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.116">
 
         <LinearLayout
             android:id="@+id/friendProfileLinearLayout"
@@ -22,4 +22,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </ScrollView>
+
+    <ImageButton
+        android:id="@+id/deleteFriendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="deleteFriendOnClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.658"
+        app:srcCompat="@android:drawable/ic_delete" />
 </androidx.constraintlayout.widget.ConstraintLayout>

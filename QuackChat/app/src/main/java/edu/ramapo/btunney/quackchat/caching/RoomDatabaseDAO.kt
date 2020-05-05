@@ -104,6 +104,24 @@ abstract class RoomDatabaseDAO : RoomDatabase() {
         messageDao().insertOne(message)
     }
 
+    /**
+     * Delete a friend from the cache
+     *
+     * @param friend
+     */
+    fun deleteFriend(friend: String) {
+        friendDao().delete(friend)
+    }
+
+    /**
+     * Delete all messages from friend from cache
+     *
+     * @param friend
+     */
+    fun deleteMessages(friend: String) {
+        messageDao().deleteAllFromFriend(friend)
+    }
+
     // TODO: might be useful in the future
     private fun closeDb() {
         this.close()
