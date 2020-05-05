@@ -23,12 +23,14 @@ import edu.ramapo.btunney.quackchat.FriendProfileActivity
 import edu.ramapo.btunney.quackchat.MessageActivity
 import edu.ramapo.btunney.quackchat.caching.entities.Friend
 
+/**
+ * This factory contains a method to return a LinearLayout representing a friend profile or list of friends
+ * The friend profile will contain their username, their profile picture, and a button to delete them (FriendProfileActivity)
+ * The friend list will be the list of friends you see in FriendListActivity
+ */
 class FriendViewFactory {
 
     companion object {
-//        private lateinit var linearLayout: LinearLayout
-        private lateinit var mDetector: GestureDetectorCompat
-
         @Synchronized
         fun createFriendView(context: Context, friendViewType: FriendViewType, friend: Friend): LinearLayout {
 
@@ -48,8 +50,6 @@ class FriendViewFactory {
             // TODO: Clean up this code
             when (friendViewType) {
                 FriendViewType.LIST -> {
-                    mDetector = GestureDetectorCompat(context, MyGestureListener(friend.username))
-
                     val duckLinearLayout = LinearLayout(context)
 
                     linearLayout.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, 150)
@@ -128,26 +128,16 @@ class FriendViewFactory {
                     usernameView.text = friend.username.also { linearLayout.addView(usernameView)}
                 }
             }
-
-
             return linearLayout
         }
 
-        // TODO: BROKEN AND ONLY WORKS ON THE LAST THING PASSED
-        private fun addGestureListener(view: View) {
-
-            view.setOnTouchListener(object: View.OnTouchListener {
-                @SuppressLint("ClickableViewAccessibility")
-                override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                    if (mDetector.onTouchEvent(event)) {
-                        return true
-                    }
-                    return false
-                }
-            })
-
-        }
-
+        /**
+         * Base64 decode the image data into an ImageView
+         *
+         * @param context application context
+         * @param imageBase64 the base64 encoded byte array representing a picture
+         * @return
+         */
         private fun decodeImage(context: Context, imageBase64: String): ImageView {
             val decodedString = Base64.decode(imageBase64, Base64.DEFAULT)
             val decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
@@ -157,23 +147,5 @@ class FriendViewFactory {
             return image
         }
 
-
-        private class MyGestureListener(val username: String) : GestureDetector.SimpleOnGestureListener() {
-            override fun onDown(event: MotionEvent): Boolean {
-                Log.d("@Factory on click", "onDown: $event")
-                Log.d("@Factory on click", username)
-                return true
-            }
-
-            override fun onFling(
-                    event1: MotionEvent,
-                    event2: MotionEvent,
-                    velocityX: Float,
-                    velocityY: Float
-            ): Boolean {
-                Log.d("@Factory on click", "onFling: $event1 $event2")
-                return true
-            }
-        }
     }
 }

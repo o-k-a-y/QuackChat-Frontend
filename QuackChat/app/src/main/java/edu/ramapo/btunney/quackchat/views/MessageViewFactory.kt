@@ -10,6 +10,14 @@ import android.widget.*
 import edu.ramapo.btunney.quackchat.R
 import edu.ramapo.btunney.quackchat.caching.entities.Message
 
+/**
+ * This factory contains a method to create a LinearLayout representing a message.
+ * The message will either:
+ *      1. Just text if the message type = text
+ *      2. A red square that can be clicked to display the image in fullscreen if type = picture
+ *      3. A purple square that can be clicked to display the video in fullscreen if type = video
+ *
+ */
 class MessageViewFactory {
     companion object {
 
@@ -117,21 +125,21 @@ class MessageViewFactory {
             return messageLinearLayout
         }
 
-
-        /**
-         * Rotate a bitmap x degrees
-         * This is used when taking a picture because by default the image comes in landscape (horizontal)
-         * We really only allow vertical images
-         *
-         * @param source
-         * @param angle
-         * @return
-         */
-        private fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
-            val matrix = Matrix()
-            matrix.postRotate(angle)
-            return Bitmap.createBitmap(source, 0, 0, source.width, source.height,
-                    matrix, true)
-        }
+//
+//        /**
+//         * Rotate a bitmap x degrees
+//         * This is used when taking a picture because by default the image comes in landscape (horizontal)
+//         * We really only allow vertical images
+//         *
+//         * @param source
+//         * @param angle
+//         * @return
+//         */
+//        private fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
+//            val matrix = Matrix()
+//            matrix.postRotate(angle)
+//            return Bitmap.createBitmap(source, 0, 0, source.width, source.height,
+//                    matrix, true)
+//        }
     }
 }

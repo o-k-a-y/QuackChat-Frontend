@@ -8,8 +8,9 @@ import android.widget.LinearLayout
 import edu.ramapo.btunney.quackchat.R
 
 /**
- * When a media message of type picture/video is opened, we want to change the Linear Layout to
- * show differently than when it's not opened
+ * This factory creates ImageViews representing a picture/video.
+ * When a media message of type picture/video is opened, we want to change the LinearLayout to
+ * show differently than when it's not opened (filled in red/purple square vs empty square)
  *
  */
 class MediaOpenedViewFactory {
