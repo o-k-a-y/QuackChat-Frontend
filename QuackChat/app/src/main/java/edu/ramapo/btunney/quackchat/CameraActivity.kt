@@ -81,6 +81,9 @@ class CameraActivity : AppCompatActivity() {
 
         startRecordingButton.visibility = View.GONE
         stopRecordingButton.visibility = View.GONE
+        takePictureButton.visibility = View.VISIBLE
+
+        changeCaptureModeButton.setImageResource(R.drawable.ic_videocam_off_outline_24px)
 
 
 //        setRecordButtonVisible(true)
@@ -344,15 +347,14 @@ class CameraActivity : AppCompatActivity() {
      */
     fun switchCaptureMode(view: View) {
         if (takePictureButton.visibility == View.VISIBLE) {
-            changeCaptureModeButton.setImageResource(R.drawable.ic_videocam_off_outline_24px)
+            changeCaptureModeButton.setImageResource(R.drawable.ic_videocam_outline_24px)
 
             takePictureButton.visibility = View.GONE
             startRecordingButton.visibility = View.VISIBLE
             stopRecordingButton.visibility = View.GONE
         } else {
-            changeCaptureModeButton.setImageResource(R.drawable.ic_videocam_outline_24px)
-
-
+            changeCaptureModeButton.setImageResource(R.drawable.ic_videocam_off_outline_24px)
+            
             takePictureButton.visibility = View.VISIBLE
             startRecordingButton.visibility = View.GONE
             stopRecordingButton.visibility = View.GONE
