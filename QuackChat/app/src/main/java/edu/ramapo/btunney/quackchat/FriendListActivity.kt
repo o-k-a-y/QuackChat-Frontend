@@ -2,6 +2,7 @@ package edu.ramapo.btunney.quackchat
 
 //import android.support.v7.app.AppCompatActivity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
@@ -35,6 +36,13 @@ class FriendListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friend)
+
+        // Disable screen rotations
+        this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+
+        // Hide the top bar in activity
+        if (supportActionBar != null)
+            supportActionBar?.hide()
 
         // Check if we need to update the friend list and display all friends
         fetchFriends()

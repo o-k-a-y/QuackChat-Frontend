@@ -2,6 +2,7 @@ package edu.ramapo.btunney.quackchat
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -28,6 +29,13 @@ class LoginSignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_signup)
+
+        // Disable screen rotations
+        this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+
+        // Hide the top bar in activity
+        if (supportActionBar != null)
+            supportActionBar?.hide()
     }
 
     /**

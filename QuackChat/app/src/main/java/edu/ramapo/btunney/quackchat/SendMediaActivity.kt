@@ -1,6 +1,7 @@
 package edu.ramapo.btunney.quackchat
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,9 @@ class SendMediaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_send_media)
+
+        // Disable screen rotations
+        this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
         // Hide the top bar in activity
         if (supportActionBar != null)

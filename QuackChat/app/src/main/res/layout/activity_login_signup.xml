@@ -4,35 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFC01"
+    android:screenOrientation="portrait"
     tools:context=".LoginSignUpActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="185dp"
+        android:layout_height="345dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.225"
+        app:srcCompat="@drawable/ic_duck_logo_color" />
+
     <LinearLayout
-        android:layout_width="234dp"
-        android:layout_height="490dp"
+        android:layout_width="416dp"
+        android:layout_height="255dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <Button
             android:id="@+id/loginButton"
-            android:onClick="loginOnClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#DF4C5B"
+            android:fontFamily="sans-serif-medium"
+            android:onClick="loginOnClick"
             android:text="@string/login"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            android:typeface="monospace"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/signUpButton"
-            android:onClick="signUpOnClick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#4FAAF8"
+            android:fontFamily="sans-serif-medium"
+            android:onClick="signUpOnClick"
             android:text="@string/sign_up"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp"
+            android:typeface="monospace"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>

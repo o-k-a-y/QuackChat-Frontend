@@ -43,7 +43,8 @@ class MessageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        // Disable screen rotations
+        this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
         // Hide the top bar in activity
         if (supportActionBar != null)

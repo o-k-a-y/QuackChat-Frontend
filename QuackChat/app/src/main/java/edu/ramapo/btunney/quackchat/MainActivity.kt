@@ -1,6 +1,7 @@
 package edu.ramapo.btunney.quackchat
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -34,6 +35,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Disable screen rotations
+        this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+
+        // Hide the top bar in activity
+        if (supportActionBar != null)
+            supportActionBar?.hide()
 
         // Set NetworkRequester's context to use application's context (very bad)
         NetworkRequester.setContext(applicationContext)
