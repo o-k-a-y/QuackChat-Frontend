@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -80,7 +79,11 @@ class CameraActivity : AppCompatActivity() {
         super.onResume()
         requestCameraPermissions()
 
-        setRecordButtonVisible(true)
+        startRecordingButton.visibility = View.GONE
+        stopRecordingButton.visibility = View.GONE
+
+
+//        setRecordButtonVisible(true)
 
     }
 
@@ -332,6 +335,28 @@ class CameraActivity : AppCompatActivity() {
      */
     fun stopRecordingOnClick(view: View) {
         viewCamera.stopRecording()
+    }
+
+    /**
+     * Switch mode of capture from picture to video or vice versa
+     *
+     * @param view
+     */
+    fun switchCaptureMode(view: View) {
+        if (takePictureButton.visibility == View.VISIBLE) {
+            changeCaptureModeButton.setImageResource(R.drawable.ic_videocam_off_outline_24px)
+
+            takePictureButton.visibility = View.GONE
+            startRecordingButton.visibility = View.VISIBLE
+            stopRecordingButton.visibility = View.GONE
+        } else {
+            changeCaptureModeButton.setImageResource(R.drawable.ic_videocam_outline_24px)
+
+
+            takePictureButton.visibility = View.VISIBLE
+            startRecordingButton.visibility = View.GONE
+            stopRecordingButton.visibility = View.GONE
+        }
     }
 
 }

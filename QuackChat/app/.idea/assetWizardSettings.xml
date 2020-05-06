@@ -14,8 +14,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_openedvideo" />
-                            <entry key="sourceFile" value="$USER_HOME$/Pictures/snap/openedVideo.svg" />
+                            <entry key="outputName" value="ic_videocam_off_outline_24px" />
+                            <entry key="sourceFile" value="$USER_HOME$/Pictures/snap/videocam_off-outline-24px.svg" />
                           </map>
                         </option>
                       </PersistentState>
