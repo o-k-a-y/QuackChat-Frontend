@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
@@ -42,6 +43,7 @@ class SignUpActivity : AppCompatActivity() {
         // Hide the top bar in activity
         if (supportActionBar != null)
             supportActionBar?.hide()
+
     }
 
 
@@ -51,15 +53,37 @@ class SignUpActivity : AppCompatActivity() {
      * @param view the sign up button
      */
     fun signUpOnClick(view: View) {
+        // Check empty fields
+        // TODO: clean up code
+        if (usernameEditText.text.toString() == "") {
+            usernameEditText.setError("Please provide a username")
+            signUpErrorText.text = "Please fill out each field"
+            return
+        }
+        if (emailEditText.text.toString() == "") {
+            emailEditText.setError("Please provide a valid email address")
+            signUpErrorText.text = "Please fill out each field"
+            return
+        }
+        if (passwordEditText.text.toString() == "") {
+            passwordEditText.setError("Please provide a valid password")
+            signUpErrorText.text = "Please fill out each field"
+            return
+
+        }
+
+
+        // Check if passwords are the same
         if (confirmPasswordEditText.text.toString() != this.passwordEditText.text.toString()) {
             signUpErrorText.text = "Passwords don't match!"
+            confirmPasswordEditText.setError("Passwords don't match!")
             Log.d(confirmPasswordEditText.text.toString(), passwordEditText.text.toString())
             return
         }
 
+        // Create user
         val userMap = signUpFormToMap()
         val userJSON = JSONObject(userMap)
-
         createUser(userJSON)
     }
 
@@ -141,6 +165,19 @@ class SignUpActivity : AppCompatActivity() {
         })
     }
 
+//
+//    /**
+//     * Set the errors for text fields
+//     *
+//     * @param fields
+//     */
+//    private fun setErrorForTextFields(fields: List<TextView>) {
+//        for (field in fields) {
+//            if (field.text.toString() == "") {
+//                passwordEditText.
+//            }
+//        }
+//    }
 
     /**
      * Convert the text inside the form into a map to convert to JSON later

@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'kotlin-kapt' // Needed for Room abstraction for accessing SQLite
+apply plugin: 'kotlin-kapt' // Needed for Room abstraction for accessing SQLite as well as Glide
 
 android {
     compileOptions {
@@ -41,6 +41,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
 
     // CameraX core library
     def camerax_version = '1.0.0-beta03'
@@ -85,6 +86,11 @@ dependencies {
     // Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
     implementation 'com.google.android.material:material:1.1.0'
+
+
+    // Glide for loading gifs
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    kapt 'com.github.bumptech.glide:compiler:4.10.0'
 
 
 }

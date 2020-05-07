@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import edu.ramapo.btunney.quackchat.caching.HashType
 import edu.ramapo.btunney.quackchat.caching.RoomDatabaseDAO
 import edu.ramapo.btunney.quackchat.caching.entities.Cache
@@ -24,7 +25,9 @@ import edu.ramapo.btunney.quackchat.networking.*
 import edu.ramapo.btunney.quackchat.views.MediaOpenedViewFactory
 import edu.ramapo.btunney.quackchat.views.MessageViewFactory
 import edu.ramapo.btunney.quackchat.views.MessageViewType
+import kotlinx.android.synthetic.main.activity_friend_list.*
 import kotlinx.android.synthetic.main.activity_message.*
+import kotlinx.android.synthetic.main.activity_message.loadingGifimageView
 import org.json.JSONObject
 import java.io.File
 
@@ -51,6 +54,12 @@ class MessageActivity : AppCompatActivity() {
             supportActionBar?.hide()
 
         setContentView(R.layout.activity_message)
+
+        // Set loading gif (duck walking gif)
+        Glide.with(this)
+                .asGif()
+                .load("file:///android_asset/loading.gif")
+                .into(loadingGifimageView)
 
         // Get username of friend from intent
         val extras = intent.extras
@@ -99,6 +108,10 @@ class MessageActivity : AppCompatActivity() {
                     }
                     sendMessage(sendMessageEditText.text.toString())
                     sendMessageEditText.text.clear()
+
+                    // Remove duck no message gif
+                    showNoMessagesGif(false)
+
                     return true
                 }
                 return false
@@ -247,15 +260,50 @@ class MessageActivity : AppCompatActivity() {
     }
 
     /**
+     * Turn off the loading duck gif
+     *
+     */
+    private fun disableLoadingScreen() {
+        runOnUiThread {
+            loadingGifimageView.visibility = View.GONE
+        }
+    }
+
+    /**
+     * Show the gif and message informing user they have no messages
+     *
+     */
+    private fun showNoMessagesGif(show: Boolean) {
+        runOnUiThread {
+            if (show) {
+                Glide.with(this)
+                        .asGif()
+                        .load("file:///android_asset/noMessagesPhone.gif")
+                        .into(noMessagesGifImageView)
+            } else {
+                noMessagesGifImageView.visibility = View.GONE
+            }
+        }
+    }
+
+    /**
      * Load all the messages from the friend
      *
      */
     private fun loadMessages() {
         Log.d("@Load messages", "TODO")
+        disableLoadingScreen()
 
         // Get messages from Room DB
         Thread {
-            for (message in RoomDatabaseDAO.getInstance(applicationContext).getAllMessagesFrom(friend)) {
+            val messages = RoomDatabaseDAO.getInstance(applicationContext).getAllMessagesFrom(friend)
+
+            // No messages
+            if (messages.size <= 0) {
+                showNoMessagesGif(true)
+            }
+
+            for (message in messages) {
                 makeMessageLinearLayout(message)
             }
 

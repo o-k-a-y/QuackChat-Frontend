@@ -5,8 +5,10 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import edu.ramapo.btunney.quackchat.caching.RoomDatabaseDAO
 import edu.ramapo.btunney.quackchat.caching.HashType
 import edu.ramapo.btunney.quackchat.caching.entities.Cache
@@ -16,7 +18,7 @@ import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
 import edu.ramapo.btunney.quackchat.views.FriendViewFactory
 import edu.ramapo.btunney.quackchat.views.FriendViewType
-import kotlinx.android.synthetic.main.activity_friend.*
+import kotlinx.android.synthetic.main.activity_friend_list.*
 import org.json.JSONObject
 
 /**
@@ -35,7 +37,7 @@ class FriendListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_friend)
+        setContentView(R.layout.activity_friend_list)
 
         // Disable screen rotations
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
@@ -43,6 +45,12 @@ class FriendListActivity : AppCompatActivity() {
         // Hide the top bar in activity
         if (supportActionBar != null)
             supportActionBar?.hide()
+
+        // Set loading gif (duck walking gif)
+        Glide.with(this)
+                .asGif()
+                .load("file:///android_asset/loading.gif")
+                .into(loadingGifimageView)
 
         // Check if we need to update the friend list and display all friends
         fetchFriends()
@@ -145,15 +153,55 @@ class FriendListActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * Turn off the loading duck gif
+     *
+     */
+    private fun disableLoadingScreen() {
+        runOnUiThread {
+            loadingGifimageView.visibility = View.GONE
+        }
+    }
+
+    /**
+     * Display gif and text that shows user has no friends
+     * Also set text to notify user they have no friends
+     *
+     */
+    private fun showNoFriendsGif() {
+        runOnUiThread {
+            Glide.with(this)
+                    .asGif()
+                    .load("file:///android_asset/noFriends.gif")
+                    .into(noFriendsGifImageView)
+
+            noFriendsTextView.text = "You have no friends"
+        }
+    }
+
+    /**
+     * Load all the friends onto the screen showing both the username and profile picture
+     * The picture can be clicked to show user information along with option to delete friend
+     * The username or whitespace can be clicked to see and send messages to that friend
+     *
+     */
     private fun loadFriends() {
+        disableLoadingScreen()
         Log.d("Load friends", "loading friends")
 
         val activityRef = this
         Thread {
             var factoryTest = LinearLayout(this)
 
+            val friends = RoomDatabaseDAO.getInstance(applicationContext).getAllFriends()
+
+            // No friends
+            if (friends.size <= 0) {
+                showNoFriendsGif()
+            }
+
             // Every friend
-            for (friend in RoomDatabaseDAO.getInstance(applicationContext).getAllFriends()) {
+            for (friend in friends) {
                 // Testing bad factory
                 runOnUiThread {
                     Runnable {

@@ -2,12 +2,22 @@ package edu.ramapo.btunney.quackchat
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.module.AppGlideModule
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
+import kotlinx.android.synthetic.main.activity_main.*
+
+
+// Needed for glide to work
+@GlideModule
+class MyAppGlideModule : AppGlideModule()
 
 
 /**
@@ -26,6 +36,7 @@ import edu.ramapo.btunney.quackchat.networking.ServerRoutes
 class MainActivity : AppCompatActivity() {
 
     /**
+     * Show loading screen while making network request
      * Check if user is authenticated
      * If they are, bring to CameraActivity
      * otherwise bring to LoginSignUpActivity
@@ -36,12 +47,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         // Disable screen rotations
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
         // Hide the top bar in activity
         if (supportActionBar != null)
             supportActionBar?.hide()
+
+        // Set loading gif (duck walking gif)
+        Glide.with(this)
+                .asGif()
+                .load("file:///android_asset/loading.gif")
+//                .load("https://i.imgur.com/0kvtMLE.gif")
+                .into(loadingGifimageView)
 
         // Set NetworkRequester's context to use application's context (very bad)
         NetworkRequester.setContext(applicationContext)
@@ -63,16 +82,6 @@ class MainActivity : AppCompatActivity() {
                 Log.d("fail code", failureCode.toString())
 
                 startLoginSignUpActivity()
-//                runOnUiThread {
-//                    Runnable {
-//                        val intent = Intent(mainRef, LoginSignUpActivity::class.java)
-//
-//                        startActivityForResult(intent, 10)
-//
-//                        finish()
-////                        startLoginSignUpActivity()
-//                    }.run()
-//                }
             }
 
             /**
@@ -82,17 +91,6 @@ class MainActivity : AppCompatActivity() {
             override fun onSuccess(data: Any?) {
                 // Go to camera activity
                 startCameraActivity()
-
-//                runOnUiThread {
-//                    Runnable {
-//                        val intent = Intent(mainRef, CameraActivity::class.java)
-//
-//                        startActivityForResult(intent, 11)
-//
-//                        finish()
-////                        startCameraActivity()
-//                    }.run()
-//                }
             }
 
         })
