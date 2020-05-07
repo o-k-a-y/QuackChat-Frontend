@@ -4,26 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFC01"
     tools:context=".SettingsActivity">
 
     <Button
         android:id="@+id/signOutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="145dp"
+        android:layout_height="45dp"
+        android:background="@drawable/round_button"
+        android:fontFamily="sans-serif-medium"
         android:onClick="signOutOnClick"
-        android:text="@string/sign_out"
+        android:text="Log out"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="0.939"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.042" />
+        app:layout_constraintVertical_bias="0.045" />
 
     <TextView
         android:id="@+id/currentUserIdText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/logged_in_as"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.077"
@@ -47,15 +53,21 @@
 
     <ImageButton
         android:id="@+id/addFriendButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="67dp"
+        android:layout_height="58dp"
+        android:background="@android:color/transparent"
         android:onClick="addFriendOnClick"
+        android:scaleType="fitCenter"
+        android:paddingLeft="10px"
+        android:paddingTop="10px"
+        android:paddingRight="10px"
+        android:paddingBottom="10px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.707"
+        app:layout_constraintHorizontal_bias="0.726"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.205"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        app:layout_constraintVertical_bias="0.216"
+        app:srcCompat="@drawable/ic_person_add_24px" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
