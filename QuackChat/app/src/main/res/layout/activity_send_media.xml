@@ -25,9 +25,11 @@
 
     <ImageButton
         android:id="@+id/sendMediaButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="68dp"
+        android:layout_height="43dp"
+        android:background="@drawable/round_button"
         android:onClick="sendToFriendsOnClick"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.892"

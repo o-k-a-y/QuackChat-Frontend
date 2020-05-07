@@ -11,6 +11,7 @@ import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.view.children
+import com.bumptech.glide.Glide
 import edu.ramapo.btunney.quackchat.caching.HashType
 import edu.ramapo.btunney.quackchat.caching.RoomDatabaseDAO
 import edu.ramapo.btunney.quackchat.caching.entities.Cache
@@ -144,6 +145,7 @@ class SendMediaToFriends : AppCompatActivity() {
                 val newHash = friendJSON.getString("friendListHash")
                 val friendList = friendJSON.getJSONArray("friendList")
 
+
                 // Make new thread to handle access to database so it doesn't run on main UI thread
                 Thread {
                     // Insert any new friends into User table
@@ -172,6 +174,25 @@ class SendMediaToFriends : AppCompatActivity() {
     }
 
     /**
+     * Inform the user they have no friends by showing text informing them so
+     * and also show a sad duck
+     *
+     */
+    private fun displayNoFriends() {
+        runOnUiThread {
+            noFriendsSendGifImageView.visibility = View.VISIBLE
+            noFriendsSendTextView.visibility = View.VISIBLE
+            sendToFriendsButton.visibility = View.GONE
+            noFriendsSendTextView.text = "You have no friends"
+            Glide.with(this)
+                    .asGif()
+                    .load("file:///android_asset/noFriends.gif")
+                    .into(noFriendsSendGifImageView)
+        }
+
+    }
+
+    /**
      * Load the list of friends as checkboxes
      *
      */
@@ -182,8 +203,14 @@ class SendMediaToFriends : AppCompatActivity() {
             // TODO
 //            var factoryTest = LinearLayout(this)
 
-            // Every friend
-            for (friend in RoomDatabaseDAO.getInstance(applicationContext).getAllFriends()) {
+            // You have no friends
+            val friends = RoomDatabaseDAO.getInstance(applicationContext).getAllFriends()
+            if (friends.size <= 0) {
+                displayNoFriends()
+            }
+
+            // Give a checkbox to each friend
+            for (friend in friends) {
                 runOnUiThread {
                     Runnable {
                         // TODO: create FriendViewFactory method to create checkbox for me and use that
