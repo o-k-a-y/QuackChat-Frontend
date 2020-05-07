@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.util.Base64
 import android.util.Log
@@ -36,7 +37,6 @@ class FriendViewFactory {
 
             val linearLayout = LinearLayout(context)
 
-
             val image = when (friendViewType) {
                 FriendViewType.LIST -> {
                     decodeImage(context, friend.imageSmall)
@@ -51,6 +51,7 @@ class FriendViewFactory {
             when (friendViewType) {
                 FriendViewType.LIST -> {
                     val duckLinearLayout = LinearLayout(context)
+//                    duckLinearLayout.setBackgroundColor(Color.WHITE)
 
                     linearLayout.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, 150)
                     linearLayout.setPadding(20, 20, 20, 20)
@@ -95,8 +96,12 @@ class FriendViewFactory {
                     linearLayout.addView(duckLinearLayout)
 
                     val usernameView = TextView(context)
-                    usernameView.setPadding(20, 0, 20, 20)
-                    usernameView.setBackgroundColor(Color.GREEN)
+                    usernameView.setPadding(250, 20, 20, 20)
+                    usernameView.setTypeface(Typeface.SANS_SERIF)
+                    usernameView.setTextSize(20F)
+                    usernameView.setTextColor(Color.BLACK)
+
+//                    usernameView.setBackgroundColor(Color.GREEN)
                     usernameView.text = friend.username.also { linearLayout.addView(usernameView)}
 
 
@@ -118,13 +123,15 @@ class FriendViewFactory {
 
                     duckLinearLayout.layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT)
 
-
                     linearLayout.addView(duckLinearLayout)
 
                     val usernameView = TextView(context)
                     usernameView.gravity = Gravity.CENTER_HORIZONTAL
-                    usernameView.setPadding(20, 300, 20, 20)
-                    usernameView.setBackgroundColor(Color.GREEN)
+                    usernameView.setPadding(20, 100, 20, 20)
+                    usernameView.setTypeface(Typeface.SANS_SERIF)
+                    usernameView.setTextColor(Color.BLACK)
+                    usernameView.textSize = 30F
+//                    usernameView.setBackgroundColor(Color.GREEN)
                     usernameView.text = friend.username.also { linearLayout.addView(usernameView)}
                 }
             }

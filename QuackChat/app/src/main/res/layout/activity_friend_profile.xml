@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFC01"
     tools:context=".FriendProfileActivity">
 
     <ScrollView
         android:id="@+id/friendProfileScrollView"
-        android:layout_width="331dp"
-        android:layout_height="371dp"
+        android:layout_width="336dp"
+        android:layout_height="304dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.116">
+        app:layout_constraintVertical_bias="0.252">
 
         <LinearLayout
             android:id="@+id/friendProfileLinearLayout"
@@ -25,14 +27,16 @@
 
     <ImageButton
         android:id="@+id/deleteFriendButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="195dp"
+        android:layout_height="68dp"
+        android:background="@drawable/round_button"
         android:onClick="deleteFriendOnClick"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintHorizontal_bias="0.185"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.658"
-        app:srcCompat="@android:drawable/ic_delete" />
+        app:layout_constraintVertical_bias="0.696"
+        app:srcCompat="@drawable/ic_delete_forever_24px" />
 </androidx.constraintlayout.widget.ConstraintLayout>
