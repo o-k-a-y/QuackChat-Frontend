@@ -8,24 +8,27 @@ import android.widget.LinearLayout
 import edu.ramapo.btunney.quackchat.R
 
 /**
- * This factory creates ImageViews representing a picture/video.
+ * This factory creates LinearLayouts representing a picture/video.
  * When a media message of type picture/video is opened, we want to change the LinearLayout to
  * show differently than when it's not opened (filled in red/purple square vs empty square)
  *
  */
 class MediaOpenedViewFactory {
     companion object {
-        fun createOpenedMediaView(context: Context, mediaType: MessageViewType): ImageView {
+        fun createOpenedMediaView(context: Context, mediaType: MessageViewType): LinearLayout {
+            val openedImageLinearLayout = LinearLayout(context)
+            openedImageLinearLayout.setPadding(20, 0, 20, 0)
+
+            val openedImageView = ImageView(context)
+            openedImageView.setBackgroundColor(Color.GREEN)
 
             // Set height and width of opened media image
             val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             params.width = 50
             params.height = 50
-
-            val openedImageView = ImageView(context)
             openedImageView.layoutParams = params
 
-
+            // The image will be red border if picture, purple border if video
             when (mediaType) {
                 MessageViewType.PICTURE -> {
                     openedImageView.setImageResource(R.drawable.ic_openedpicture)
@@ -34,10 +37,12 @@ class MediaOpenedViewFactory {
                     openedImageView.setImageResource(R.drawable.ic_openedvideo)
                 }
                 else -> {
-                    // TODO
+                    // TODO: any other types
                 }
             }
-            return openedImageView
+
+            openedImageLinearLayout.addView(openedImageView)
+            return openedImageLinearLayout
         }
     }
 }

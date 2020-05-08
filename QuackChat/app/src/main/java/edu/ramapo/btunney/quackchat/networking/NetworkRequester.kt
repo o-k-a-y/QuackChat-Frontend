@@ -16,30 +16,23 @@ import java.util.*
  * Singleton class to allow HTTP requests to the backend
  */
 object NetworkRequester {
-
+    // Needed to store cookie in Shared Preferences
     private var applicationContext: Context? = null // very bad design to do this
 
+    // Cached cookies
     private val cache = mutableSetOf<WrappedCookie>() // moved from MemoryCookieJar class, probably bad
 
+    // OkHttpClient with ability to send and receive cookies
     private val client = OkHttpClient()
         .newBuilder()
         .cookieJar(MemoryCookieJar())
         .build()
 
-    // TODO: make interceptor?
-//    val httpClient = OkHttpClient.Builder().addInterceptor(object: Interceptor {
-//        override fun intercept(chain: Interceptor.Chain): Response {
-//            TODO("Not yet implemented")
-//        }
-//
-//    })
-//            .cookieJar(MemoryCookieJar())
-//            .build()
-
     private val JSON = "application/json; charset=utf-8".toMediaType()
-    private const val host = "http://52.55.108.86:3000" // The protocol and host and port
+    // The endpoint of the server
+    private const val host = "http://52.55.108.86:3000"
 
-    // TODO: Make a generic method to post a json to whatever route
+    // TODO: Make a generic method (builder) to post a json to whatever route
 
     /**
      * Extends Cookie to parse auth token (the cookie)

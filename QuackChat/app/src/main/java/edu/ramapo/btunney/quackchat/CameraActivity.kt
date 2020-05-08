@@ -29,6 +29,18 @@ import java.util.concurrent.Executor
  * The user can send these pictures and videos to friends (if they have any) which will send them a message
  * and can be viewed in the MessageActivity.
  *
+ * To take a picture, simply click the circle in the middle bottom of the screen, this will send the preview
+ * of the image to the SendMediaActivity
+ *
+ * To take a video, click the video icon on the bottom left of the screen.
+ * This will set the capture mode to video.
+ * This video icon show what mode is currently being used. If there is a slash through it, video is disabled.
+ * Then you can click the circle to start recording.
+ * The circle button will have an inner red circle to indicate recording is in place.
+ * To stop recording click it again.
+ * The video preview will be sent to SendMediaActivity
+
+ *
  * Along with the camera, the user can also access their account setting by clicking the settings button
  * which will take them to the SettingsActivity.
  * They can also view their messages by clicking the message button which will take them to the FriendListActivity.
@@ -37,9 +49,11 @@ import java.util.concurrent.Executor
  */
 class CameraActivity : AppCompatActivity() {
 
+    // Constant request code needed for requestPermissions()
     private val PERMISSION_USE_CAMERA = 4000
-//    private lateinit var mDetector: GestureDetectorCompat
-    private val mPermissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+    // Permissions we need to use the app
+    private val mPermissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +66,6 @@ class CameraActivity : AppCompatActivity() {
             supportActionBar?.hide()
 
         setContentView(R.layout.activity_camera)
-
-        // TODO: broken
-//        mDetector = GestureDetectorCompat(this, MyGestureListener())
     }
 
     /**
@@ -76,6 +87,7 @@ class CameraActivity : AppCompatActivity() {
 
     /**
      * When activity is resumed, camera should be shown again
+     * and set camera capture mode set picture mode
      * onResume is called right after onCreate
      *
      */
@@ -83,54 +95,12 @@ class CameraActivity : AppCompatActivity() {
         super.onResume()
         requestCameraPermissions()
 
+        // Default camera capture mode is picture mode
         startRecordingButton.visibility = View.GONE
         stopRecordingButton.visibility = View.GONE
         takePictureButton.visibility = View.VISIBLE
-
         changeCaptureModeButton.setImageResource(R.drawable.ic_videocam_off_outline_24px)
-
-
-//        setRecordButtonVisible(true)
-
     }
-
-//    private class MyGestureListener : GestureDetector.SimpleOnGestureListener() {
-//        override fun onDown(event: MotionEvent): Boolean {
-//            Log.d("Motion event", "onDown: $event")
-//            return true
-//        }
-//
-//        override fun onFling(
-//                event1: MotionEvent,
-//                event2: MotionEvent,
-//                velocityX: Float,
-//                velocityY: Float
-//        ): Boolean {
-//            Log.d("Motion event", "onFling: $event1 $event2")
-//            return true
-//        }
-//    }
-
-
-//    /**
-//     * Detect when user swipes left and right
-//     *
-//     * @param event
-//     * @return
-//     */
-//    override fun onTouchEvent(event: MotionEvent): Boolean {
-//        // Send to Friend activity
-//        if (mDetector.onTouchEvent(event)) {
-//            runOnUiThread {
-//                Runnable {
-//                    val intent = Intent(this, FriendListActivity::class.java)
-//                    startActivity(intent)
-//                }.run()
-//            }
-//        }
-//        return super.onTouchEvent(event)
-//    }
-
 
     /**
      * Ask user to accept permissions to take pictures and record videos
@@ -272,6 +242,9 @@ class CameraActivity : AppCompatActivity() {
     fun takePictureOnClick(view: View) {
         // Make sure capture mode is for images
         setCaptureMode(CameraView.CaptureMode.IMAGE)
+
+        // Save captured picture to a cache file when capture is successful is stopped
+        // Send picture preview to SendMediaActivity
         try {
             viewCamera.takePicture(
                     File(applicationContext.cacheDir, "picture").absoluteFile,
@@ -306,7 +279,9 @@ class CameraActivity : AppCompatActivity() {
 
         // Make sure capture mode is for images
         setCaptureMode(CameraView.CaptureMode.VIDEO)
-//        view_camera.setCaptureMode(CameraView.CaptureMode.VIDEO)
+
+        // Save recorded video to a cache file when recording is stopped
+        // Send video preview to SendMediaActivity
         viewCamera.startRecording(File(applicationContext.cacheDir, "video"),
                 object : Executor {
                     override fun execute(command: Runnable) {
@@ -317,12 +292,6 @@ class CameraActivity : AppCompatActivity() {
                 object : VideoCapture.OnVideoSavedCallback {
                     override fun onVideoSaved(file: File) {
                         sendMedia(MessageType.VIDEO)
-
-//                        // TODO: this should be in a different activity
-//                        val byteArray = file.readBytes()
-//                        // Base64 encode data
-//                        val base64EncodedData = Base64.encodeToString(byteArray, Base64.DEFAULT)
-//                        Log.d("picture", base64EncodedData)
                     }
 
                     override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {
@@ -350,6 +319,7 @@ class CameraActivity : AppCompatActivity() {
      * @param view
      */
     fun switchCaptureMode(view: View) {
+        // Set mode of capture to picture
         if (takePictureButton.visibility == View.VISIBLE) {
             changeCaptureModeButton.setImageResource(R.drawable.ic_videocam_outline_24px)
 
@@ -357,6 +327,7 @@ class CameraActivity : AppCompatActivity() {
             startRecordingButton.visibility = View.VISIBLE
             stopRecordingButton.visibility = View.GONE
         } else {
+            // Set mode of capture to video
             changeCaptureModeButton.setImageResource(R.drawable.ic_videocam_off_outline_24px)
             
             takePictureButton.visibility = View.VISIBLE

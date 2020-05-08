@@ -24,15 +24,9 @@ import org.json.JSONObject
  */
 class LoginActivity : AppCompatActivity() {
 
-    /**
-     * TODO
-     *
-     * @param savedInstanceState
-     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
 
         // Disable screen rotations
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;

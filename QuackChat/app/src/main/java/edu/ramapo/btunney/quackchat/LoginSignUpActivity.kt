@@ -22,11 +22,6 @@ import kotlinx.android.synthetic.main.activity_signup.*
  */
 class LoginSignUpActivity : AppCompatActivity() {
 
-    /**
-     * TODO
-     *
-     * @param savedInstanceState
-     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_signup)

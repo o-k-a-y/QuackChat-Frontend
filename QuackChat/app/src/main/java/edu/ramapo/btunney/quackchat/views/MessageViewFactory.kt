@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Matrix
+import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -37,15 +38,21 @@ class MessageViewFactory {
         fun createMessageView(context: Context, message: Message?, messageSent: String?): LinearLayout {
 
             messageLinearLayout = LinearLayout(context)
-            // TODO: handle all cases of text, picture, or video message
+            messageLinearLayout.setBackgroundColor(Color.WHITE)
 
+            // Create black border around each message and set background to white
+            val gradientDrawable = GradientDrawable()
+            gradientDrawable.setStroke(4, Color.BLACK)
+            gradientDrawable.setColor(Color.WHITE)
+            messageLinearLayout.background = gradientDrawable
+
+            // Message Entity will be null if we are only sending text
             if (message != null) {
                 return handleReceivedMessage(context, message)
             } else {
                 return handleSentMessage(context, messageSent)
             }
         }
-
 
         /**
          * Creates a view containing the message a friend sent you
@@ -67,33 +74,41 @@ class MessageViewFactory {
                 MessageViewType.TEXT.type -> {
                     val messageTextView = TextView(context)
                     messageTextView.text = message.message
-//                    messageTextView.setBackgroundColor(Color.BLACK)
+
+                    // TODO: PADDING NO
+                    messageTextView.setPadding(20, 0, 20, 0)
+
                     messageLinearLayout.addView(messageTextView)
-                    messageLinearLayout.setBackgroundColor(Color.YELLOW)
+//                    messageLinearLayout.setBackgroundColor(Color.YELLOW)
                 }
                 MessageViewType.PICTURE.type -> {
 
-                    // Make button red
-                    pictureImageButton.setImageResource(R.drawable.ic_unopenedpicture)
-
+                    // Make button red and add to LinearLayout
                     val imageLinearLayout = LinearLayout(context)
+
+                    // TODO: PADDING NO
+                    imageLinearLayout.setPadding(20, 0, 20, 0)
+
+                    pictureImageButton.setImageResource(R.drawable.ic_unopenedpicture)
                     imageLinearLayout.addView(pictureImageButton)
 
-//                    // Add some padding to the view
-//                    imageLinearLayout.setPadding(0, 20, 0, 20)
                     messageLinearLayout.addView(imageLinearLayout)
                 }
                 MessageViewType.VIDEO.type -> {
-                    // Make button purple
-                    pictureImageButton.setImageResource(R.drawable.ic_unopenedvideo)
-
+                    // Make button purple and add to LinearLayout
                     val imageLinearLayout = LinearLayout(context)
+
+
+                    // TODO: PADDING NO
+                    imageLinearLayout.setPadding(20, 0, 20, 0)
+
+                    pictureImageButton.setImageResource(R.drawable.ic_unopenedvideo)
                     imageLinearLayout.addView(pictureImageButton)
 
                     messageLinearLayout.addView(imageLinearLayout)
                 }
                 else -> {
-                    // TODO
+                    // TODO: any other types
                 }
             }
             return messageLinearLayout
@@ -111,6 +126,9 @@ class MessageViewFactory {
             val messageTextView = TextView(context)
             messageTextView.text = messageSent
 
+            // TODO: PADDING NO
+            messageTextView.setPadding(20, 0, 20, 0)
+
             // Needed for TextView so we can right justify the text
             val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             messageTextView.layoutParams = params
@@ -120,26 +138,9 @@ class MessageViewFactory {
 //            messageTextView.setBackgroundColor(Color.BLACK)
 
             messageLinearLayout.addView(messageTextView)
-            messageLinearLayout.setBackgroundColor(Color.GREEN)
+//            messageLinearLayout.setBackgroundColor(Color.GREEN)
             
             return messageLinearLayout
         }
-
-//
-//        /**
-//         * Rotate a bitmap x degrees
-//         * This is used when taking a picture because by default the image comes in landscape (horizontal)
-//         * We really only allow vertical images
-//         *
-//         * @param source
-//         * @param angle
-//         * @return
-//         */
-//        private fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
-//            val matrix = Matrix()
-//            matrix.postRotate(angle)
-//            return Bitmap.createBitmap(source, 0, 0, source.width, source.height,
-//                    matrix, true)
-//        }
     }
 }

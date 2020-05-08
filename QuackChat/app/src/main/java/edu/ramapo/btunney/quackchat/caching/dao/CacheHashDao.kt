@@ -8,6 +8,8 @@ import edu.ramapo.btunney.quackchat.caching.entities.Cache
  * The hash is used to check whether or not the local database is up to date
  * with the remote database
  *
+ * RoomDatabaseDAO makes use of this DAO
+ *
  */
 @Dao
 interface CacheHashDao {

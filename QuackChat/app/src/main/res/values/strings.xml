@@ -6,7 +6,7 @@
     <string name="user_exists">User already exists</string>
     <string name="logged_in_as">Logged in as: %1$s</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="enter_message">Enter message</string>
+    <string name="fill_out_each_field">Please fill out each field</string>
+    <string name="mismatch_password">Passwords don\'t match!</string>
 </resources>

@@ -1,6 +1,5 @@
 package edu.ramapo.btunney.quackchat.views
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -10,16 +9,13 @@ import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.util.Base64
 import android.util.Log
-import android.view.GestureDetector
 import android.view.Gravity
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.GestureDetectorCompat
 import edu.ramapo.btunney.quackchat.FriendProfileActivity
 import edu.ramapo.btunney.quackchat.MessageActivity
 import edu.ramapo.btunney.quackchat.caching.entities.Friend
@@ -34,9 +30,10 @@ class FriendViewFactory {
     companion object {
         @Synchronized
         fun createFriendView(context: Context, friendViewType: FriendViewType, friend: Friend): LinearLayout {
-
+            // What we're returning
             val linearLayout = LinearLayout(context)
 
+            // Set how the image appears
             val image = when (friendViewType) {
                 FriendViewType.LIST -> {
                     decodeImage(context, friend.imageSmall)
@@ -50,12 +47,12 @@ class FriendViewFactory {
             // TODO: Clean up this code
             when (friendViewType) {
                 FriendViewType.LIST -> {
+                    // Add padding to LinearLayout
                     val duckLinearLayout = LinearLayout(context)
-//                    duckLinearLayout.setBackgroundColor(Color.WHITE)
-
                     linearLayout.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, 150)
                     linearLayout.setPadding(20, 20, 20, 20)
 
+                    // Style image
                     image.cropToPadding = true
                     image.scaleType = ImageView.ScaleType.FIT_START
                     image.adjustViewBounds = true
@@ -87,54 +84,50 @@ class FriendViewFactory {
 
                     })
 
+                    // Add image to LinearLayout
                     duckLinearLayout.addView(image)
-                    duckLinearLayout.setBackgroundColor(Color.RED)
-
                     duckLinearLayout.layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT)
-
-
                     linearLayout.addView(duckLinearLayout)
 
+                    // Add and style username text
                     val usernameView = TextView(context)
                     usernameView.setPadding(250, 20, 20, 20)
                     usernameView.setTypeface(Typeface.SANS_SERIF)
                     usernameView.setTextSize(20F)
                     usernameView.setTextColor(Color.BLACK)
-
-//                    usernameView.setBackgroundColor(Color.GREEN)
                     usernameView.text = friend.username.also { linearLayout.addView(usernameView)}
 
-
+                    // Set black border on LinearLayout and set background to white
                     val gradientDrawable = GradientDrawable()
                     gradientDrawable.setStroke(4, Color.BLACK)
+                    gradientDrawable.setColor(Color.WHITE)
                     linearLayout.background = gradientDrawable
                 }
                 FriendViewType.PROFILE -> {
                     linearLayout.orientation = LinearLayout.VERTICAL;
+
+                    // Add image to LinearLayout and style
                     val duckLinearLayout = LinearLayout(context)
                     linearLayout.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-
                     image.cropToPadding = true
                     image.scaleType = ImageView.ScaleType.FIT_START
                     image.adjustViewBounds = true
-
                     duckLinearLayout.addView(image)
                     duckLinearLayout.setBackgroundColor(Color.RED)
-
                     duckLinearLayout.layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT)
-
                     linearLayout.addView(duckLinearLayout)
 
+                    // Style username text
                     val usernameView = TextView(context)
                     usernameView.gravity = Gravity.CENTER_HORIZONTAL
                     usernameView.setPadding(20, 100, 20, 20)
                     usernameView.setTypeface(Typeface.SANS_SERIF)
                     usernameView.setTextColor(Color.BLACK)
                     usernameView.textSize = 30F
-//                    usernameView.setBackgroundColor(Color.GREEN)
                     usernameView.text = friend.username.also { linearLayout.addView(usernameView)}
                 }
             }
+
             return linearLayout
         }
 

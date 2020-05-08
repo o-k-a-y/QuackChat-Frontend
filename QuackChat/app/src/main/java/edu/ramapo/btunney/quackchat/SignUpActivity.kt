@@ -56,27 +56,25 @@ class SignUpActivity : AppCompatActivity() {
         // Check empty fields
         // TODO: clean up code
         if (usernameEditText.text.toString() == "") {
-            usernameEditText.setError("Please provide a username")
-            signUpErrorText.text = "Please fill out each field"
+            usernameEditText.error = "Please provide a username"
+            signUpErrorText.text = getString(R.string.fill_out_each_field)
             return
         }
         if (emailEditText.text.toString() == "") {
-            emailEditText.setError("Please provide a valid email address")
-            signUpErrorText.text = "Please fill out each field"
+            emailEditText.error = "Please provide a valid email address"
+            signUpErrorText.text = getString(R.string.fill_out_each_field)
             return
         }
         if (passwordEditText.text.toString() == "") {
-            passwordEditText.setError("Please provide a valid password")
-            signUpErrorText.text = "Please fill out each field"
+            passwordEditText.error = "Please provide a valid password"
+            signUpErrorText.text = getString(R.string.fill_out_each_field)
             return
-
         }
-
 
         // Check if passwords are the same
         if (confirmPasswordEditText.text.toString() != this.passwordEditText.text.toString()) {
-            signUpErrorText.text = "Passwords don't match!"
-            confirmPasswordEditText.setError("Passwords don't match!")
+            signUpErrorText.text = getString(R.string.mismatch_password)
+            confirmPasswordEditText.error = "Passwords don't match!"
             Log.d(confirmPasswordEditText.text.toString(), passwordEditText.text.toString())
             return
         }
@@ -121,22 +119,21 @@ class SignUpActivity : AppCompatActivity() {
             // TODO: When sign up is successful, bring to Camera Activity
             override fun onSuccess(data: Any?) {
 
-                // User object
+                // User object to send to backend
                 val username: String = usernameEditText.text.toString()
                 val password: String = passwordEditText.text.toString()
-
                 val userPass: Map<String, String> = mapOf("username" to username, "password" to password)
                 val userPassJSON = JSONObject(userPass)
 
+                // Login which will authenticate the user into the session on the backend
                 runOnUiThread {
                     Runnable {
-                        // Login which will authenticate the user into the session on the backend
                         // Attempt to login with credentials
                         NetworkRequester.login(ServerRoutes.LOGIN, userPassJSON, object: NetworkCallback {
                             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                                 println(failureCode)
 
-                                // Make sure changing the text is done on the SignUpActivity
+                                // Display network error to user
                                 runOnUiThread {
                                     Runnable {
                                         activityRef.signUpErrorText.text = "Login failed due to network issues"
@@ -144,6 +141,7 @@ class SignUpActivity : AppCompatActivity() {
                                 }
                             }
 
+                            // Show the user the CameraActivity
                             override fun onSuccess(data: Any?) {
                                 runOnUiThread {
                                     Runnable {
@@ -164,20 +162,6 @@ class SignUpActivity : AppCompatActivity() {
 
         })
     }
-
-//
-//    /**
-//     * Set the errors for text fields
-//     *
-//     * @param fields
-//     */
-//    private fun setErrorForTextFields(fields: List<TextView>) {
-//        for (field in fields) {
-//            if (field.text.toString() == "") {
-//                passwordEditText.
-//            }
-//        }
-//    }
 
     /**
      * Convert the text inside the form into a map to convert to JSON later

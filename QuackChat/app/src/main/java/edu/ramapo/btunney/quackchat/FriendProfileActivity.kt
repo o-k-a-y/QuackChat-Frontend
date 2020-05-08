@@ -20,11 +20,12 @@ import kotlinx.android.synthetic.main.activity_friend_profile.*
  *
  */
 class FriendProfileActivity : AppCompatActivity() {
-    var friendUsername: String = ""
+    // The friend's username
+    private var friendUsername: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friend_profile)
-
 
         // Disable screen rotations
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
@@ -40,6 +41,7 @@ class FriendProfileActivity : AppCompatActivity() {
             friendUsername = extras.getString("username").toString()
         }
 
+        // No username was set, we probably came to this Activity from deleting a friend
         if (friendUsername == "") {
             finish()
         }
@@ -59,7 +61,10 @@ class FriendProfileActivity : AppCompatActivity() {
 
             var friendProfile = LinearLayout(this)
 
+            // Get friend data
             val friend = RoomDatabaseDAO.getInstance(applicationContext).getFriendByName(username)
+
+            // Show friend data
             runOnUiThread {
                 Runnable {
                     friendProfile = FriendViewFactory.createFriendView(this, FriendViewType.PROFILE, friend)
@@ -86,8 +91,6 @@ class FriendProfileActivity : AppCompatActivity() {
      * @param view the delete friend button
      */
     fun deleteFriendOnClick(view: View) {
-        // TODO: this might not correctly refresh list of friends, check when hitting back on FriendListActivity
-
         NetworkRequester.deleteFriend(ServerRoutes.DELETE_FRIEND, friendUsername, object: NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 TODO("Not yet implemented")

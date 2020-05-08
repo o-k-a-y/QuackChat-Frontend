@@ -9,6 +9,7 @@ import kotlinx.android.parcel.Parcelize
 /**
  * This entity class represents a message sent from a friend.
  *
+ * MessageDao makes use of this Entity
  *
  * @property primaryKey used to distinguish messages
  * @property type type of message (text/picture/video)

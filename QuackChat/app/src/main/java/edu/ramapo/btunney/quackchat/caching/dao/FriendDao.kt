@@ -6,6 +6,7 @@ import edu.ramapo.btunney.quackchat.caching.entities.Friend
 /**
  * This DAO supplies queries to get, insert, update, and delete friends
  *
+ * RoomDatabaseDAO makes use of this DAO
  */
 @Dao
 interface FriendDao {

@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.core.view.children
 import com.bumptech.glide.Glide
 import edu.ramapo.btunney.quackchat.caching.HashType
 import edu.ramapo.btunney.quackchat.caching.RoomDatabaseDAO
@@ -78,7 +79,6 @@ class MessageActivity : AppCompatActivity() {
 
         // Fetch any new messages from friend
         fetchMessages()
-
 
         // When clicked all views are removed
         mediaFrameLayout.setOnClickListener(object: View.OnClickListener {
@@ -243,15 +243,6 @@ class MessageActivity : AppCompatActivity() {
                     val cache = Cache(HashType.MESSAGES.type, newHash)
                     RoomDatabaseDAO.getInstance(applicationContext).insertHash(cache)
 
-//                    // Print all message
-//                    for (message in db.messageDao().getAllFromFriend(friend)) {
-//                        Log.i("@RoomDB message: ", message.toString())
-//                    }
-//
-//                    // Check messages hash
-//                    val messageHash = db.cacheHashDao().getHash("messages")
-//                    Log.d("@RoomDB messages Hash: ", messageHash)
-
                     // TODO: pass some actual data instead of null so we know what changed
                     callback.perform(null, null)
                 }.start()
@@ -342,22 +333,23 @@ class MessageActivity : AppCompatActivity() {
     }
 
     /**
-     * Create a LinearLayout from message data and add to message list
+     * Display each message received by creating a LinearLayout representing each message
+     * Text is displayed as text, picture and video are displayed as buttons you can click
+     * to view the actual content
      *
      * @param message
      */
     private fun makeMessageLinearLayout(message: Message) {
         runOnUiThread {
             Runnable {
+                // Create the view from the message's content
                 val messageLinearLayout = MessageViewFactory.createMessageView(this, message, null)
-
                 messagesLinearLayout.addView(messageLinearLayout)
 
                 // Add padding
                 addPadding(messageLinearLayout)
 
                 // Make image clickable
-                // TODO: allow this to be used for video view as well
                 if (message.type == MessageViewType.PICTURE.type) {
                     addOnClickToPictureView(messageLinearLayout, message)
                 } else if (message.type == MessageViewType.VIDEO.type) {
@@ -372,39 +364,22 @@ class MessageActivity : AppCompatActivity() {
 
 
     /**
-     * Create a LinearLayout from the text message sent and add to message list
-     *f
+     * Display each text message sent by creating a LinearLayout containing text
+     *
      * @param message
      */
     private fun makeMessageLinearLayout(message: String) {
         runOnUiThread {
             Runnable {
+                // Create the view from the message's content (just text)
                 val messageLinearLayout = MessageViewFactory.createMessageView(this, null, message)
+                messagesLinearLayout.addView(messageLinearLayout)
 
                 // Add padding
                 addPadding(messageLinearLayout)
-
-                messagesLinearLayout.addView(messageLinearLayout)
             }.run()
         }
 
-    }
-
-
-    /**
-     * Rotate a bitmap x degrees
-     * This is used when taking a picture because by default the image comes in landscape (horizontal)
-     * We really only allow vertical images
-     *
-     * @param source
-     * @param angle
-     * @return
-     */
-    private fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
-        val matrix = Matrix()
-        matrix.postRotate(angle)
-        return Bitmap.createBitmap(source, 0, 0, source.width, source.height,
-                matrix, true)
     }
 
     /**
@@ -462,20 +437,20 @@ class MessageActivity : AppCompatActivity() {
             val file = File(cacheDir.absolutePath + "/test")
             file.writeBytes(byteArray)
 
-            // Display the video in full screen
-            // TODO: make this into a function
+            // Get the video from cache
             val uri = FileProvider.getUriForFile(this, this.packageName + ".provider", file)
-
             messageVideoView.setVideoURI(uri)
+
+            // Display the video in full screen
             val metrics = DisplayMetrics()
-            applicationContext.getResources().getDisplayMetrics();
+            applicationContext.resources.displayMetrics;
             val params = messageVideoView.layoutParams
             params.width = metrics.widthPixels
             params.height = metrics.heightPixels
-
             messageVideoView.layoutParams = params
             messageVideoView.start()
 
+            // When video is done being played, delete it from view
             messageVideoView.setOnCompletionListener {
                 messageVideoView.visibility = View.GONE
             }
@@ -496,9 +471,18 @@ class MessageActivity : AppCompatActivity() {
      * @param mediaView
      */
     private fun setMediaViewOpened(mediaView: LinearLayout, messageType: MessageViewType) {
-        mediaView.removeAllViews()
-        mediaView.addView(MediaOpenedViewFactory.createOpenedMediaView(this, messageType))
-    }
+//        mediaView.removeAllViews()
+
+        var test = mediaView.children
+
+        for (child in test) {
+            if (child is LinearLayout) {
+                mediaView.removeView(child)
+            }
+        }
+        val image = MediaOpenedViewFactory.createOpenedMediaView(this, messageType)
+        mediaView.addView(image)
+}
 
     /**
      * Add padding to the linear layout

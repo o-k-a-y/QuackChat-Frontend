@@ -42,7 +42,6 @@ class SettingsActivity : AppCompatActivity() {
         // Show username from SharedPreferences
         displayUsername()
 
-
         // If you press enter, it will attempt to add the friend in the TextView
         addFriendEditText.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(v: View, keyCode: Int, event: KeyEvent?): Boolean {

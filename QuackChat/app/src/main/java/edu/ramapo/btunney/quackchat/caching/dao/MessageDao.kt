@@ -8,6 +8,7 @@ import edu.ramapo.btunney.quackchat.caching.entities.Message
 /**
  * This DAO supplies queries to get, insert, and delete messages
  *
+ * RoomDatabaseDAO makes use of this DAO
  */
 @Dao
 interface MessageDao {

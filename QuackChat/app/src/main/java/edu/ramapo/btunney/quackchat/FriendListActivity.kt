@@ -127,7 +127,7 @@ class FriendListActivity : AppCompatActivity() {
                 val newHash = friendJSON.getString("friendListHash")
                 val friendList = friendJSON.getJSONArray("friendList")
 
-                // Make new thread to handle access to database so it doesn't run on main UI thread
+                // Make new thread to handle access to database because it can't run on main UI thread
                 Thread {
                     // Insert any new friends into User table
                     for (i in 0 until friendList.length()) {
@@ -192,8 +192,9 @@ class FriendListActivity : AppCompatActivity() {
 
         val activityRef = this
         Thread {
-            var factoryTest = LinearLayout(this)
+            var friendView = LinearLayout(this)
 
+            // Our list of friends
             val friends = RoomDatabaseDAO.getInstance(applicationContext).getAllFriends()
 
             // No friends
@@ -201,14 +202,12 @@ class FriendListActivity : AppCompatActivity() {
                 showNoFriendsGif()
             }
 
-            // Every friend
+            // Create a friend view for each friend in our friend list
             for (friend in friends) {
-                // Testing bad factory
                 runOnUiThread {
                     Runnable {
-                        factoryTest = FriendViewFactory.createFriendView(activityRef, FriendViewType.LIST, friend)
-//                        factoryTest.setBackgroundColor(Color.WHITE)
-                        friendListLinearLayout.addView(factoryTest)
+                        friendView = FriendViewFactory.createFriendView(activityRef, FriendViewType.LIST, friend)
+                        friendListLinearLayout.addView(friendView)
                     }.run()
                 }
 

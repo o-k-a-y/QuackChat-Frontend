@@ -267,8 +267,8 @@ class SendMediaToFriends : AppCompatActivity() {
         val base64EncodedData = Base64.encodeToString(byteArray, Base64.DEFAULT)
         Log.d("picture", base64EncodedData)
 
-        val mediaType = getMediaType()
-        val messageType = when(mediaType) {
+        // Set the type of message
+        val messageType = when(getMediaType()) {
             MessageType.PICTURE.type -> {
                 MessageType.PICTURE
             }
@@ -284,6 +284,7 @@ class SendMediaToFriends : AppCompatActivity() {
             throw Exception("Message type of media is null")
         }
 
+        // Send the message to the selected list of friends
         NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, friends.toTypedArray(), base64EncodedData, messageType, object : NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 TODO("Not yet implemented")
@@ -326,6 +327,7 @@ class SendMediaToFriends : AppCompatActivity() {
         }
 
         println(friendsToSendTo)
+
         // Send the media
         initiateMediaSendRequest(friendsToSendTo)
     }
