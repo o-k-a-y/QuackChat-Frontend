@@ -17,17 +17,14 @@ Use the front and back facing camera to take pictures.
 Use the front and back facing camera to take videos.
 ### Send media to friends
 Use the pictures and videos taken to directly send to friends.
-### Settings to change email/username/password
-Change your email, username, or password (maybe).
-### User stories (stretch goal)
-Post a picture or video on your story so friends can see for a limited time.
 
 
 APIs used:
 okhttp
-camera2/cameraX
+cameraX
 Nodejs
 MongoDB
 Express
 AWS
 Room (SQLite abstraction)
+Glide (image loading for gifs)
