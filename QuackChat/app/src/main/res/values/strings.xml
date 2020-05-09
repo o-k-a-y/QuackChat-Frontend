@@ -9,4 +9,5 @@
     <string name="enter_message">Enter message</string>
     <string name="fill_out_each_field">Please fill out each field</string>
     <string name="mismatch_password">Passwords don\'t match!</string>
+    <string name="remove_friend">Remove Friend</string>
 </resources>

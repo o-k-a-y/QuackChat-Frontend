@@ -2,18 +2,17 @@ package edu.ramapo.btunney.quackchat
 
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Matrix
-import android.net.Network
 import android.os.Bundle
 import android.util.Base64
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.children
@@ -26,9 +25,7 @@ import edu.ramapo.btunney.quackchat.networking.*
 import edu.ramapo.btunney.quackchat.views.MediaOpenedViewFactory
 import edu.ramapo.btunney.quackchat.views.MessageViewFactory
 import edu.ramapo.btunney.quackchat.views.MessageViewType
-import kotlinx.android.synthetic.main.activity_friend_list.*
 import kotlinx.android.synthetic.main.activity_message.*
-import kotlinx.android.synthetic.main.activity_message.loadingGifimageView
 import org.json.JSONObject
 import java.io.File
 
@@ -467,22 +464,52 @@ class MessageActivity : AppCompatActivity() {
 
     /**
      * Change what the media view pictures (picture and video) look like
+     * Replaces previous LinearLayout with new one showing media message has been opened
      *
      * @param mediaView
      */
     private fun setMediaViewOpened(mediaView: LinearLayout, messageType: MessageViewType) {
-//        mediaView.removeAllViews()
-
-        var test = mediaView.children
-
-        for (child in test) {
-            if (child is LinearLayout) {
+        // Remove the TextView and ImageView in the message LinearLayout
+        val children = BFSView(mediaView)
+        for (child in children) {
+            if (child is TextView || child is LinearLayout) {
                 mediaView.removeView(child)
             }
         }
-        val image = MediaOpenedViewFactory.createOpenedMediaView(this, messageType)
-        mediaView.addView(image)
-}
+
+        // Replace with new media LinearLayout
+        val openedMediaLinearLayout = MediaOpenedViewFactory.createOpenedMediaView(this, messageType)
+        mediaView.addView(openedMediaLinearLayout)
+    }
+
+    /**
+     * Breadth-first search the view and return a list
+     * containing itself and all of it's children
+     *
+     * @param view the parent view to search
+     * @return
+     */
+    private fun BFSView(view: View): List<View> {
+        val visited: MutableList<View> = ArrayList()
+        val unvisited: MutableList<View> = ArrayList()
+        unvisited.add(view)
+
+        // Visit each view
+        while (unvisited.isNotEmpty()) {
+            val child = unvisited.removeAt(0)
+            visited.add(child)
+
+            if (child !is ViewGroup) continue
+            val childCount = child.childCount
+
+            // Add each of the view's views
+            for (i in 0 until childCount) {
+                unvisited.add(child.getChildAt(i))
+            }
+        }
+
+        return visited
+    }
 
     /**
      * Add padding to the linear layout

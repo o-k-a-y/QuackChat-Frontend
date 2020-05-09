@@ -7,16 +7,33 @@
     android:background="#FFFC01"
     tools:context=".FriendProfileActivity">
 
-    <ScrollView
-        android:id="@+id/friendProfileScrollView"
-        android:layout_width="336dp"
-        android:layout_height="304dp"
+    <Button
+        android:id="@+id/removeFriendButton"
+        android:layout_width="145dp"
+        android:layout_height="45dp"
+        android:background="@drawable/round_button"
+        android:fontFamily="sans-serif-medium"
+        android:onClick="deleteFriendOnClick"
+        android:text="@string/remove_friend"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.131"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.252">
+        app:layout_constraintVertical_bias="0.399" />
+
+    <ScrollView
+        android:id="@+id/friendProfileScrollView"
+        android:layout_width="341dp"
+        android:layout_height="191dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.628"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.131">
 
         <LinearLayout
             android:id="@+id/friendProfileLinearLayout"
@@ -25,18 +42,5 @@
             android:orientation="vertical" />
     </ScrollView>
 
-    <ImageButton
-        android:id="@+id/deleteFriendButton"
-        android:layout_width="195dp"
-        android:layout_height="68dp"
-        android:background="@drawable/round_button"
-        android:onClick="deleteFriendOnClick"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.185"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.696"
-        app:srcCompat="@drawable/ic_delete_forever_24px" />
+    <!--        app:srcCompat="@drawable/ic_remove_circle_24px" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

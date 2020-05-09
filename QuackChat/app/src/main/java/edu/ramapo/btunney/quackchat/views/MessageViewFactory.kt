@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.drawable.GradientDrawable
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -75,37 +76,38 @@ class MessageViewFactory {
                     val messageTextView = TextView(context)
                     messageTextView.text = message.message
 
-                    // TODO: PADDING NO
-                    messageTextView.setPadding(20, 0, 20, 0)
+                    addPadding(messageTextView)
 
                     messageLinearLayout.addView(messageTextView)
-//                    messageLinearLayout.setBackgroundColor(Color.YELLOW)
                 }
                 MessageViewType.PICTURE.type -> {
 
                     // Make button red and add to LinearLayout
                     val imageLinearLayout = LinearLayout(context)
 
-                    // TODO: PADDING NO
-                    imageLinearLayout.setPadding(20, 0, 20, 0)
+                    addPadding(imageLinearLayout)
 
                     pictureImageButton.setImageResource(R.drawable.ic_unopenedpicture)
                     imageLinearLayout.addView(pictureImageButton)
 
                     messageLinearLayout.addView(imageLinearLayout)
+
+                    // TODO
+                    addTapToOpenText()
                 }
                 MessageViewType.VIDEO.type -> {
                     // Make button purple and add to LinearLayout
                     val imageLinearLayout = LinearLayout(context)
 
-
-                    // TODO: PADDING NO
-                    imageLinearLayout.setPadding(20, 0, 20, 0)
+                    addPadding(imageLinearLayout)
 
                     pictureImageButton.setImageResource(R.drawable.ic_unopenedvideo)
                     imageLinearLayout.addView(pictureImageButton)
 
                     messageLinearLayout.addView(imageLinearLayout)
+
+                    // TODO
+                    addTapToOpenText()
                 }
                 else -> {
                     // TODO: any other types
@@ -126,8 +128,7 @@ class MessageViewFactory {
             val messageTextView = TextView(context)
             messageTextView.text = messageSent
 
-            // TODO: PADDING NO
-            messageTextView.setPadding(20, 0, 20, 0)
+            addPadding(messageTextView)
 
             // Needed for TextView so we can right justify the text
             val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
@@ -141,6 +142,28 @@ class MessageViewFactory {
 //            messageLinearLayout.setBackgroundColor(Color.GREEN)
             
             return messageLinearLayout
+        }
+
+        /**
+         * Adds text so the user knows what to do with media buttons
+         *
+         */
+        private fun addTapToOpenText() {
+            val text = TextView(messageLinearLayout.context)
+            text.text = "Tap to open"
+            text.gravity = Gravity.CENTER
+
+            messageLinearLayout.addView(text)
+
+        }
+
+        /**
+         * Add padding to the view
+         *
+         * @param view
+         */
+        private fun addPadding(view: View) {
+            view.setPadding(20, 0, 20, 0)
         }
     }
 }

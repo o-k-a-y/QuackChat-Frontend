@@ -42,6 +42,12 @@ class SendMediaToFriends : AppCompatActivity() {
         if (supportActionBar != null)
             supportActionBar?.hide()
 
+        // Set loading gif (duck walking gif)
+        Glide.with(this)
+                .asGif()
+                .load("file:///android_asset/loading.gif")
+                .into(loadingGifimageView)
+
         hideSendButton()
 
         displayFriendListCheckBoxes()
@@ -103,6 +109,7 @@ class SendMediaToFriends : AppCompatActivity() {
                         // Fetch new list of friends as well as new hash
                         retrieveNewFriends(object: Callback<Any> {
                             override fun perform(data: Any?, error: Throwable?) {
+                                disableLoadingScreen()
                                 loadFriends()
 
                                 runOnUiThread {
@@ -115,6 +122,7 @@ class SendMediaToFriends : AppCompatActivity() {
 
                         })
                     } else {
+                        disableLoadingScreen()
                         loadFriends()
 
                         runOnUiThread {
@@ -181,9 +189,10 @@ class SendMediaToFriends : AppCompatActivity() {
     private fun displayNoFriends() {
         runOnUiThread {
             noFriendsSendGifImageView.visibility = View.VISIBLE
-            noFriendsSendTextView.visibility = View.VISIBLE
+            noFriendsTextView.visibility = View.VISIBLE
             sendToFriendsButton.visibility = View.GONE
-            noFriendsSendTextView.text = "You have no friends"
+
+            noFriendsTextView.text = "You have no friends"
             Glide.with(this)
                     .asGif()
                     .load("file:///android_asset/noFriends.gif")
@@ -330,5 +339,15 @@ class SendMediaToFriends : AppCompatActivity() {
 
         // Send the media
         initiateMediaSendRequest(friendsToSendTo)
+    }
+
+    /**
+     * Turn off the loading duck gif
+     *
+     */
+    private fun disableLoadingScreen() {
+        runOnUiThread {
+            loadingGifimageView.visibility = View.GONE
+        }
     }
 }

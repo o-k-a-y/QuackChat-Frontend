@@ -20,7 +20,6 @@ class MediaOpenedViewFactory {
             openedImageLinearLayout.setPadding(20, 0, 20, 0)
 
             val openedImageView = ImageView(context)
-            openedImageView.setBackgroundColor(Color.GREEN)
 
             // Set height and width of opened media image
             val params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

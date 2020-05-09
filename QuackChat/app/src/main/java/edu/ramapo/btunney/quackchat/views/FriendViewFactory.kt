@@ -91,44 +91,92 @@ class FriendViewFactory {
 
                     // Add and style username text
                     val usernameView = TextView(context)
-                    usernameView.setPadding(250, 20, 20, 20)
-                    usernameView.setTypeface(Typeface.SANS_SERIF)
-                    usernameView.setTextSize(20F)
-                    usernameView.setTextColor(Color.BLACK)
+                    styleListText(usernameView)
                     usernameView.text = friend.username.also { linearLayout.addView(usernameView)}
 
                     // Set black border on LinearLayout and set background to white
-                    val gradientDrawable = GradientDrawable()
-                    gradientDrawable.setStroke(4, Color.BLACK)
-                    gradientDrawable.setColor(Color.WHITE)
-                    linearLayout.background = gradientDrawable
+                    styleBorderAndBackground(linearLayout)
                 }
                 FriendViewType.PROFILE -> {
                     linearLayout.orientation = LinearLayout.VERTICAL;
 
+                    // Style and add username text
+                    val usernameView = TextView(context)
+                    usernameView.text = friend.username
+                    styleProfileText(usernameView)
+                    linearLayout.addView(usernameView)
+
                     // Add image to LinearLayout and style
                     val duckLinearLayout = LinearLayout(context)
                     linearLayout.layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-                    image.cropToPadding = true
-                    image.scaleType = ImageView.ScaleType.FIT_START
-                    image.adjustViewBounds = true
+                    styleProfileImage(image)
                     duckLinearLayout.addView(image)
                     duckLinearLayout.setBackgroundColor(Color.RED)
                     duckLinearLayout.layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT)
                     linearLayout.addView(duckLinearLayout)
-
-                    // Style username text
-                    val usernameView = TextView(context)
-                    usernameView.gravity = Gravity.CENTER_HORIZONTAL
-                    usernameView.setPadding(20, 100, 20, 20)
-                    usernameView.setTypeface(Typeface.SANS_SERIF)
-                    usernameView.setTextColor(Color.BLACK)
-                    usernameView.textSize = 30F
-                    usernameView.text = friend.username.also { linearLayout.addView(usernameView)}
                 }
             }
 
             return linearLayout
+        }
+
+        /**
+         * Add black border to layout and make the background white
+         *
+         * @param linearLayout
+         */
+        private fun styleBorderAndBackground(linearLayout: LinearLayout) {
+            val gradientDrawable = GradientDrawable()
+            gradientDrawable.setStroke(4, Color.BLACK)
+            gradientDrawable.setColor(Color.WHITE)
+            linearLayout.background = gradientDrawable
+        }
+
+        /**
+         * Add styling to TextView for friend list
+         *
+         * @param textView
+         */
+        private fun styleListText(textView: TextView) {
+            textView.setPadding(250, 20, 20, 20)
+            textView.setTypeface(Typeface.SANS_SERIF)
+            textView.setTextSize(20F)
+            textView.setTextColor(Color.BLACK)
+        }
+
+        /**
+         * Add styling to ImageView for friend list
+         *
+         * @param imageView
+         */
+        private fun styleListImage(imageView: ImageView) {
+            imageView.cropToPadding = true
+            imageView.scaleType = ImageView.ScaleType.FIT_START
+            imageView.adjustViewBounds = true
+        }
+
+
+        /**
+         * Add styling to TextView for friend profile
+         *
+         * @param textView
+         */
+        private fun styleProfileText(textView: TextView) {
+            textView.setPadding(0, 0, 0, 20)
+            textView.setTypeface(Typeface.SANS_SERIF)
+            textView.setTextColor(Color.BLACK)
+            textView.textSize = 30F
+        }
+
+        /**
+         * Add styling to ImageView for friend profile
+         *
+         * @param imageView
+         */
+        private fun styleProfileImage(imageView: ImageView) {
+            imageView.cropToPadding = true
+            imageView.scaleType = ImageView.ScaleType.FIT_START
+            imageView.adjustViewBounds = true
         }
 
         /**
