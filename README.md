@@ -19,12 +19,13 @@ Use the front and back facing camera to take videos.
 Use the pictures and videos taken to directly send to friends.
 
 
-APIs used:
-* okhttp
+## APIs used:
+### Frontend
+* OkHttp
 * cameraX
+
+### Backend
 * Nodejs
 * MongoDB
 * Express
 * AWS
-* Room (SQLite abstraction)
-* Glide (image loading for gifs)
