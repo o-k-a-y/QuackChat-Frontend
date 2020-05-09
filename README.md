@@ -20,11 +20,11 @@ Use the pictures and videos taken to directly send to friends.
 
 
 APIs used:
-okhttp
-cameraX
-Nodejs
-MongoDB
-Express
-AWS
-Room (SQLite abstraction)
-Glide (image loading for gifs)
+* okhttp
+* cameraX
+* Nodejs
+* MongoDB
+* Express
+* AWS
+* Room (SQLite abstraction)
+* Glide (image loading for gifs)
