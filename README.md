@@ -25,7 +25,7 @@ Use the pictures and videos taken to directly send to friends.
 * cameraX
 
 ### Backend
-* Nodejs
+* NodeJS
 * MongoDB
 * Express
 * AWS
