@@ -1,7 +1,6 @@
 package edu.ramapo.btunney.quackchat.views
 
 import android.content.Context
-import android.graphics.Color
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout

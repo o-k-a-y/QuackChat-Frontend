@@ -2,7 +2,6 @@ package edu.ramapo.btunney.quackchat
 
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity

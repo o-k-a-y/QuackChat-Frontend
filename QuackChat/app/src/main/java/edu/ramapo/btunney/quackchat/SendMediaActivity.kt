@@ -81,6 +81,7 @@ class SendMediaActivity : AppCompatActivity() {
                 // Disable video view
                 videoView.visibility = View.INVISIBLE
 
+                // Show the picture on screen
                 displayPicture()
             }
             MessageType.VIDEO.type -> {

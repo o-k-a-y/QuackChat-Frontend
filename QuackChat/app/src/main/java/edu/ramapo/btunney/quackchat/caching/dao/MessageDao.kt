@@ -27,6 +27,4 @@ interface MessageDao {
     @Query("DELETE FROM message WHERE fromWhom = :from")
     fun deleteAllFromFriend(from: String)
 
-//    @Query("DELETE FROM message")
-//    fun nukeTable()
 }

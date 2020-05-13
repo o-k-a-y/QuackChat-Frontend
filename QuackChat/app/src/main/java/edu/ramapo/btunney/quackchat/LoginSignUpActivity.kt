@@ -10,7 +10,6 @@ import android.view.View
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
-import kotlinx.android.synthetic.main.activity_signup.*
 
 /**
  * This activity displays the options of either signing up or logging in to the user
@@ -161,6 +160,4 @@ class LoginSignUpActivity : AppCompatActivity() {
         startActivityForResult(intent, 5)
 
     }
-
-
 }

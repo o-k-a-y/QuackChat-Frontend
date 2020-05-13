@@ -242,7 +242,6 @@ class SendMediaToFriends : AppCompatActivity() {
 
                     }.run()
                 }
-
             }
         }.start()
     }
@@ -341,7 +340,6 @@ class SendMediaToFriends : AppCompatActivity() {
                 // TODO: maybe figure out way to come back to SendMediaActivity using finishAffinity()
                 finish()
             }
-
         })
     }
 

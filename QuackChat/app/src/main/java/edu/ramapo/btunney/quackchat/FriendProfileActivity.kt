@@ -107,7 +107,6 @@ class FriendProfileActivity : AppCompatActivity() {
 
                 finish()
 //                startActivity(intent)
-
             }
 
         })

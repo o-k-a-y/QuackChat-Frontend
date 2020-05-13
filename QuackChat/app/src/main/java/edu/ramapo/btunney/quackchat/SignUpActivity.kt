@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
 import edu.ramapo.btunney.quackchat.networking.ServerRoutes
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.usernameEditText
 import kotlinx.android.synthetic.main.activity_signup.*
 import kotlinx.android.synthetic.main.activity_signup.passwordEditText

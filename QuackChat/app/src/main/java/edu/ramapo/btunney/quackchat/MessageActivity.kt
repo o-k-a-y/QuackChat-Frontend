@@ -38,7 +38,6 @@ import java.io.File
 class MessageActivity : AppCompatActivity() {
     private lateinit var mFriend: String
 
-
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -518,6 +517,5 @@ class MessageActivity : AppCompatActivity() {
     private fun addPadding(linearLayout: LinearLayout) {
         linearLayout.setPadding(0, 20, 0, 20)
     }
-
 
 }
