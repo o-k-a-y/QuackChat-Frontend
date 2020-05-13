@@ -23,6 +23,13 @@ import java.io.File
 class SendMediaActivity : AppCompatActivity() {
 
     /**
+     * Used when passing intents to this Activity
+     */
+    companion object {
+        val MEDIATYPE = "mediaType"
+    }
+
+    /**
      * Display the media depending on what it is
      *
      * @param savedInstanceState
@@ -46,6 +53,22 @@ class SendMediaActivity : AppCompatActivity() {
         }
 
     }
+
+    /**
+     * Display the list of friends to send the media to then allow to send
+     *
+     * @param view
+     */
+    fun sendToFriendsOnClick(view: View) {
+        val typeOfMedia = intent.getStringExtra(MEDIATYPE)
+        val intent = Intent(this, SendMediaToFriends::class.java)
+        intent.putExtra(MEDIATYPE, typeOfMedia)
+        startActivity(intent)
+
+        // TODO: maybe figure out way to come back to this state using finishAffinity()
+        finish()
+    }
+
 
     /**
      * Display the media (picture/video)
@@ -108,27 +131,4 @@ class SendMediaActivity : AppCompatActivity() {
         videoView.start()
     }
 
-
-    /**
-     * Display the list of friends to send the media to then allow to send
-     *
-     * @param view
-     */
-    fun sendToFriendsOnClick(view: View) {
-        val typeOfMedia = intent.getStringExtra(MEDIATYPE)
-        val intent = Intent(this, SendMediaToFriends::class.java)
-        intent.putExtra(MEDIATYPE, typeOfMedia)
-        startActivity(intent)
-
-        // TODO: maybe figure out way to come back to this state using finishAffinity()
-        finish()
-    }
-
-
-    /**
-     * Used when passing intents to this Activity
-     */
-    companion object {
-        val MEDIATYPE = "mediaType"
-    }
 }

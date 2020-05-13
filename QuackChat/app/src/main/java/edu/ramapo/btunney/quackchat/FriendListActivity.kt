@@ -155,32 +155,6 @@ class FriendListActivity : AppCompatActivity() {
     }
 
     /**
-     * Turn off the loading duck gif
-     *
-     */
-    private fun disableLoadingScreen() {
-        runOnUiThread {
-            loadingGifimageView.visibility = View.GONE
-        }
-    }
-
-    /**
-     * Display gif and text that shows user has no friends
-     * Also set text to notify user they have no friends
-     *
-     */
-    private fun showNoFriendsGif() {
-        runOnUiThread {
-            Glide.with(this)
-                    .asGif()
-                    .load("file:///android_asset/noFriends.gif")
-                    .into(noFriendsGifImageView)
-
-            noFriendsTextView.text = "You have no friends"
-        }
-    }
-
-    /**
      * Load all the friends onto the screen showing both the username and profile picture
      * The picture can be clicked to show user information along with option to delete friend
      * The username or whitespace can be clicked to see and send messages to that friend
@@ -215,6 +189,33 @@ class FriendListActivity : AppCompatActivity() {
         }.start()
 
     }
+
+    /**
+     * Turn off the loading duck gif
+     *
+     */
+    private fun disableLoadingScreen() {
+        runOnUiThread {
+            loadingGifimageView.visibility = View.GONE
+        }
+    }
+
+    /**
+     * Display gif and text that shows user has no friends
+     * Also set text to notify user they have no friends
+     *
+     */
+    private fun showNoFriendsGif() {
+        runOnUiThread {
+            Glide.with(this)
+                    .asGif()
+                    .load("file:///android_asset/noFriends.gif")
+                    .into(noFriendsGifImageView)
+
+            noFriendsTextView.text = "You have no friends"
+        }
+    }
+
 
     /**
      * Used when passing intents to this Activity

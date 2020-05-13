@@ -103,20 +103,6 @@ class CameraActivity : AppCompatActivity() {
     }
 
     /**
-     * Ask user to accept permissions to take pictures and record videos
-     *
-     */
-    private fun requestCameraPermissions() {
-        if (!hasPermissions(this, mPermissions)) {
-            ActivityCompat.requestPermissions(this, mPermissions, PERMISSION_USE_CAMERA)
-        } else {
-            // Permission has already been granted
-            // Display preview of camera on activity
-            displayCameraPreview()
-        }
-    }
-
-    /**
      * The callback for when a permission request is accepted or denied
      *
      * @param requestCode the code defined for the permission (PERMISSION_USE_CAMERA)
@@ -148,67 +134,7 @@ class CameraActivity : AppCompatActivity() {
             }
         }
     }
-//
-//
-    /**
-     * Checks if a list of permissions is granted
-     *
-     * @param context application context
-     * @param permissions list of permissions to grant
-     * @return
-     */
-    private fun hasPermissions(context: Context, permissions: Array<String>): Boolean = permissions.all {
-        ActivityCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
-    }
 
-
-    /**
-     * Show the camera stream within the CameraView on the activity
-     *
-     */
-    private fun displayCameraPreview() {
-        viewCamera.bindToLifecycle(this)
-    }
-
-
-    /**
-     * Set the capture mode for the camera
-     * CaptureMode.IMAGE for pictures
-     * CaptureMode.VIDEO for recording
-     *
-     * @param captureMode the mode for capture
-     */
-    private fun setCaptureMode(captureMode: CameraView.CaptureMode) {
-        viewCamera.captureMode = captureMode
-    }
-
-
-    /**
-     * Goes to the SendMediaActivity with the media type in the intent
-     *
-     * @param messageType type of media to send (picture/video)
-     */
-    private fun sendMedia(messageType: MessageType) {
-        val intent = Intent(applicationContext, SendMediaActivity::class.java)
-        intent.putExtra(SendMediaActivity.MEDIATYPE, messageType.type)
-        startActivity(intent)
-    }
-
-    /**
-     * Set the visibility of the start and stop recording buttons
-     * If true is passed in, start will be visible while stop will not and vice versa
-     *
-     * @param doIt whether or not to make the start button visible
-     */
-    private fun setRecordButtonVisible(doIt: Boolean) {
-        if (doIt) {
-            startRecordingButton.visibility = View.VISIBLE
-            stopRecordingButton.visibility = View.GONE
-        } else {
-            startRecordingButton.visibility = View.GONE
-            stopRecordingButton.visibility = View.VISIBLE
-        }
-    }
 
     /**
      * Go to Settings activity when settings button is clicked
@@ -318,7 +244,7 @@ class CameraActivity : AppCompatActivity() {
      *
      * @param view
      */
-    fun switchCaptureMode(view: View) {
+    fun switchCaptureModeOnClick(view: View) {
         // Set mode of capture to picture
         if (takePictureButton.visibility == View.VISIBLE) {
             changeCaptureModeButton.setImageResource(R.drawable.ic_videocam_outline_24px)
@@ -333,6 +259,82 @@ class CameraActivity : AppCompatActivity() {
             takePictureButton.visibility = View.VISIBLE
             startRecordingButton.visibility = View.GONE
             stopRecordingButton.visibility = View.GONE
+        }
+    }
+
+    /**
+     * Ask user to accept permissions to take pictures and record videos
+     *
+     */
+    private fun requestCameraPermissions() {
+        if (!hasPermissions(this, mPermissions)) {
+            ActivityCompat.requestPermissions(this, mPermissions, PERMISSION_USE_CAMERA)
+        } else {
+            // Permission has already been granted
+            // Display preview of camera on activity
+            displayCameraPreview()
+        }
+    }
+
+
+
+    /**
+     * Checks if a list of permissions is granted
+     *
+     * @param context application context
+     * @param permissions list of permissions to grant
+     * @return
+     */
+    private fun hasPermissions(context: Context, permissions: Array<String>): Boolean = permissions.all {
+        ActivityCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+    }
+
+
+    /**
+     * Show the camera stream within the CameraView on the activity
+     *
+     */
+    private fun displayCameraPreview() {
+        viewCamera.bindToLifecycle(this)
+    }
+
+
+    /**
+     * Set the capture mode for the camera
+     * CaptureMode.IMAGE for pictures
+     * CaptureMode.VIDEO for recording
+     *
+     * @param captureMode the mode for capture
+     */
+    private fun setCaptureMode(captureMode: CameraView.CaptureMode) {
+        viewCamera.captureMode = captureMode
+    }
+
+
+    /**
+     * Goes to the SendMediaActivity with the media type in the intent
+     *
+     * @param messageType type of media to send (picture/video)
+     */
+    private fun sendMedia(messageType: MessageType) {
+        val intent = Intent(applicationContext, SendMediaActivity::class.java)
+        intent.putExtra(SendMediaActivity.MEDIATYPE, messageType.type)
+        startActivity(intent)
+    }
+
+    /**
+     * Set the visibility of the start and stop recording buttons
+     * If true is passed in, start will be visible while stop will not and vice versa
+     *
+     * @param doIt whether or not to make the start button visible
+     */
+    private fun setRecordButtonVisible(doIt: Boolean) {
+        if (doIt) {
+            startRecordingButton.visibility = View.VISIBLE
+            stopRecordingButton.visibility = View.GONE
+        } else {
+            startRecordingButton.visibility = View.GONE
+            stopRecordingButton.visibility = View.VISIBLE
         }
     }
 

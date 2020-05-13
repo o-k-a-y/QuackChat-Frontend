@@ -20,7 +20,7 @@ object NetworkRequester {
     private var applicationContext: Context? = null // very bad design to do this
 
     // Cached cookies
-    private val cache = mutableSetOf<WrappedCookie>() // moved from MemoryCookieJar class, probably bad
+    private val cachedCookies = mutableSetOf<WrappedCookie>() // moved from MemoryCookieJar class, probably bad
 
     // OkHttpClient with ability to send and receive cookies
     private val client = OkHttpClient()
@@ -28,51 +28,12 @@ object NetworkRequester {
         .cookieJar(MemoryCookieJar())
         .build()
 
+    // Tells the server the filetype is JSONCo
     private val JSON = "application/json; charset=utf-8".toMediaType()
     // The endpoint of the server
     private const val host = "http://52.55.108.86:3000"
 
     // TODO: Make a generic method (builder) to post a json to whatever route
-
-    /**
-     * Extends Cookie to parse auth token (the cookie)
-     *
-     * @param sharedPreferences
-     */
-    private fun Cookie.Companion.parseCookie(sharedPreferences: SharedPreferences): Cookie? {
-        val cookieString: String = sharedPreferences.getString("AuthToken", null) ?: return null
-
-        // Get properties of cookie
-        val keys:List<String> = cookieString.split(";")
-        var name = keys[0]
-
-        val nameAndValue = name.split("=")
-        name = nameAndValue[0]
-        val value = nameAndValue[1]
-
-        var expiresAt = keys[1] // need to format date probably
-
-        val expire = expiresAt.split("=")
-        expiresAt = expire[1]
-
-        var path = keys[2] //
-        val pathh = path.split("=")
-        path = pathh[1]
-
-
-        var date = Date(expiresAt)
-        var time = date.time
-
-        // Make strings into cookie
-        return Cookie.Builder()
-            .domain("52.55.108.86")
-            .name(name)
-            .value(value)
-            .expiresAt(time) // long integer
-            .path(path)
-            .httpOnly() // TODO: should be https but server doesn't support this
-            .build()
-    }
 
     /**
      * Add the authentication cookie if it exists on disk
@@ -138,7 +99,7 @@ object NetworkRequester {
      * @param userJSON the user object
      * @param callback handles success and failure of call
      */
-    fun postUser(route: ServerRoutes, userJSON: JSONObject, callback: NetworkCallback) {
+    fun createUser(route: ServerRoutes, userJSON: JSONObject, callback: NetworkCallback) {
         val body = userJSON.toString()
             .toRequestBody(JSON)
 
@@ -570,7 +531,7 @@ object NetworkRequester {
         val wrappedCookie = WrappedCookie.wrap(cookie)
 
         // Add wrapped cookie to MemoryCookieJar cache
-        cache.add(wrappedCookie)
+        cachedCookies.add(wrappedCookie)
     }
 
 
@@ -591,7 +552,7 @@ object NetworkRequester {
             val validCookies = mutableSetOf<WrappedCookie>()
 
             // Get the valid cookies and remove expired ones
-            cache.forEach { cookie ->
+            cachedCookies.forEach { cookie ->
                 if (cookie.isExpired()) {
                     cookiesToRemove.add(cookie)
                 } else if (cookie.matches(url)) {
@@ -599,7 +560,7 @@ object NetworkRequester {
                 }
             }
 
-            cache.removeAll(cookiesToRemove)
+            cachedCookies.removeAll(cookiesToRemove)
 
             return validCookies.toList().map(WrappedCookie::unwrap)
         }
@@ -629,8 +590,8 @@ object NetworkRequester {
             editor.apply() // if something breaks, change to commit() even though it doesn't activate in background
 
             // Refresh the cookies
-            cache.removeAll(cookiesToAdd)
-            cache.addAll(cookiesToAdd)
+            cachedCookies.removeAll(cookiesToAdd)
+            cachedCookies.addAll(cookiesToAdd)
         }
 
         /**
@@ -639,7 +600,7 @@ object NetworkRequester {
          */
         @Synchronized
         fun clear() {
-            cache.clear()
+            cachedCookies.clear()
         }
 
 
@@ -713,6 +674,46 @@ object NetworkRequester {
              */
             fun wrap(cookie: Cookie) = WrappedCookie(cookie)
         }
+    }
+
+    /**
+     * Extends Cookie to parse auth token (the cookie)
+     *
+     * @param sharedPreferences
+     */
+    private fun Cookie.Companion.parseCookie(sharedPreferences: SharedPreferences): Cookie? {
+        val cookieString: String = sharedPreferences.getString("AuthToken", null) ?: return null
+
+        // Get properties of cookie
+        val keys:List<String> = cookieString.split(";")
+        var name = keys[0]
+
+        val nameAndValue = name.split("=")
+        name = nameAndValue[0]
+        val value = nameAndValue[1]
+
+        var expiresAt = keys[1] // need to format date probably
+
+        val expire = expiresAt.split("=")
+        expiresAt = expire[1]
+
+        var path = keys[2] //
+        val pathh = path.split("=")
+        path = pathh[1]
+
+
+        var date = Date(expiresAt)
+        var time = date.time
+
+        // Make strings into cookie
+        return Cookie.Builder()
+                .domain("52.55.108.86")
+                .name(name)
+                .value(value)
+                .expiresAt(time) // long integer
+                .path(path)
+                .httpOnly() // TODO: should be https but server doesn't support this
+                .build()
     }
 
 }

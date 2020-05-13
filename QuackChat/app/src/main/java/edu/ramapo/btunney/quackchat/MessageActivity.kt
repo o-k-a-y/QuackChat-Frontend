@@ -15,7 +15,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.core.view.children
 import com.bumptech.glide.Glide
 import edu.ramapo.btunney.quackchat.caching.HashType
 import edu.ramapo.btunney.quackchat.caching.RoomDatabaseDAO
@@ -37,7 +36,7 @@ import java.io.File
  *
  */
 class MessageActivity : AppCompatActivity() {
-    private lateinit var friend: String
+    private lateinit var mFriend: String
 
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -62,7 +61,7 @@ class MessageActivity : AppCompatActivity() {
         // Get username of friend from intent
         val extras = intent.extras
         if (extras != null) {
-            friend = extras.getString("username").toString()
+            mFriend = extras.getString("username").toString()
         }
 
         // Hide video view
@@ -88,7 +87,7 @@ class MessageActivity : AppCompatActivity() {
 
 
     private fun showFriendUsername() {
-        friendUsernameTextView.text = friend
+        friendUsernameTextView.text = mFriend
     }
 
     /**
@@ -123,7 +122,7 @@ class MessageActivity : AppCompatActivity() {
      * @param message
      */
     private fun sendMessage(message: String) {
-        NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, arrayOf(friend), message, MessageType.TEXT, object: NetworkCallback {
+        NetworkRequester.sendMessage(ServerRoutes.SEND_MESSAGE, arrayOf(mFriend), message, MessageType.TEXT, object: NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 TODO("Not yet implemented")
             }
@@ -284,7 +283,7 @@ class MessageActivity : AppCompatActivity() {
 
         // Get messages from Room DB
         Thread {
-            val messages = RoomDatabaseDAO.getInstance(applicationContext).getAllMessagesFrom(friend)
+            val messages = RoomDatabaseDAO.getInstance(applicationContext).getAllMessagesFrom(mFriend)
 
             // No messages
             if (messages.size <= 0) {
@@ -308,7 +307,7 @@ class MessageActivity : AppCompatActivity() {
      *
      */
     private fun deleteMessagesFromBackend() {
-        NetworkRequester.deleteMessages(ServerRoutes.DELETE_MESSAGES, friend, object: NetworkCallback {
+        NetworkRequester.deleteMessages(ServerRoutes.DELETE_MESSAGES, mFriend, object: NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 TODO("Not yet implemented")
             }
@@ -326,7 +325,7 @@ class MessageActivity : AppCompatActivity() {
      *
      */
     private fun deleteMessagesFromCache() {
-        RoomDatabaseDAO.getInstance(applicationContext).deleteMessages(friend)
+        RoomDatabaseDAO.getInstance(applicationContext).deleteMessages(mFriend)
     }
 
     /**
@@ -365,11 +364,11 @@ class MessageActivity : AppCompatActivity() {
      *
      * @param message
      */
-    private fun makeMessageLinearLayout(message: String) {
+    private fun makeMessageLinearLayout(messageSent: String) {
         runOnUiThread {
             Runnable {
                 // Create the view from the message's content (just text)
-                val messageLinearLayout = MessageViewFactory.createMessageView(this, null, message)
+                val messageLinearLayout = MessageViewFactory.createMessageView(this, null, messageSent)
                 messagesLinearLayout.addView(messageLinearLayout)
 
                 // Add padding
@@ -415,8 +414,8 @@ class MessageActivity : AppCompatActivity() {
 
     /**
      * Add an onClick listener to the LinearLayout containing a video
-     * When clicked, it will display the video in fullscreen, and when TODO: closed or stopped,
-     * the video will disappear and the original LinearLayout can not be opened again
+     * When clicked, it will display the video in fullscreen, play it, and close it.
+     * The video will disappear and the original LinearLayout can not be opened again
      *
      * @param mediaView the LinearLayout containing the video message
      * @param message the message data

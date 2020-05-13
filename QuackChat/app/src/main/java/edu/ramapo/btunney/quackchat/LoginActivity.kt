@@ -39,14 +39,6 @@ class LoginActivity : AppCompatActivity() {
         clearCache()
     }
 
-    /**
-     * Clear the Room DB cache when logging in
-     *
-     */
-    private fun clearCache() {
-        CCleaner(applicationContext, RoomDatabaseDAO.DATABASE_NAME).wipeCache()
-    }
-
 
     /**
      * Verify login information and log in if correct
@@ -105,6 +97,14 @@ class LoginActivity : AppCompatActivity() {
         val editor = sharedPreferences.edit()
         editor.putString("Username", username)
         editor.apply() // if something breaks, change to commit() even though it doesn't activate in bg
+    }
+
+    /**
+     * Clear the Room DB cache when logging in
+     *
+     */
+    private fun clearCache() {
+        CCleaner(applicationContext, RoomDatabaseDAO.DATABASE_NAME).wipeCache()
     }
 
 

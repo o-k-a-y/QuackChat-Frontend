@@ -7,7 +7,6 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import edu.ramapo.btunney.quackchat.networking.NetworkCallback
 import edu.ramapo.btunney.quackchat.networking.NetworkRequester
@@ -95,7 +94,7 @@ class SignUpActivity : AppCompatActivity() {
 
         val activityRef = this;
 
-        NetworkRequester.postUser(ServerRoutes.SIGNUP, userJSON, object: NetworkCallback {
+        NetworkRequester.createUser(ServerRoutes.SIGNUP, userJSON, object: NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 println(failureCode)
 

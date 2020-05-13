@@ -3,7 +3,7 @@ package edu.ramapo.btunney.quackchat
 /**
  * Used to handle callbacks
  *
- * @param E
+ * @param E the type of data
  */
 interface Callback<E> {
     /**
@@ -12,5 +12,5 @@ interface Callback<E> {
      * @param data any relevant data to be used
      * @param error any relevant errors
      */
-    fun perform(data: E?, error:Throwable?)
+    fun perform(data: E?, error: Throwable?)
 }

@@ -54,6 +54,36 @@ class SendMediaToFriends : AppCompatActivity() {
     }
 
     /**
+     * When send button is clicked, send the media to each selected friend in the list of checkboxes
+     *
+     * @param view
+     */
+    fun sendToFriendsOnClick(view: View) {
+        val friendsToSendTo = ArrayList<String>()
+
+        val checkBoxes = sendToFriendsList.children.toList()
+
+        for (checkBox in checkBoxes) {
+            if (checkBox !is CheckBox) continue
+
+            if (checkBox.isChecked) {
+                friendsToSendTo.add(checkBox.text.toString())
+            }
+        }
+
+        // Must select at least 1 friend
+        if (friendsToSendTo.size <= 0) {
+            Toast.makeText(this, "Please select someone to send your memes to", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        println(friendsToSendTo)
+
+        // Send the media
+        initiateMediaSendRequest(friendsToSendTo)
+    }
+
+    /**
      * Hide the send button so a user can't send a message without choosing who to send to
      *
      */
@@ -182,26 +212,6 @@ class SendMediaToFriends : AppCompatActivity() {
     }
 
     /**
-     * Inform the user they have no friends by showing text informing them so
-     * and also show a sad duck
-     *
-     */
-    private fun displayNoFriends() {
-        runOnUiThread {
-            noFriendsSendGifImageView.visibility = View.VISIBLE
-            noFriendsTextView.visibility = View.VISIBLE
-            sendToFriendsButton.visibility = View.GONE
-
-            noFriendsTextView.text = "You have no friends"
-            Glide.with(this)
-                    .asGif()
-                    .load("file:///android_asset/noFriends.gif")
-                    .into(noFriendsSendGifImageView)
-        }
-
-    }
-
-    /**
      * Load the list of friends as checkboxes
      *
      */
@@ -237,8 +247,33 @@ class SendMediaToFriends : AppCompatActivity() {
         }.start()
     }
 
+    /**
+     * Inform the user they have no friends by showing text informing them so
+     * and also show a sad duck
+     *
+     */
+    private fun displayNoFriends() {
+        runOnUiThread {
+            noFriendsSendGifImageView.visibility = View.VISIBLE
+            noFriendsTextView.visibility = View.VISIBLE
+            sendToFriendsButton.visibility = View.GONE
 
-    // TODO
+            noFriendsTextView.text = "You have no friends"
+            Glide.with(this)
+                    .asGif()
+                    .load("file:///android_asset/noFriends.gif")
+                    .into(noFriendsSendGifImageView)
+        }
+
+    }
+
+
+    /**
+     * Return the media file representing the picture or video that was captured
+     * in the CameraActivity
+     *
+     * @return the media file (picture/video)
+     */
     private fun getMediaFile(): File {
         var filePath = cacheDir.absolutePath
         filePath += when (getMediaType()){
@@ -310,36 +345,6 @@ class SendMediaToFriends : AppCompatActivity() {
         })
     }
 
-
-    /**
-     * When send button is clicked, send the media to each selected friend in the list of checkboxes
-     *
-     * @param view
-     */
-    fun sendToFriendsOnClick(view: View) {
-        val friendsToSendTo = ArrayList<String>()
-
-        val checkBoxes = sendToFriendsList.children.toList()
-
-        for (checkBox in checkBoxes) {
-            if (checkBox !is CheckBox) continue
-
-            if (checkBox.isChecked) {
-                friendsToSendTo.add(checkBox.text.toString())
-            }
-        }
-
-        // Must select at least 1 friend
-        if (friendsToSendTo.size <= 0) {
-            Toast.makeText(this, "Please select someone to send your memes to", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        println(friendsToSendTo)
-
-        // Send the media
-        initiateMediaSendRequest(friendsToSendTo)
-    }
 
     /**
      * Turn off the loading duck gif

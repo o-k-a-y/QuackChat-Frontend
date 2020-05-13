@@ -1,6 +1,5 @@
 package edu.ramapo.btunney.quackchat
 
-import android.content.Intent
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_friend_profile.*
  */
 class FriendProfileActivity : AppCompatActivity() {
     // The friend's username
-    private var friendUsername: String = ""
+    private var mFriendUsername: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,18 +35,17 @@ class FriendProfileActivity : AppCompatActivity() {
 
         // Get username of friend from intent
         val extras = intent.extras
-//        var username: String = ""
         if (extras != null) {
-            friendUsername = extras.getString("username").toString()
+            mFriendUsername = extras.getString("username").toString()
         }
 
         // No username was set, we probably came to this Activity from deleting a friend
-        if (friendUsername == "") {
+        if (mFriendUsername == "") {
             finish()
         }
 
         // Display friend information
-        displayFriendProfile(friendUsername)
+        displayFriendProfile(mFriendUsername)
     }
 
     /**
@@ -81,8 +79,8 @@ class FriendProfileActivity : AppCompatActivity() {
      *
      */
     private fun deleteFriendFromCache() {
-        RoomDatabaseDAO.getInstance(applicationContext).deleteFriend(friendUsername)
-        RoomDatabaseDAO.getInstance(applicationContext).deleteMessages(friendUsername)
+        RoomDatabaseDAO.getInstance(applicationContext).deleteFriend(mFriendUsername)
+        RoomDatabaseDAO.getInstance(applicationContext).deleteMessages(mFriendUsername)
     }
 
     /**
@@ -91,7 +89,7 @@ class FriendProfileActivity : AppCompatActivity() {
      * @param view the delete friend button
      */
     fun deleteFriendOnClick(view: View) {
-        NetworkRequester.deleteFriend(ServerRoutes.DELETE_FRIEND, friendUsername, object: NetworkCallback {
+        NetworkRequester.deleteFriend(ServerRoutes.DELETE_FRIEND, mFriendUsername, object: NetworkCallback {
             override fun onFailure(failureCode: NetworkCallback.FailureCode) {
                 TODO("Not yet implemented")
             }

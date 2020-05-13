@@ -57,17 +57,6 @@ class SettingsActivity : AppCompatActivity() {
 
     }
 
-    /**
-     * Display the logged in user's username from SharedPreferences
-     *
-     */
-    private fun displayUsername() {
-        val sharedPreferences: SharedPreferences = applicationContext.getSharedPreferences("Username", MODE_PRIVATE)
-        val username = sharedPreferences.getString("Username", "null")
-
-        Log.d("@SHARED_PREF", username)
-        currentUserIdText.text = getString(R.string.logged_in_as, username)
-    }
 
     /**
      * Signs user out of application, and de-authenticates them
@@ -151,6 +140,18 @@ class SettingsActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    /**
+     * Display the logged in user's username from SharedPreferences
+     *
+     */
+    private fun displayUsername() {
+        val sharedPreferences: SharedPreferences = applicationContext.getSharedPreferences("Username", MODE_PRIVATE)
+        val username = sharedPreferences.getString("Username", "null")
+
+        Log.d("@SHARED_PREF", username)
+        currentUserIdText.text = getString(R.string.logged_in_as, username)
     }
 
     /**
