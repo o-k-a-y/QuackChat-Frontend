@@ -34,7 +34,7 @@ import java.util.concurrent.Executor
  *
  * To take a video, click the video icon on the bottom left of the screen.
  * This will set the capture mode to video.
- * This video icon show what mode is currently being used. If there is a slash through it, video is disabled.
+ * This video icon shows what mode is currently being used. If there is a slash through it, video is disabled.
  * Then you can click the circle to start recording.
  * The circle button will have an inner red circle to indicate recording is in place.
  * To stop recording click it again.

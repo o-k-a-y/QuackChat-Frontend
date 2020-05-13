@@ -17,7 +17,7 @@ import edu.ramapo.btunney.quackchat.utils.CCleaner
 import kotlinx.android.synthetic.main.activity_settings.*
 
 /**
- * This activity show different user settings are available.
+ * This activity shows different user settings are available.
  * Currently there aren't many.
  *
  * The only thing you can do here is:

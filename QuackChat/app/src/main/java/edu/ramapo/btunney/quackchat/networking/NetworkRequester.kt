@@ -13,7 +13,13 @@ import java.io.IOException
 import java.util.*
 
 /**
- * Singleton class to allow HTTP requests to the backend
+ * Singleton class to allow HTTP requests using OkHttp to communicate with the backend to get data
+ *
+ * This class is responsible for:
+ *      1. Setting the cookie stored in SharedPreferences so that the user will be automatically logged in if the
+ *      cookie is valid and the server is online and the user has a decent internet connection
+ *      2. Making requests to the backend
+ *      3. Receiving responses from the backend
  */
 object NetworkRequester {
     // Needed to store cookie in Shared Preferences
@@ -698,12 +704,12 @@ object NetworkRequester {
         expiresAt = expire[1]
 
         var path = keys[2] //
-        val pathh = path.split("=")
-        path = pathh[1]
+        val pathList = path.split("=")
+        path = pathList[1]
 
 
-        var date = Date(expiresAt)
-        var time = date.time
+        val date = Date(expiresAt)
+        val time = date.time
 
         // Make strings into cookie
         return Cookie.Builder()
