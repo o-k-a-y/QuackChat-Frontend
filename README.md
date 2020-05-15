@@ -1,4 +1,5 @@
 # QuackChat
+SnapChat but with ducks!
 Send messages, pictures and videos to friends
 
 ## Project goals:
@@ -12,9 +13,9 @@ Logout of your account and deauth your login token.
 ### Add friends
 Add other users to send media to.
 ### Take picture with camera
-Use the front and back facing camera to take pictures.
+Use the phone's camera to take pictures.
 ### Take video with camera
-Use the front and back facing camera to take videos.
+Use the phone's camera to take videos.
 ### Send media to friends
 Use the pictures and videos taken to directly send to friends.
 
@@ -23,6 +24,7 @@ Use the pictures and videos taken to directly send to friends.
 ### Frontend
 * OkHttp
 * cameraX
+  glide
 
 ### Backend
 * NodeJS
