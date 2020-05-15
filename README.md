@@ -24,7 +24,7 @@ Use the pictures and videos taken to directly send to friends.
 ### Frontend
 * OkHttp
 * cameraX
-  glide
+glide
 
 ### Backend
 * NodeJS
