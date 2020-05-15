@@ -20,7 +20,7 @@ Use the phone's camera to take videos.
 Use the pictures and videos taken to directly send to friends.
 
 
-## APIs used:
+## APIs/Frameworks used:
 ### Frontend
 * OkHttp
 * cameraX
