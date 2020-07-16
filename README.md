@@ -31,3 +31,4 @@ Use the pictures and videos taken to directly send to friends.
 * MongoDB
 * Express
 * AWS
+* Bcrypt
